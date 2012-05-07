@@ -12,6 +12,7 @@ if (WIN32)
             "C:/DX90SDK/Include"
             "$ENV{PROGRAMFILES}/DX90SDK/Include"
             )
+  mark_as_advanced(FORCE DIRECTX_INCLUDE_DIR)
   if (DIRECTX_INCLUDE_DIR)
     include_directories(${DIRECTX_INCLUDE_DIR})
     if (DIRECTX_FIND_QUIETLY)
@@ -33,6 +34,7 @@ if (WIN32)
             "C:/DX90SDK/Lib"
             "$ENV{PROGRAMFILES}/DX90SDK/Lib"
             )
+  mark_as_advanced(FORCE DIRECTX_LIBRARY_DIR)
   if (DIRECTX_LIBRARY_DIR)
     if (DIRECTX_FIND_QUIETLY)
       message(STATUS "Found DirectX include: ${DIRECTX_LIBRARY_DIR}")

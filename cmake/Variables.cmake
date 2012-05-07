@@ -18,15 +18,20 @@ set(LIBRARY_OUTPUT_PATH ${NLS_ENGINE_ROOT}/lib)
 
 set(LIBS_DOWNLOAD_PATH ${NLS_ENGINE_ROOT}/libraries CACHE PATH
 	"Location of library source archives.")
+mark_as_advanced(FORCE LIBS_DOWNLOAD_PATH)
 
 set(LIBS_SOURCE_PATH ${NLS_ENGINE_ROOT}/lib_src CACHE PATH
 	"Location of prebuilt libraries' sourcecode.")
+mark_as_advanced(FORCE LIBS_SOURCE_PATH)
 
 set(LIBS_INCLUDE_PATH ${NLS_ENGINE_ROOT}/include CACHE PATH
 	"Location of prebuilt libraries' header files.")
+mark_as_advanced(FORCE LIBS_INCLUDE_PATH)
 
 set(LIBS_BINARY_PATH ${NLS_ENGINE_ROOT}/lib CACHE PATH
 	"Location of prebuilt libraries.")
+mark_as_advanced(FORCE LIBS_BINARY_PATH)
+
 
 ## Correct the build output location
 # First for the generic no-config case (e.g. with mingw)

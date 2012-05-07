@@ -27,6 +27,7 @@ find_program(DOXYGEN_EXECUTABLE
 	PATHS
 		"${NLS_ENGINE_ROOT}"
 )
+mark_as_advanced(FORCE DOXYGEN_EXECUTABLE)
 
 if(${DOXYGEN_EXECUTABLE} STREQUAL "DOXYGEN_EXECUTABLE-NOTFOUND")
 	message("*** ERROR: Doxygen executable not found, unable to do the requested task of generating the documentation. ***")
