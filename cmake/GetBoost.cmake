@@ -103,7 +103,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 			set(BOOST_BOOTSTRAP_COMMAND "${LIB_Boost_DIR}/boost_1_47_0/bootstrap.bat")
 		else(WIN32)
 			# Linux and OSX
-			set(BOOST_BOOTSTRAP_COMMAND "${LIB_Boost_DIR}/boost_1_47_0/bootstrap.sh --libdir=${LIBS_BINARY_PATH} --includedir=${BOOST_INCLUDE_DIR} --with-libraries=${BOOST_LIBS}")
+			set(BOOST_BOOTSTRAP_COMMAND "${LIB_Boost_DIR}/boost_1_47_0/bootstrap.sh --libdir='${LIBS_BINARY_PATH}' --includedir='${BOOST_INCLUDE_DIR}' --with-libraries='${BOOST_LIBS}'")
 		endif(WIN32)
 		
 		message("Executing: " "${BOOST_BOOTSTRAP_COMMAND}")
@@ -153,8 +153,8 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 				"# These settings are equivalent to corresponding command-line options.\n"
 #				"option.set prefix : $PREFIX ;\n"
 #				"option.set exec-prefix : $EPREFIX ;\n"
-				"option.set libdir : ${LIBS_BINARY_PATH} ;\n"
-				"option.set includedir : ${BOOST_INCLUDE_DIR} ;\n"
+				"option.set libdir : \"${LIBS_BINARY_PATH}\" ;\n"
+				"option.set includedir : \"${BOOST_INCLUDE_DIR}\" ;\n"
 				"\n"
 				"# Stop on first error\n"
 				"option.set keep-going : false ;\n"
