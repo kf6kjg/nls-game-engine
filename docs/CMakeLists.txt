@@ -30,7 +30,7 @@ find_program(DOXYGEN_EXECUTABLE
 mark_as_advanced(FORCE DOXYGEN_EXECUTABLE)
 
 if(${DOXYGEN_EXECUTABLE} STREQUAL "DOXYGEN_EXECUTABLE-NOTFOUND")
-	message("*** ERROR: Doxygen executable not found, unable to do the requested task of generating the documentation. ***")
+	message(WARNING "*** ERROR: Doxygen executable not found, unable to do the requested task of generating the documentation. ***")
 	return()
 endif(${DOXYGEN_EXECUTABLE} STREQUAL "DOXYGEN_EXECUTABLE-NOTFOUND")
 
@@ -45,5 +45,5 @@ execute_process(
 )
 
 if(NOT ${DOXYGEN_RESULT} EQUAL 0)
-	message("Doxygen Error: ${DOXYGEN_RESULT}")
+	message(WARNING "Doxygen Error: ${DOXYGEN_RESULT}")
 endif(NOT ${DOXYGEN_RESULT} EQUAL 0)

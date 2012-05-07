@@ -70,8 +70,7 @@ if(AngelScript_FOUND)
 	include_directories(${AngelScript_INCLUDE_DIRS})
 else(AngelScript_FOUND)
 	# AngelScript was not found, cease processing
-	message("Cannot continue without AngelScript.")
-	return()
+	message(FATAL_ERROR "Cannot continue without AngelScript.")
 endif(AngelScript_FOUND)
 
 
@@ -81,8 +80,7 @@ if(Boost_FOUND)
 	include_directories(${Boost_INCLUDE_DIRS})
 else(Boost_FOUND)
 	# Boost was not found, cease processing
-	message("Cannot continue without Boost.")
-	return()
+	message(FATAL_ERROR "Cannot continue without Boost.")
 endif(Boost_FOUND)
 
 
@@ -115,9 +113,9 @@ foreach(MODULE ${ENGINE_MODULES})
 		if(EXISTS "${MODULE_FOLDER}/CMakeLists.txt")
 			add_subdirectory(${MODULE_FOLDER})
 		else(EXISTS "${MODULE_FOLDER}/CMakeLists.txt")
-			message("ERR: Unable to configure module - no CMakeLists.txt in '${MODULE_FOLDER}'")
+			message(WARNING "ERR: Unable to configure module - no CMakeLists.txt in '${MODULE_FOLDER}'")
 		endif(EXISTS "${MODULE_FOLDER}/CMakeLists.txt")
 	else(IS_DIRECTORY "${MODULE_FOLDER}")
-		message("Module '${MODULE}' (expected to be located at '${MODULE_FOLDER}') either does not exist, or is not a folder!")
+		message(WARNING "Module '${MODULE}' (expected to be located at '${MODULE_FOLDER}') either does not exist, or is not a folder!")
 	endif(IS_DIRECTORY "${MODULE_FOLDER}")
 endforeach(MODULE)
