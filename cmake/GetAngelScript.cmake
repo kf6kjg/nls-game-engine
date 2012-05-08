@@ -130,15 +130,11 @@ if(EXISTS "${LIBS_INCLUDE_PATH}/angelscript")
 	set(AngelScript_LIBRARIES "")
 	#if(WINDOWS)
 	#	file(GLOB AngelScript_LIBRARIES
-	#		"${LIBS_BINARY_PATH}/angelscript*.dll"
+	#		"${LIBS_BINARY_PATH}/angelscript*.lib"
 	#	)
-	#elseif(DARWIN)
+	#else(WINDOWS)
 	#	file(GLOB AngelScript_LIBRARIES
-	#		"${LIBS_BINARY_PATH}/libangelscript*.dylib"
-	#	)
-	#elseif(LINUX)
-	#	file(GLOB AngelScript_LIBRARIES
-	#		"${LIBS_BINARY_PATH}/libangelscript*.so"
+	#		"${LIBS_BINARY_PATH}/libAngelScript*.a"
 	#	)
 	#endif(WINDOWS)
 	set(AngelScript_FOUND 1)

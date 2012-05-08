@@ -224,12 +224,12 @@ if(EXISTS "${BOOST_INCLUDE_DIR}/boost-1_47")
 		file(GLOB Boost_LIBRARIES_RELEASE
 			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt-1.47.lib"
 		)
-	else(WINDOWS) # Unixes (Linux, Mac, etc.)
+	else(WINDOWS) # Unixes (Linux, etc.)
 		file(GLOB Boost_LIBRARIES_DEBUG
-			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt-gd-1.47.a"
+			"${LIBS_BINARY_PATH}/libboost_*-mt-d-1.47.a"
 		)
 		file(GLOB Boost_LIBRARIES_RELEASE
-			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt-1.47.a"
+			"${LIBS_BINARY_PATH}/libboost_*-mt-1.47.a"
 		)
 	endif(WINDOWS)
 

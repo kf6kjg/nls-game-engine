@@ -73,20 +73,20 @@ if(WIN32)
 	)
 else(WIN32)
 	set(NLS_ENGINE_LIBS
-		"${LIBRARY_OUTPUT_PATH}/sharedbase.a"
-		"${LIBRARY_OUTPUT_PATH}/angelscript.a"
+		"${LIBRARY_OUTPUT_PATH}/libsharedbase.a"
+		"${LIBRARY_OUTPUT_PATH}/libAngelScript.a"
 		
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-gd-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-gd-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-vc100-mt-gd-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_system-vc100-mt-gd-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_thread-vc100-mt-gd-1_47.a"
+		debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-*-mt-d-1_47.a"
+		debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-*-mt-d-1_47.a"
+		debug "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-*-mt-d-1_47.a"
+		debug "${LIBRARY_OUTPUT_PATH}/libboost_system-*-mt-d-1_47.a"
+		debug "${LIBRARY_OUTPUT_PATH}/libboost_thread-*-mt-d-1_47.a"
 		
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-vc100-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_system-vc100-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_thread-vc100-mt-1_47.a"
+		optimized "${LIBRARY_OUTPUT_PATH}/libboost_chrono-*-mt-1_47.a"
+		optimized "${LIBRARY_OUTPUT_PATH}/libboost_date_time-*-mt-1_47.a"
+		optimized "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-*-mt-1_47.a"
+		optimized "${LIBRARY_OUTPUT_PATH}/libboost_system-*-mt-1_47.a"
+		optimized "${LIBRARY_OUTPUT_PATH}/libboost_thread-*-mt-1_47.a"
 	)
 endif(WIN32)
 
