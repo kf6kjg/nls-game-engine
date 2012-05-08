@@ -24,7 +24,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 		RESULT_VARIABLE COPY_RESULT
 	)
 	if(NOT "${COPY_RESULT}" MATCHES "^0")
-		message("Copy of CImg header failed!")
+		message(FATAL_ERROR "Copy of CImg header failed!")
 	endif(NOT "${COPY_RESULT}" MATCHES "^0")
 	message("Done.")
 
