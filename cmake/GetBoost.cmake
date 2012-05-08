@@ -101,14 +101,16 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 		if(WIN32)
 			# Windows
 			set(BOOST_BOOTSTRAP_COMMAND "${LIB_Boost_DIR}/boost_1_47_0/bootstrap.bat")
+			set(BOOST_BOOTSTRAP_OPTIONS "")
 		else(WIN32)
 			# Linux and OSX
-			set(BOOST_BOOTSTRAP_COMMAND "${LIB_Boost_DIR}/boost_1_47_0/bootstrap.sh --libdir='${LIBS_BINARY_PATH}' --includedir='${BOOST_INCLUDE_DIR}' --with-libraries='${BOOST_LIBS}'")
+			set(BOOST_BOOTSTRAP_COMMAND "${LIB_Boost_DIR}/boost_1_47_0/bootstrap.sh")
+			set(BOOST_BOOTSTRAP_OPTIONS "--libdir=\"${LIBS_BINARY_PATH}\"" " " "--includedir=\"${BOOST_INCLUDE_DIR}\"" " " "--with-libraries=${BOOST_LIBS}")
 		endif(WIN32)
 		
 		message("Executing: " "${BOOST_BOOTSTRAP_COMMAND}")
 		execute_process(
-			COMMAND "${BOOST_BOOTSTRAP_COMMAND}"
+			COMMAND "${BOOST_BOOTSTRAP_COMMAND}" ${BOOST_BOOTSTRAP_OPTIONS}
 			WORKING_DIRECTORY "${LIB_Boost_DIR}/boost_1_47_0"
 			RESULT_VARIABLE BOOST_RESULT
 		)
