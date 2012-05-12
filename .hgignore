@@ -1,0 +1,64 @@
+# use glob syntax.
+syntax: glob
+
+*.app
+*.exe
+*.log
+*~
+*.DS_Store
+*._*
+*.db
+
+*.ncb
+*.suo
+*.user
+
+Project Template/*
+ois/*
+*.sdf
+*.opensdf
+ipch/*
+etc/*
+
+*.orig
+*.lib
+*.dll
+
+# This is the engine, no need to track game-level code here - unless explicitly added.
+data/*
+data-*
+
+# No need to track archives!
+*.zip
+*.7z
+*.dmg
+
+# Nor generated documentation!
+docs/html/*
+
+# CMake-based data
+CMakeFiles/*
+Makefile
+CMakeCache.txt
+EngineConfig.h
+cmake_install.cmake
+
+# VS files, as they are built by CMake
+*.sln
+*.vcxproj*
+
+# Build result folders
+bin/*
+Debug/*
+Release/*
+MinSizeRel/*
+RelWithDebInfo/*
+
+# Dynamically gathered libraries
+include/*/*
+libraries/*
+lib_src/*
+lib/*
+
+# The Doxyfile is generated from Doxyfile.in
+Doxyfile
