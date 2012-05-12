@@ -1,0 +1,16 @@
+Source code
+========
+Unless otherwise specified, the source code in this distribution
+("Source Code") is provided to you under the terms of the zlib
+license, unless you have obtained a separate licensing agreement
+("Other License"), formally executed by you and the copyright holders
+of this software.  Terms of the zlib license can be found in
+doc/zlib-license.txt in this distribution.
+
+By copying, modifying or distributing this software, you acknowledge
+that you have read and understood your obligations described above,
+and agree to abide by those obligations.
+
+ALL SOURCE CODE IS PROVIDED "AS IS." THE COPYRIGHT HOLDERS MAKE NO
+WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY,
+COMPLETENESS OR PERFORMANCE.

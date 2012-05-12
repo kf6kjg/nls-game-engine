@@ -1,0 +1,41 @@
+/**
+ * \file
+ * \author Ricky Curtice
+ * \brief Provides version information and language-specific strings for usage in the engine.
+ */
+// Header created by build system; do not modify header directly
+#pragma once
+
+#include <string>
+
+// The configured options and settings for the NLS Engine
+#define NLS_ENGINE_VERSION_MAJOR @NLS_ENGINE_VERSION_MAJOR@
+#define NLS_ENGINE_VERSION_MINOR @NLS_ENGINE_VERSION_MINOR@
+
+#define NLS_ENGINE_LIBRARY_PATH std::string("@LIBRARY_OUTPUT_PATH@")
+
+// Paths
+#define NLS_ENGINE_CONFIG_PATH std::string("../etc/engineconfig.nlssd")
+#define NLS_ENGINE_DATA_PATH std::string("../data")
+#define NLS_ENGINE_DEFAULT_LOG_FILE std::string("Game.log")
+
+// Internationalizable strings.
+namespace NLS_I18N {
+	extern const std::string TITLE_INFO;
+	extern const std::string TITLE_WARNING;
+	extern const std::string TITLE_CRITICAL;
+	
+	extern const std::string FILESYSTEM_ERROR_TITLE;
+	extern const std::string FILESYSTEM_PER_USER_FOLDER_ACCESS_ERROR;
+	extern const std::string FILESYSTEM_PER_USER_FOLDER_WRITE_ERROR;
+	extern const std::string FILESYSTEM_PER_USER_FOLDER_CREATE_ERROR;
+	
+	extern const std::string CONFIG_LOAD_ERROR;
+	extern const std::string CONFIG_KEY_MISSING_ERROR;
+	extern const std::string CONFIG_PARSE_KEY_ERROR;
+	extern const std::string CONFIG_PARSE_VALUE_ERROR;
+	extern const std::string CONFIG_PARSE_VALUE_MISSING_ERROR;
+	extern const std::string CONFIG_LEX_KEY_ERROR;
+	extern const std::string CONFIG_LEX_DUP_KEY_ERROR;
+	extern const std::string CONFIG_LEX_VALUE_ERROR;
+}

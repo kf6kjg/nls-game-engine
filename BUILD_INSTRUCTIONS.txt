@@ -1,0 +1,46 @@
+Welcome to NLS Engine!
+
+== Build Instructions ==
+Step 1: Getting the prerequisites
+1.1: Verify that you have a tested compiler installed.  See the Tested Compilers section of this document.
+1.2: Download and install CMake. You can find instructions at http://www.cmake.org/
+1.3: Download and install the June 2010 edition of the DirectX SDK from http://www.microsoft.com/download/en/details.aspx?id=8109
+     (We are working hard on removing this dependency so we can be truly cross-platform.)
+
+Step 2a: Prepare and compile (Graphical)
+2a.1: Run the CMake-GUI application
+2a.2: Use the "Browse Source..." button to select the NLS Engine root folder.
+2a.3: Use the "Browse Build..." button to select the same folder.
+2a.4: Press the "Configure" button.  If this is the first time you've done this, or the cache has been cleared, continue, otherwise skip to 2a.5.
+2a.4.1: Select the correct generator from the dropdown.  See the Tested Compilers section of this document for more info.
+2a.4.2: Verify that "Use default native compilers" is selected.
+2a.4.3: Press the Finish button.
+2a.5: If you see the line "Configuring done" at the bottom of the log, move on to the next step.
+2a.6: Press the Generate button.
+2a.7: Open the resulting solution/project/etc. in the IDE you wish to compile with.
+2a.8: Compile the engine using said IDE.
+
+Step 2b: Prepare and compile (Commandline)
+2b.1: Open up a terminal.
+2b.2: Change directory to the NLS Engine root directory.
+2b.3: Type the following command: cmake . && make
+
+Step 3: Run the resulting test program
+3.1: Browse to the "bin" folder under the NLS Engine root folder and run the executable.
+     (Note that depending on the tools used, the executable may be in another folder under this.
+
+
+== Tested Compilers ==
+Due to VERY limited developer resources we have only tested against a select collection of compilers:
+* GCC 4.6.x (Ubuntu 11.11) -- NOT YET TESTED
+* GCC 4.2.x (Apple OS 10.6) -- NOT YET TESTED
+* Apple XCode 3 (Apple OS 10.6 "Snow Leopard") -- NOT YET TESTED
+* Apple XCode 4 (Apple OS 10.7 "Lion") -- NOT YET TESTED
+* Microsoft Visual Studio 2010
+
+Other compilers may or may not work, but these should.  Emphasis on the should.
+
+== Advanced Compiling ==
+If you don't feel like having the build system go through and check the libraries and build the docs every time you reconfigure, simply select the "src" folder for CMake instead of the root folder.
+
+Likewise if you just want to rebuild the docs, select the "docs" folder.  Same for the just the libs, via the "lib_src" folder.

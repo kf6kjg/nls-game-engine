@@ -1,0 +1,23 @@
+The copyright holders would like to acknowledge source code contributions
+from the following contributors. The contributors' names, or chosen
+aliases, are given below, along with the issue identifier corresponding
+to the patches we've received from them.
+
+Many thanks are given to the teams of GSP-420 that helped get the first
+prototype off the ground with much sweat and tears.  Here they are with
+the team leads listed first in each team:
+	Professor: Ron Bishop
+	Engine Lead: Christopher Kauffman
+	Engine Architect: Adam Martin
+	Main Team: Adam Martin, Josh Gauthier, George Geuvara, Jonah Mattox
+	Graphics Team: Ricky Curtice, Justin Avignone, Jordan Lawyer, Brett Ramsey, Chris Schaber
+	Physics Team: Mike Tomaselli, Andrew Eisenhauer, Michelle Everett, Lewis Strasburg
+	Script Team: Rob Whitworth, Bradley Dotlich, Anderson Hughs, Stephen Keech 
+	AI Team: Scott Compton & Daniel Padeiro, Brian Howell, Kevin Kasson
+	UI Team: Lynette Dresbach, Keith Canterbury, John Saetz, Simon Wolfe
+	Audio Team: Bryndon Mullins, David Dahl, Chris Smith, Matthew Weber
+
+Open-Source Contributors:
+Name:
+	Issue ID
+	...
