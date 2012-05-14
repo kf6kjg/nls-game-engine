@@ -1,16 +1,18 @@
 Source code
 ========
-Unless otherwise specified, the source code in this distribution
-("Source Code") is provided to you under the terms of the zlib
-license, unless you have obtained a separate licensing agreement
-("Other License"), formally executed by you and the copyright holders
-of this software.  Terms of the zlib license can be found in
-doc/zlib-license.txt in this distribution.
+Unless otherwise specified, the source code in this distribution ("Source Code") is provided to you under the terms of the New BSD license, unless you have obtained a separate licensing agreement ("Other License"), formally executed by you and the copyright holders of this software.  The terms of the license can be found below.
 
-By copying, modifying or distributing this software, you acknowledge
-that you have read and understood your obligations described above,
-and agree to abide by those obligations.
+By copying, modifying, or distributing this software, you acknowledge that you have read and understood your obligations described above, and agree to abide by those obligations.
 
-ALL SOURCE CODE IS PROVIDED "AS IS." THE COPYRIGHT HOLDERS MAKE NO
-WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY,
-COMPLETENESS OR PERFORMANCE.
+
+Source code license
+========
+Copyright (c) 2012, Richard Curtice, Adam Martin
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
