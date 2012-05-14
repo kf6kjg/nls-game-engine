@@ -7,7 +7,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 		"${NLS_ENGINE_LIBRARY}"
 		"${NLS_ENGINE_LIBRARY}" # no trailing slash
 		"http://downloads.sourceforge.net/project/cimg/CImg-1.5.0_beta.zip"
-		"50db99e93ae912df249f1288568255e8"
+		"fd7c4e257a448b7d72147598c4c9342e"
 	)
 
 	#* * * * * * * * * * * * * * * * * * * * *
@@ -20,7 +20,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 
 	message("Copying CImg header...")
 	execute_process(
-		COMMAND cmake -E copy "${LIB_CImg_DIR}/CImg-1.5.0_beta/CImg.h" "${LIBS_INCLUDE_PATH}/cimg/"
+		COMMAND "${CMAKE_COMMAND}" -E copy "${LIB_CImg_DIR}/CImg-1.5.0_beta/CImg.h" "${LIBS_INCLUDE_PATH}/cimg/"
 		RESULT_VARIABLE COPY_RESULT
 	)
 	if(NOT "${COPY_RESULT}" MATCHES "^0")

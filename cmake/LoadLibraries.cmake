@@ -21,30 +21,23 @@ function("load_library_source_from_web" LIB_NAME LIB_DIR LIB_URL LIB_MD5)
 	else(EXISTS "${LIB_ARCHIVE}")
 		# Download the library
 		
-		set(CHECK_MD5)
-		
-		if(${LIB_MD5})
-			set(CHECK_MD5 "EXPECTED_MD5 \"${LIB_MD5}\"")
-		endif(${LIB_MD5})
-		
 		message("Downloading library '${LIB_NAME}' archive...")
-		file(DOWNLOAD ${LIB_URL} ${LIB_ARCHIVE} STATUS LIB_RESULT SHOW_PROGRESS
-			${CHECK_MD5}
-		)
-		
-		unset(CHECK_MD5)
-		
-		if(NOT "${LIB_RESULT}" MATCHES "^0;")
-			set(LIB_ERR "Download of '${LIB_NAME}' archive failed!")
-			return()
-		endif(NOT "${LIB_RESULT}" MATCHES "^0;")
+		file(DOWNLOAD ${LIB_URL} ${LIB_ARCHIVE} STATUS LIB_RESULT SHOW_PROGRESS)
 		
 		message("Download of library '${LIB_NAME}' archive complete.")
 	endif(EXISTS "${LIB_ARCHIVE}")
 	
+	# Verify MD5 of D/L'd archive in case it got corrupted
+	file(MD5 "${LIB_ARCHIVE}" FILE_MD5)
+	
+	if(NOT "${FILE_MD5}" STREQUAL "${LIB_MD5}")
+		file(REMOVE "${LIB_ARCHIVE}")
+		message(FATAL_ERROR "Library archive failed verification: the expected MD5 sum did not match to received value of '${FILE_MD5}'.  Removing library and aborting.  Please re-run CMake.")
+	endif(NOT "${FILE_MD5}" STREQUAL "${LIB_MD5}")
+	
 	# Prepare the directory
 	execute_process(
-		COMMAND cmake -E make_directory "${LIB_INSTALL_DIR}"
+		COMMAND "${CMAKE_COMMAND}" -E make_directory "${LIB_INSTALL_DIR}"
 	)
 	
 	if("${LIB_${LIB_NAME}_ALREADY_EXTRACTED}")
@@ -53,14 +46,13 @@ function("load_library_source_from_web" LIB_NAME LIB_DIR LIB_URL LIB_MD5)
 		# Extract the library
 		message("Extracting library '${LIB_NAME}' archive...")
 		execute_process(
-			COMMAND cmake -E tar xf "${LIB_ARCHIVE}"
+			COMMAND "${CMAKE_COMMAND}" -E tar xf "${LIB_ARCHIVE}"
 			WORKING_DIRECTORY "${LIB_INSTALL_DIR}"
 			RESULT_VARIABLE LIB_RESULT
 		)
 		
 		if(NOT ${LIB_RESULT} MATCHES "^0")
-			set(LIB_ERR "Extraction of '${LIB_NAME}' archive failed!")
-			return()
+			message(FATAL_ERROR "Extraction of '${LIB_ARCHIVE}' archive to '${LIB_INSTALL_DIR}' failed with result: '${LIB_RESULT}'")
 		endif(NOT ${LIB_RESULT} MATCHES "^0")
 		message("Extraction of library '${LIB_NAME}' archive complete.")
 		
