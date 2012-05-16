@@ -47,6 +47,10 @@ cmake_install.cmake
 *.sln
 *.vcxproj*
 
+# Eclipse project files
+.cproject
+.project
+
 # Build result folders
 bin/*
 Debug/*
