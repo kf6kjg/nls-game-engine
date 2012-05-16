@@ -33,7 +33,7 @@
 	We welcome contributions in any form; whether you donate scripts, source patches, improved documentation, or even whole modules, we would love to see them.  There is a caveat however: every contributor must sign and send us a copy of the \htmlonly<a href="https://docs.google.com/document/d/1N9EUxB3OvoSWh9TLbEiKzfhP0MZrAikBqFqXPcDHfNc/edit">contributor's agreement</a>\endhtmlonly - with one exception.  This agreement simply assignes to us copyright on the items you send us so that we can keep our code free and clear to all.  The one exception mentioned earlier is if the contribution is clearly marked as being released under the zlib license itself we'll accept it without a contribution assignment on file.  Of course it should go without stating that everything contributed must be your own work - otherwise you can't legally change the terms you got it under!
 	
 	\section license License
-	\verbinclude zlib-license.txt
+	\verbinclude LICENSE-source.txt
 */
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
