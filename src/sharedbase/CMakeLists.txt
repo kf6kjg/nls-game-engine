@@ -13,7 +13,6 @@ set(SOURCE_FILES
 	"EventLogger.cpp"
 	"MessageRouter.cpp"
 	"OSInterface.cpp"
-	"PointList.cpp"
 	"QuatMath.cpp"
 )
 set(HEADER_FILES
@@ -24,13 +23,10 @@ set(HEADER_FILES
 	"Envelope.h"
 	"Envelope_fwd.h"
 	"EventLogger.h"
-	"MessageRouter.h"
 	"ModuleInterface.h"
 	"ModuleScriptInterface.h"
 	"OSInterface.h"
 	"OSInterface_fwd.h"
-	"PointList.h"
-	"PropertyMap.h"
 	"QuatMath.h"
 	"ScriptObjectInterface.h"
 )
