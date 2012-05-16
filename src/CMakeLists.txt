@@ -46,7 +46,6 @@ set(NLS_ENGINE_BUILD_MODE 1)
 
 # Load up libraries
 include(GetAngelScript)
-include(GetCImg)
 include(GetBoost)
 
 

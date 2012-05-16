@@ -11,7 +11,6 @@ set(SOURCE_FILES
 	"Entity.cpp"
 	"Envelope.cpp"
 	"EventLogger.cpp"
-	"MessageRouter.cpp"
 	"OSInterface.cpp"
 	"QuatMath.cpp"
 )
