@@ -2,8 +2,7 @@
  * \file
  * \author Adam Martin
  * \date 2011-12-22
- * \brief Base interface for any OS specific code
-*/
+ */
 #pragma once
 
 // Standard Includes
@@ -18,12 +17,13 @@
 #include "OSInterface_fwd.h"
 
 // Forward Declarations
-class PropertyMap;
-class MessageRouter;
 
 // Typedefs
 
 // Classes
+/**
+ * \brief Base interface for any OS specific code
+ */
 class OSInterface {
 public: // Public static members
 	static void SetOS(OSInterfaceSPTR);

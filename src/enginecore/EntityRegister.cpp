@@ -41,10 +41,6 @@ void Entity::Register(asIScriptEngine* const engine) {
 	ret = engine->RegisterObjectBehaviour("Entity", asBEHAVE_DESTRUCT,   "void f()",                 asFUNCTION(destroy<EntitySPTR>),        asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	ret = engine->RegisterObjectMethod("Entity", "Entity &opAssign(const Entity &in)", asFUNCTION(assign<EntitySPTR>), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	// Register properties	
-	//ret = engine->RegisterObjectMethod("Entity", "PropertyMap& get_properties() const",  REF_GETTER(Entity, properties), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	//ret = engine->RegisterObjectMethod("Entity", "void set_properties(const PropertyMap& in)", REF_SETTER(Entity, properties), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	
 	ret = engine->RegisterObjectMethod("Entity", "float& get_scale() const",  REF_GETTER(Entity, scale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	ret = engine->RegisterObjectMethod("Entity", "void set_scale(const float& in)", REF_SETTER(Entity, scale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	

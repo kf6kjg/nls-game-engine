@@ -24,6 +24,7 @@
 #include "QuatMath.h"
 #include "ComponentInterface.h"
 #include "ModuleInterface.h"
+#include "EventLogger.h"
 
 // Forward Declarations
 

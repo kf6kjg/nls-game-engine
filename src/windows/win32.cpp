@@ -15,16 +15,14 @@
 #include "d3dx9.h"
 
 // Local Includes
-#include "../sharedbase/MessageRouter.h"
-#include "../sharedbase/PropertyMap.h"
 #include "../sharedbase/Envelope.h"
 #include "../sharedbase/EventLogger.h"
 
 // Static class member initialization
 
-void win32::Make(PropertyMap* gprops, MessageRouter* msgrouter) {
+void win32::Make() {
 	if (!OSInterface::HasOS()) {
-		OSInterface::SetOS(OSInterfaceSPTR(new win32(gprops, msgrouter)));
+		OSInterface::SetOS(OSInterfaceSPTR(new win32()));
 	}
 }
 
@@ -65,12 +63,7 @@ boost::any win32::CreateGUIWindow( int width, int height, std::string title, WIN
 	
 	ShowWindow(hwnd, SW_NORMAL);
 
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<long>(this->msgrouter));
-
 	this->handle = hwnd;
-
-	std::shared_ptr<Subscriber> squit(new Subscriber(boost::bind(&win32::Quit, this, _1)));
-	this->msgrouter->Subscribe(CORE_MESSAGE::QUIT, squit);
 
 	return hwnd;
 }
@@ -153,12 +146,7 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		case WM_KEYUP:
 		case WM_KEYLAST:
 		{
-			EnvelopeSPTR e(new Envelope);
-			e->msgid = 9002;
-			e->AddData(msg);
-			e->AddData(w);
-			e->AddData(l);
-			reinterpret_cast<MessageRouter*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->SendSP(e);
+			
 		}
 		break;
 		case WM_LBUTTONUP:
@@ -172,26 +160,14 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		{
 			D3DXVECTOR2 mouse_pos = GetMousePos(hwnd, l);
 			
-			EnvelopeSPTR e(new Envelope);
-			e->msgid = 9003;
-			e->AddData(msg);
-			e->AddData(w);
-			e->AddData(mouse_pos.x);
-			e->AddData(mouse_pos.y);
-			reinterpret_cast<MessageRouter*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->SendSP(e);
+			
 		}
 		break;
 		case WM_MOUSEMOVE:
 		{
 			D3DXVECTOR2 mouse_pos = GetMousePos(hwnd, l);
 			
-			EnvelopeSPTR e(new Envelope);
-			e->msgid = 9010;
-			e->AddData(msg);
-			e->AddData(w);
-			e->AddData(mouse_pos.x);
-			e->AddData(mouse_pos.y);
-			reinterpret_cast<MessageRouter*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->SendSP(e);
+			
 		}
 		break;
 		case WM_MOUSEWHEEL:
@@ -199,13 +175,7 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		{
 			D3DXVECTOR2 mouse_pos = GetMousePos(hwnd, l);
 			
-			EnvelopeSPTR e(new Envelope);
-			e->msgid = 9011;
-			e->AddData(msg);
-			e->AddData(w);
-			e->AddData(mouse_pos.x);
-			e->AddData(mouse_pos.y);
-			reinterpret_cast<MessageRouter*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->SendSP(e);
+			
 		}
 		break;
 		case WM_CREATE:
@@ -215,12 +185,7 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		{
 			def = false;
 			
-			EnvelopeSPTR e(new Envelope);
-			e->msgid = 9001;
-			e->AddData(msg);
-			e->AddData(w);
-			e->AddData(l);
-			reinterpret_cast<MessageRouter*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->SendSP(e);
+			
 		}
 		break;
 		default:

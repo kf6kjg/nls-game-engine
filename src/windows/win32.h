@@ -20,12 +20,10 @@
 #include "../sharedbase/EventLogger.h"
 
 // Forward Declarations
-class PropertyMap;
-class MessageRouter;
 
 class win32 : public OSInterface {
 public:
-	static void Make(PropertyMap*, MessageRouter*);
+	static void Make();
 	
 public:
 	~win32() {
@@ -46,12 +44,9 @@ public:
 	static LRESULT CALLBACK Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l);
 	
 private:
-	win32( PropertyMap* gprops, MessageRouter* msgrouter ) : gprops(gprops), msgrouter(msgrouter), freq(0.0f), elapsed(0.0f), handle(nullptr) { }
+	win32() : freq(0.0f), elapsed(0.0f), handle(nullptr) { }
 	
 private:
-	PropertyMap* gprops;
-	MessageRouter* msgrouter;
-	
 	LARGE_INTEGER count;
 	double freq, elapsed;
 	HWND handle;

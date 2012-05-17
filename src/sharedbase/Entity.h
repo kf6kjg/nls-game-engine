@@ -18,7 +18,6 @@
 #include <d3dx9math.h>
 
 // Local Includes
-#include "PropertyMap.h"
 #include "Entity_fwd.h"
 
 // Forward Declarations
@@ -183,7 +182,6 @@ public:
 	D3DXVECTOR3 location; /**< Offset relative to parent entity space. */
 	D3DXQUATERNION rotation; /**< Rotation relative to parent. */
 	float scale; /**< Scale relative to parent. */
-	PropertyMap properties; /**< Properties of this entity. */
 private:
 	std::string name; /**< The name of this entity. */
 	
