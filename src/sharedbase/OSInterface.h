@@ -27,7 +27,7 @@
 class OSInterface {
 public: // Public static members
 	static void SetOS(OSInterfaceSPTR);
-	static OSInterfaceSPTR GetOS();
+	static OSInterfaceSPTR GetOSPointer();
 	static bool HasOS();
 	
 public:
@@ -49,7 +49,7 @@ public:
 	virtual void RouteMessages() = 0;
 	
 	/// Returns the path to a known system- or user-specific location.
-	virtual std::string GetPath(DIRS::TYPE) = 0;
+	virtual std::string GetPath(SYSTEM_DIRS::TYPE) = 0;
 	
 	virtual void SetupTimer() = 0;
 	virtual double GetElapsedTime() = 0;

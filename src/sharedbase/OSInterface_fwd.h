@@ -22,7 +22,7 @@ typedef std::shared_ptr<OSInterface> OSInterfaceSPTR;
 // Enumerations
 
 /// Enumeration of known paths.  This provides an OS abstraction.
-namespace DIRS {
+namespace SYSTEM_DIRS {
 	enum TYPE {
 		USER, ///< On Linux: "$HOME". On Windows XP: SHGetFolderPath(CSIDL_APPDATA). On Windows Vista (or newer): SHGetKnownFolderPath(FOLDERID_RoamingAppData). on Mac: 
 		DOCUMENTS, ///< On Linux: . On Windows XP: SHGetFolderPath(CSIDL_MYDOCUMENTS). On Windows Vista (or newer): SHGetKnownFolderPath(FOLDERID_Documents). on Mac: 

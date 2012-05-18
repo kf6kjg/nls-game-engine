@@ -29,7 +29,7 @@ void OSInterface::SetOS(OSInterfaceSPTR operating_system) {
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-OSInterfaceSPTR OSInterface::GetOS() {
+OSInterfaceSPTR OSInterface::GetOSPointer() {
 	OSInterfaceSPTR os(OSInterface::operatingSystem);
 	return os;
 }

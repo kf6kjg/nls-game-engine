@@ -29,14 +29,6 @@ public:
 	~win32() {
 		PostQuitMessage(0);
 	}
-	virtual boost::any CreateGUIWindow(int, int, std::string, WINDOW_FLAGS = WINDOW_OUTER_SIZE);
-	virtual void ShowInfo(std::string, std::string = NLS_I18N::TITLE_INFO);
-	virtual void ShowWarning(std::string, std::string = NLS_I18N::TITLE_WARNING);
-	virtual void ShowError(std::string, std::string = NLS_I18N::TITLE_CRITICAL);
-	virtual void RouteMessages();
-	virtual std::string GetPath(DIRS::TYPE);
-	virtual void SetupTimer();
-	virtual double GetElapsedTime();
 	void Quit(EnvelopeSPTR e);
 	
 	void SetClientRect(int width, int height);
@@ -45,6 +37,16 @@ public:
 	
 private:
 	win32() : freq(0.0f), elapsed(0.0f), handle(nullptr) { }
+	
+private: // Overrides
+	virtual boost::any CreateGUIWindow(int, int, std::string, WINDOW_FLAGS = WINDOW_OUTER_SIZE);
+	virtual void ShowInfo(std::string, std::string = NLS_I18N::TITLE_INFO);
+	virtual void ShowWarning(std::string, std::string = NLS_I18N::TITLE_WARNING);
+	virtual void ShowError(std::string, std::string = NLS_I18N::TITLE_CRITICAL);
+	virtual void RouteMessages();
+	virtual std::string GetPath(SYSTEM_DIRS::TYPE);
+	virtual void SetupTimer();
+	virtual double GetElapsedTime();
 	
 private:
 	LARGE_INTEGER count;

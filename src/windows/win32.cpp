@@ -196,26 +196,26 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-std::string win32::GetPath(DIRS::TYPE dir_id) {
+std::string win32::GetPath(SYSTEM_DIRS::TYPE dir_id) {
 	int csidl;
 	
 	switch (dir_id) {
-		case DIRS::USER:
+		case SYSTEM_DIRS::USER:
 			csidl = CSIDL_APPDATA;
 		break;
-		case DIRS::DOCUMENTS:
+		case SYSTEM_DIRS::DOCUMENTS:
 			csidl = CSIDL_MYDOCUMENTS;
 		break;
-		case DIRS::PICTURES:
+		case SYSTEM_DIRS::PICTURES:
 			csidl = CSIDL_MYPICTURES;
 		break;
-		case DIRS::MUSIC:
+		case SYSTEM_DIRS::MUSIC:
 			csidl = CSIDL_MYMUSIC;
 		break;
-		case DIRS::VIDEO:
+		case SYSTEM_DIRS::VIDEO:
 			csidl = CSIDL_MYVIDEO;
 		break;
-		case DIRS::DESKTOP:
+		case SYSTEM_DIRS::DESKTOP:
 			csidl = CSIDL_DESKTOPDIRECTORY;
 		break;
 		default:
