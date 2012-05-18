@@ -46,6 +46,7 @@ set(NLS_ENGINE_BUILD_MODE 1)
 
 # Load up libraries
 include(GetAngelScript)
+include(GetGLM)
 include(GetBoost)
 
 
@@ -81,6 +82,15 @@ else(Boost_FOUND)
 	# Boost was not found, cease processing
 	message(FATAL_ERROR "Cannot continue without Boost.")
 endif(Boost_FOUND)
+
+
+## Include GLM
+if(GLM_FOUND)
+	message("Including GLM")
+	include_directories(${GLM_INCLUDE_DIRS})
+else(GLM_FOUND)
+	message(FATAL_ERROR "Cannot continue without GLM.")
+endif(GLM_FOUND)
 
 
 ## Include DirectX 9 as currently EVERYTHING requires it.

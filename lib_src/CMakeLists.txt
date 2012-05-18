@@ -29,5 +29,6 @@ set(NLS_ENGINE_LIBRARY_MODE 1)
 	
 	# Load up libraries
 	include(GetAngelScript)
+	include(GetGLM)
 	include(GetBoost)
 ## /Load libraries
