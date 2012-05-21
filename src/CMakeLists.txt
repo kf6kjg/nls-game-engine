@@ -101,8 +101,11 @@ include_directories("sharedbase")
 ## Add the primary program directory
 add_subdirectory("enginecore")
 
+## Go get the list of available modules
+include(AvailableModules)
 
 ## Add selected modules
+# *TODO: Clone selected optional modules into the src/modules/ folder.
 foreach(MODULE ${ENGINE_MODULES})
 	message("Adding the following module: ${MODULE}")
 	

@@ -66,3 +66,6 @@ lib/*
 
 # The Doxyfile is generated from Doxyfile.in
 Doxyfile
+
+# Optional modules are tracked independently
+src/modules/*
