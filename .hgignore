@@ -3,7 +3,7 @@ syntax: glob
 
 *.app
 *.exe
-*.log
+*.log*
 *~
 *.DS_Store
 *._*
