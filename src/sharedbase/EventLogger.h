@@ -25,8 +25,6 @@
 // Macro to make messages more meaningful
 /// Logging macro designed to make logged meesages much more meaningful by providing file, line number, etc.
 #define LOG(x, y) ::EventLogger::GetEventLogger()->LogToDisk((x), (y), __FILE__, __LINE__, __FUNCTION__);
-/// Logging macro designed to make logged meesages much more meaningful by providing file, line number, etc.  Differs from the above in that it uses a member variable to determine output.
-#define LOG2(x, y) {if (this->debug_output) {::EventLogger::GetEventLogger()->LogToDisk((x), (y), __FILE__, __LINE__, __FUNCTION__);}}
 
 /// Namespaced enumerated type to specify the priority status of a logging message.
 namespace LOG_PRIORITY {
@@ -43,7 +41,7 @@ namespace LOG_PRIORITY {
 		RESTART  = 6, ///< Used to indicate that a critical core tool has crashed or is unable to start: tools like modules, threads, etc.
 		SYSERR   = 7, ///< A critical system error or exception has occurred and the program is now closing.
 		
-		DEPRICATE = 8, ///< Used to log that something has been depricated.
+		DEPRECATE = 8, ///< Used to log that something has been deprecated.
 		
 		ENUM_COUNT
 	};
@@ -72,10 +70,6 @@ public: // Public static parameters
 	
 public: // Public members
 	~EventLogger(void);
-	
-	/// Print the message to the file, with enough information to determine source.
-	/// \depricated This uses an integer which could be a source of out-of-bounds array reads.  Instead, use the LogToDisk method.
-	bool PrintToFile(unsigned int entryPriorityLevel, std::string text, char const* file = "NOFILE.cpp", int line = 0, char const* func = "void()") { return LogToDisk(LOG_PRIORITY::TYPE(entryPriorityLevel), text, file, (unsigned int) line, func); }
 	
 	/// Log the message to disk, with enough information to determine source.
 	bool LogToDisk(const LOG_PRIORITY::TYPE&, const std::string&, const std::string& = "<NO FILE>", const unsigned int& = 0, const std::string& = "<NO FUNCTION>");

@@ -35,6 +35,16 @@ EventLogger::EventLogger() {
 }
 
 EventLogger::~EventLogger() {
+	if (this->logFile.length() > 0) {
+		std::ofstream out_stream;
+
+		out_stream.open(this->logFile.c_str(), std::ios_base::out | std::ios_base::app);
+
+		if (!out_stream.bad()) {
+			out_stream << "]";
+			out_stream.close();
+		}
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -74,12 +84,12 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 		
 		// Format the log entry: timestamp	priority	module	file(line): function	message
 		std::stringstream ss;
-		ss
-			<< boost::posix_time::to_iso_extended_string(now) << "UTC" // Timestamp
-			<< "\t" << LOG_PRIORITY::PRINTABLE_NOTICES[static_cast<unsigned int>(priority_level)] // Error level
-			<< "\t" << EventLogger::module << "|" << fname << "(" << line << "): " << func // Module, file, line, and function in a pattern similar to VS2010's error log.
-			<< "\t" << text // Message
-			<< std::endl;
+		ss	<< "," << "\n" << "{"
+			<< "\"time\":\""	<< boost::posix_time::to_iso_extended_string(boost::posix_time::microsec_clock::universal_time())	<< "UTC\"," // Timestamp
+			<< "\"level\":\""	<< LOG_PRIORITY::PRINTABLE_NOTICES[static_cast<unsigned int>(priority_level)]						<< "\","  // Error level
+			<< "\"function\":\""<< EventLogger::module << "|" << fname << "(" << line << "): " << func								<< "\","// Module, file, line, and function in a pattern similar to VS2010's error log.
+			<< "\"message\":\""	<< std::string(text).erase(text.find_last_not_of(std::string("\n\r")), std::string::npos)			<< "\""// Message
+			<< "}";
 		
 		// Push into queue
 		this->logQueue.push(ss.str());
@@ -89,18 +99,19 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 	if (this->logFile.length() > 0) {
 		std::string message;
 		
-		std::ofstream out_stream;
+		std::fstream out_stream;
 		
-		out_stream.open(this->logFile.c_str(), std::ios_base::out | std::ios_base::app);
+		out_stream.open(this->logFile.c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::ate | std::ios_base::binary);
 		
 		if (!out_stream.bad()) {
+			//out_stream.seekp(std::ios_base::end);
+			out_stream.seekp(-3, std::ios_base::end); // Move back 3 to cover over the old JSON ending brackets with \n for format.
 			while (this->logQueue.size() > 0) {
 				message = this->logQueue.front();
 				this->logQueue.pop();
-				
-				out_stream << message;
+				out_stream << message << std::endl;
 			}
-			
+			out_stream << "]}"; // Add back the JSON ending brackets
 			out_stream.close();
 		}
 		else {
@@ -119,6 +130,26 @@ bool EventLogger::SetLogFile(const std::string& file) {
 	
 	// If the file exists already, move it to an archived name
 	ArchiveOldLog(file);
+
+	std::stringstream ss;
+	ss	<< "{\"NLSEngineLogVersion1.0\":[\n"
+		<< "{"
+		<< "\"time\":\""	<< boost::posix_time::to_iso_extended_string(boost::posix_time::microsec_clock::universal_time())	<< "UTC\"," // Timestamp
+		<< "\"level\":\""	<< LOG_PRIORITY::PRINTABLE_NOTICES[static_cast<unsigned int>(LOG_PRIORITY::INFO)]					<< "\"," // Error level
+		<< "\"function\":\""<< EventLogger::module << "|" << "EventLogger.cpp" << "(" << __LINE__ << "): " << __FUNCTION__				<< "\","// Module, file, line, and function in a pattern similar to VS2010's error log.
+		<< "\"message\":\""	<< "Log file created."																				<< "\""
+		<< "}\n]}";
+
+	if (this->logFile.length() > 0) {
+		std::ofstream out_stream;
+
+		out_stream.open(this->logFile.c_str(), std::ios_base::out | std::ios_base::app | std::ios_base::binary);
+
+		if (!out_stream.bad()) {
+			out_stream << ss.str();
+			out_stream.close();
+		}
+	}
 	
 	return true; 
 }
