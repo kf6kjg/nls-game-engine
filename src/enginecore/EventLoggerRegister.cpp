@@ -45,7 +45,6 @@ void EventLoggerRegister(asIScriptEngine* const as_engine) {
 	ret = as_engine->RegisterEnumValue("LOG_PRIORITY", "DEPRICATE", ::LOG_PRIORITY::DEPRICATE); assert(ret >= 0);
 	
 	// Register logger
-	ret = as_engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 	ret = as_engine->RegisterGlobalFunction("void LOG(const LOG_PRIORITY& in, const string& in)", asFUNCTION(ScriptLog), asCALL_CDECL); assert(ret >= 0);
 	
 	

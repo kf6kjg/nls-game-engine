@@ -15,6 +15,15 @@
 #include "ModuleManager.h"
 #include "ScriptEngine.h"
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+// Operational data
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+bool gIsRunning = true;
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+// Main
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main() {
 	EventLogger* elog = EventLogger::GetEventLogger(); // *TODO: Must fix the mem leak on exit
 	EventLogger::module = "Main";
@@ -25,37 +34,44 @@ int main() {
 	EntityMap EntList;
 	ModuleManager modmgr(&engine);
 
-	// Register the APIs available to config scripts.
-	engine.BeginConfigGroup("config");
-	modmgr.ConfigRegister();
+	int as_status = 0;
+
 	EventLoggerRegister(engine.GetasIScriptEngine());
-	engine.EndConfigGroup();
 
-	// Register the APIs available to game play scripts.
-	engine.BeginConfigGroup("gameplay");
-	//EventLoggerRegister(engine.GetasIScriptEngine()); //*BUG: Fails to register in this second config group.  I think it's an AS problem. ~Ricky
-	EntList.Register(engine.GetasIScriptEngine());
-	engine.EndConfigGroup();
+	// Register the APIs available to config scripts.
+	engine.BeginConfigGroup("config"); {
+		modmgr.ConfigRegister();
+		
+		engine.LoadScriptFile("config.as");
+		ScriptExecutor* exec = engine.ScriptExecutorFactory();
+		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
+		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
+			gIsRunning = false;
+		}
+		delete exec;
+	} engine.EndConfigGroup();
 
-	engine.LoadScriptFile("config.as");
-	ScriptExecutor* exec = engine.ScriptExecutorFactory();
-	exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
-	exec->ExecuteFunction();
-	delete exec;
+	if (gIsRunning) {
+		// Register the APIs available to game play scripts.
+		engine.BeginConfigGroup("gameplay"); {
+			EntList.Register(engine.GetasIScriptEngine());
+		} engine.EndConfigGroup();
 
-	// Timing variables used in the update function for the main loop.
-	boost::chrono::steady_clock::time_point now, oldnow;
-	boost::chrono::duration<double, boost::ratio<1,1>> duraction;
-	now = boost::chrono::steady_clock::now();
-
-	while (1) {
-		oldnow = now;
+		// Timing variables used in the update function for the main loop.
+		boost::chrono::steady_clock::time_point now, oldnow;
+		boost::chrono::duration<double, boost::ratio<1,1>> duraction;
 		now = boost::chrono::steady_clock::now();
-		duraction = now - oldnow;
 
-		// Calls update for each core.
-		modmgr.Update(duraction.count());
+		while (gIsRunning) {
+			oldnow = now;
+			now = boost::chrono::steady_clock::now();
+			duraction = now - oldnow;
+
+			// Calls update for each core.
+			modmgr.Update(duraction.count());
+		}
 	}
+
 	modmgr.Shutdown();
 
 	return 0;
