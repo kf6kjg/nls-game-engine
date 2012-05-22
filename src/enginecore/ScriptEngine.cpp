@@ -80,6 +80,12 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 	ret = this->engine->RegisterGlobalFunction("uint stou(string)", asFUNCTION(stringCast<unsigned int>), asCALL_CDECL); assert(ret >= 0);
 	ret = this->engine->RegisterGlobalFunction("float stof(string)", asFUNCTION(stringCast<float>), asCALL_CDECL); assert(ret >= 0);
 	ret = this->engine->RegisterGlobalFunction("double stod(string)", asFUNCTION(stringCast<double>), asCALL_CDECL); assert(ret >= 0);
+
+	ret = this->engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
+
+	ret = this->engine->RegisterGlobalFunction("void Shutdown()", asFUNCTION(ScriptEngine::AbortExecution), asCALL_CDECL); assert(ret >= 0);
+
+	ret = this->engine->SetDefaultNamespace(""); assert(ret >= 0);
 }
 
 ScriptEngine::~ScriptEngine() {
@@ -96,6 +102,7 @@ ScriptEngine::~ScriptEngine() {
 void ScriptEngine::MessageCallback(const asSMessageInfo *msg) {
 	if (msg == nullptr) {
 		LOG(LOG_PRIORITY::ERR, "asSMessageInfo was null. Something must have happened to the engine.");
+		return;
 	}
 	std::string type = "ERR ";
 	if (msg->type == asMSGTYPE_WARNING) {
@@ -123,7 +130,8 @@ void ScriptEngine::MessageCallback(const asSMessageInfo *msg) {
 */
 void ScriptEngine::ExceptionCallback(asIScriptContext* ctx) {
 	if (ctx == nullptr) {
-		LOG(LOG_PRIORITY::ERR, "asIScriptContext was null. Something must have happened to the engine.")
+		LOG(LOG_PRIORITY::ERR, "asIScriptContext was null. Something must have happened to the engine.");
+		return;
 	}
 	int line, column;
 	line = ctx->GetExceptionLineNumber(&column); assert( line >= 0 );
@@ -168,7 +176,7 @@ ScriptExecutor* ScriptEngine::ScriptExecutorFactory() {
 /**
 * \return The Angelscript engine pointer. No refCount increase/decrease happens/needs to happen.
 */
- asIScriptEngine* const ScriptEngine::GetasIScriptEngine() {
+asIScriptEngine* const ScriptEngine::GetasIScriptEngine() {
 	return this->engine;
 }
 
@@ -232,3 +240,14 @@ void ScriptEngine::SetUserDataFolder( const std::string &folder ) {
 void ScriptEngine::SetLogFile( const std::string &filename ) {
 	EventLogger::GetEventLogger()->SetLogFile(this->userDataFolder + filename);
 }
+
+/**
+*/
+void ScriptEngine::AbortExecution() {
+	asIScriptContext* ctx = asGetActiveContext();
+	
+	if (ctx != nullptr) {
+		ctx->Abort();
+	}
+}
+

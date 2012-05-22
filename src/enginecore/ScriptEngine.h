@@ -25,9 +25,9 @@
 */
 namespace SCRIPT_STATUS {
 	enum TYPE {
-		FAILED_LOADING, /**< Failed to load the file. */
-		FAILED_BUILDING, /**< Failed to build the module. */
-		LOAD_OK /**< File loaded and built without issue. */
+		FAILED_LOADING, ///< Failed to load the file.
+		FAILED_BUILDING, ///< Failed to build the module.
+		LOAD_OK ///< File loaded and built without issue.
 	};
 }
 
@@ -39,7 +39,7 @@ namespace SCRIPT_STATUS {
 * GetasIScriptEngine and calling the correct registration methods from it.
 */
 class ScriptEngine {
-public:
+public: // Structors
 	/**
 	* \brief Creates an instance of Angelscript's engine and initializes it.
 	* Additionally it registers some basic add-ons provide by Angelscript for strings,
@@ -49,18 +49,7 @@ public:
 	ScriptEngine();
 	~ScriptEngine();
 
-private: // These 2 methods are private because they are only needed by Angelscript
-	/**
-	* \brief A message callback used by Angelscript to give feedback about warning and errors.
-	*/
-	void MessageCallback(const asSMessageInfo *msg);	
-
-	/**
-	* \brief A message callback used by Angelscript for critical exceptions that cause the engine to crash.
-	*/
-	void ExceptionCallback(asIScriptContext* ctx);
-	
-public:
+public: // API Methods
 	/**
 	* \brief Creates a ScriptExecutor object that can be used to execute scripts functions.
 	*/
@@ -110,13 +99,30 @@ public:
 	* \brief Set the name of the main game script.
 	*/
 	void SetGameScript(const std::string &) { }
-protected:
 
-private:
-	asIScriptEngine *engine; /**< The script engine. */
-	ScriptExecutor scriptexec; /**< The script executor. */
-	CScriptBuilder builder; /**< Used for building scripts from files. */
+private: // Internal methods
+	/**
+	* \brief A message callback used by Angelscript to give feedback about warning and errors.
+	*/
+	void MessageCallback(const asSMessageInfo *msg);
 
-	std::string userDataFolder; /**< Location where user data is stored such as saves or profiles. */
-	std::string gameplayScript; /**< The game play phase script. */
+	/**
+	* \brief A message callback used by Angelscript for critical exceptions that cause the engine to crash.
+	*/
+	void ExceptionCallback(asIScriptContext* ctx);
+
+	/**
+	* \brief Causes any currently executing script to stop.
+	* 
+	* Calls Abort() on the current script context, but set no flags.
+	*/
+	static void AbortExecution();
+
+private: // Data
+	asIScriptEngine *engine; ///< The script engine.
+	ScriptExecutor scriptexec; ///< The script executor.
+	CScriptBuilder builder; ///< Used for building scripts from files.
+
+	std::string userDataFolder; ///< Location where user data is stored such as saves or profiles.
+	std::string gameplayScript; ///< The gameplay phase script.
 };
