@@ -2,7 +2,7 @@
 * \file
 * \author Adam Martin
 * \date 2012-04-18
-* \brief EntityList declartion and the comparison class used when mapping string and entities in a std::map.
+* \brief EntityMap declaration and the comparison class used when mapping string and entities in a std::map.
 */
 #pragma once
 
@@ -49,14 +49,14 @@ typedef std::map<const std::string*, EntitySPTR, strptrcmp> NamedEntityMap;
 * Entities are stored in a map with their name as the key. Entities can be
 * added, found, or removed from the list via the wrapper methods.
 */
-class EntityList : public ModuleScriptInterface {
+class EntityMap : public ModuleScriptInterface {
 public:
-	EntityList(void) { }
-	~EntityList(void) {	}
+	EntityMap(void) { }
+	~EntityMap(void) {	}
 
 	/**
-	* \brief Angelscript registration for EntityList. Additionally calls the registration for
-	* Entity as EntityList requires Angelscript to know about Entity beforehand.
+	* \brief Angelscript registration for EntityMap. Additionally calls the registration for
+	* Entity as EntityMap requires Angelscript to know about Entity beforehand.
 	*/
 	void Register(asIScriptEngine* const);
 	

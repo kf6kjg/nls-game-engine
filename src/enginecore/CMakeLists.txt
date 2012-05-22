@@ -12,8 +12,9 @@ endif (NOT DEFINED NLS_ENGINE_EXECUTABLE_NAME)
 set(SOURCE_FILES
 	# Specify all the cxx files that need to be compiled (in alphabetic order)
 	"D3DXMathTypesRegister.cpp"
-	"EntityList.cpp"
+	"EntityMap.cpp"
 	"EntityRegister.cpp"
+	"EventLoggerRegister.cpp"
 	"main.cpp"
 	"ModuleManager.cpp"
 	"ScriptEngine.cpp"
@@ -23,7 +24,8 @@ set(SOURCE_FILES
 )
 set(HEADER_FILES
 	# Specify all the header files that need to be displayed in the editor (in alphabetic order)
-	"EntityList.h"
+	"EntityMap.h"
+	"EventLoggerRegister.h"
 	"ModuleManager.h"
 	"ScriptEngine.h"
 	"ScriptExecutor.h"

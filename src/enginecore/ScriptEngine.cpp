@@ -80,7 +80,6 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 	ret = this->engine->RegisterGlobalFunction("uint stou(string)", asFUNCTION(stringCast<unsigned int>), asCALL_CDECL); assert(ret >= 0);
 	ret = this->engine->RegisterGlobalFunction("float stof(string)", asFUNCTION(stringCast<float>), asCALL_CDECL); assert(ret >= 0);
 	ret = this->engine->RegisterGlobalFunction("double stod(string)", asFUNCTION(stringCast<double>), asCALL_CDECL); assert(ret >= 0);
-	ret = this->engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 }
 
 ScriptEngine::~ScriptEngine() {

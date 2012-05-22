@@ -220,16 +220,23 @@ void ModuleManager::Shutdown() {
 }
 
 void ModuleManager::ConfigRegister() {
-	asIScriptEngine* engine = this->engine->GetasIScriptEngine();
+	asIScriptEngine* as_engine = this->engine->GetasIScriptEngine();
 	int ret = 0;
-	ret = engine->RegisterObjectType("modldr", 0, asOBJ_REF | asOBJ_NOHANDLE);
-	ret = engine->RegisterGlobalProperty("modldr ModuleLoader", this);
-	ret = engine->RegisterEnum("MODULE_STATUS"); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("MODULE_STATUS", "NOT_FOUND", MODULE_STATUS::NOT_FOUND); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("MODULE_STATUS", "EXISTS", MODULE_STATUS::EXISTS); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("MODULE_STATUS", "LOAD_ERROR", MODULE_STATUS::LOAD_ERROR); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("MODULE_STATUS", "START_ERROR", MODULE_STATUS::START_ERROR); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("MODULE_STATUS", "LOADED", MODULE_STATUS::LOADED); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("modldr", "MODULE_STATUS LoadModule(const string &in)", asMETHOD(ModuleManager, Load), asCALL_THISCALL); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("modldr", "MODULE_STATUS GetModuleStatus(const string &in)", asMETHOD(ModuleManager, GetStatus), asCALL_THISCALL); assert(ret >= 0);
+	
+	ret = as_engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
+	
+	ret = as_engine->RegisterEnum("MODULE_STATUS"); assert(ret >= 0); // *HACK: Working around bug in AS where enums with same name aren't able to be registered in seperate namespaces.  See http://www.gamedev.net/topic/625214-enum-collision-across-namespaces/
+	ret = as_engine->RegisterEnumValue("MODULE_STATUS", "NOT_FOUND",   ::MODULE_STATUS::NOT_FOUND); assert(ret >= 0);
+	ret = as_engine->RegisterEnumValue("MODULE_STATUS", "EXISTS",      ::MODULE_STATUS::EXISTS); assert(ret >= 0);
+	ret = as_engine->RegisterEnumValue("MODULE_STATUS", "LOAD_ERROR",  ::MODULE_STATUS::LOAD_ERROR); assert(ret >= 0);
+	ret = as_engine->RegisterEnumValue("MODULE_STATUS", "START_ERROR", ::MODULE_STATUS::START_ERROR); assert(ret >= 0);
+	ret = as_engine->RegisterEnumValue("MODULE_STATUS", "LOADED",      ::MODULE_STATUS::LOADED); assert(ret >= 0);
+	
+	ret = as_engine->RegisterObjectType("modldr", 0, asOBJ_REF | asOBJ_NOHANDLE);
+	ret = as_engine->RegisterGlobalProperty("modldr ModuleLoader", this);
+	ret = as_engine->RegisterObjectMethod("modldr", "MODULE_STATUS LoadModule(const string &in)", asMETHOD(ModuleManager, Load), asCALL_THISCALL); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("modldr", "MODULE_STATUS GetModuleStatus(const string &in)", asMETHOD(ModuleManager, GetStatus), asCALL_THISCALL); assert(ret >= 0);
+	
+	// Clean up after myself
+	ret = as_engine->SetDefaultNamespace(""); assert(ret >= 0);
 }

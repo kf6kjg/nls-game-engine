@@ -20,9 +20,9 @@
 // Class methods in the order they are defined within the class header
 
 /**
-* \param[in] engine A pointer to the Angelscript engine instance. Already checked for nullptr in EntityList::Register
+* \param[in] as_engine A pointer to the Angelscript engine instance. Already checked for nullptr in EntityMap::Register
 */
-void Entity::Register(asIScriptEngine* const engine) {
+void Entity::Register(asIScriptEngine* const as_engine) {
 	int ret = 0;
 	
 	// *NOTE: Works, just there's an issue:
@@ -32,37 +32,42 @@ void Entity::Register(asIScriptEngine* const engine) {
 	// This breaks backwards compat.
 	
 	// Register Object
-	ret = engine->RegisterObjectType("Entity", sizeof(EntitySPTR), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK); assert(ret >= 0);
+	ret = as_engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
+	
+	ret = as_engine->RegisterObjectType("Entity", sizeof(EntitySPTR), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK); assert(ret >= 0);
 	
 	// Register behaviors and operations
-	ret = engine->RegisterObjectBehaviour("Entity", asBEHAVE_CONSTRUCT,  "void f()",                                asFUNCTIONPR(Entity::FactoryAtAddress,(void*), void),   asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectBehaviour("Entity", asBEHAVE_CONSTRUCT,  "void f(const string& in)",                asFUNCTIONPR(Entity::FactoryAtAddress,(void*, const std::string&), void),   asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectBehaviour("Entity", asBEHAVE_CONSTRUCT,  "void f(const Entity& in)", asFUNCTION(copy_construct<EntitySPTR>), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectBehaviour("Entity", asBEHAVE_DESTRUCT,   "void f()",                 asFUNCTION(destroy<EntitySPTR>),        asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "Entity &opAssign(const Entity &in)", asFUNCTION(assign<EntitySPTR>), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectBehaviour("Entity", asBEHAVE_CONSTRUCT,  "void f()",                                asFUNCTIONPR(Entity::FactoryAtAddress,(void*), void),   asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectBehaviour("Entity", asBEHAVE_CONSTRUCT,  "void f(const string& in)",                asFUNCTIONPR(Entity::FactoryAtAddress,(void*, const std::string&), void),   asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectBehaviour("Entity", asBEHAVE_CONSTRUCT,  "void f(const Entity& in)", asFUNCTION(copy_construct<EntitySPTR>), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectBehaviour("Entity", asBEHAVE_DESTRUCT,   "void f()",                 asFUNCTION(destroy<EntitySPTR>),        asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "Entity &opAssign(const Entity &in)", asFUNCTION(assign<EntitySPTR>), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = engine->RegisterObjectMethod("Entity", "float& get_scale() const",  REF_GETTER(Entity, scale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void set_scale(const float& in)", REF_SETTER(Entity, scale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "float& get_scale() const",  REF_GETTER(Entity, scale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void set_scale(const float& in)", REF_SETTER(Entity, scale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = engine->RegisterObjectMethod("Entity", "Vector& get_positionOffset() const",  REF_GETTER(Entity, location), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void set_positionOffset(const Vector& in)", REF_SETTER(Entity, location), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "Vector& get_positionOffset() const",  REF_GETTER(Entity, location), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void set_positionOffset(const Vector& in)", REF_SETTER(Entity, location), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = engine->RegisterObjectMethod("Entity", "Rotation& get_rotationOffset() const",  REF_GETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void set_rotationOffset(const Rotation& in)", REF_SETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "Rotation& get_rotationOffset() const",  REF_GETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void set_rotationOffset(const Rotation& in)", REF_SETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
 	// Register methods
-	ret = engine->RegisterObjectMethod("Entity", "void SetParent(Entity)", CALLER(Entity, SetParent),     asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "Entity GetParent()",     CALLER(Entity, GetParent),     asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void SetParent(Entity)", CALLER(Entity, SetParent),     asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "Entity GetParent()",     CALLER(Entity, GetParent),     asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 
-	ret = engine->RegisterObjectMethod("Entity", "float GetWorldScale()",   CALLER(Entity, GetWorldScale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "float SetScale()",   CALLER(Entity, SetScale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void ChangeScale(float)", CALLER(Entity, ChangeScale),   asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "float GetWorldScale()",   CALLER(Entity, GetWorldScale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "float SetScale()",   CALLER(Entity, SetScale), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void ChangeScale(float)", CALLER(Entity, ChangeScale),   asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = engine->RegisterObjectMethod("Entity", "Vector GetWorldPosition()", CALLER(Entity, GetWorldPosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void SetPosition(float, float, float)", CALLER(Entity, SetPosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void ChangePosition(Vector)", CALLER(Entity, ChangePosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "Vector GetWorldPosition()", CALLER(Entity, GetWorldPosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void SetPosition(float, float, float)", CALLER(Entity, SetPosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void ChangePosition(Vector)", CALLER(Entity, ChangePosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = engine->RegisterObjectMethod("Entity", "Rotation GetWorldRotation()", CALLER(Entity, GetWorldRotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void SetRotation(float, float, float)", CALLER_PR(Entity, SetRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("Entity", "void ChangeRotation(float, float, float)", CALLER_PR(Entity, ChangeRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "Rotation GetWorldRotation()", CALLER(Entity, GetWorldRotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void SetRotation(float, float, float)", CALLER_PR(Entity, SetRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("Entity", "void ChangeRotation(float, float, float)", CALLER_PR(Entity, ChangeRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	
+	// Clean up after myself
+	ret = as_engine->SetDefaultNamespace(""); assert(ret >= 0);
 }

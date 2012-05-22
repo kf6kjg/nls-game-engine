@@ -9,7 +9,7 @@
 * 
 */
 
-#include "EntityList.h"
+#include "EntityMap.h"
 
 // System Library Includes
 #include <cassert>
@@ -26,17 +26,22 @@
 // Class methods in the order they are defined within the class header
 
 /**
-* \param[in] engine A pointer to the Angelscript engine instance
+* \param[in] as_engine A pointer to the Angelscript engine instance
 */
-void EntityList::Register( asIScriptEngine* const engine ) {
-	assert(engine != nullptr);
-	Entity::Register(engine); // Call to register Entity for Angelscript
+void EntityMap::Register( asIScriptEngine* const as_engine ) {
+	assert(as_engine != nullptr);
+	Entity::Register(as_engine); // Call to register Entity for Angelscript
 	int ret = 0;
-	ret = engine->RegisterObjectType("entlist", 0, asOBJ_REF | asOBJ_NOHANDLE); assert(ret >= 0);
-	ret = engine->RegisterGlobalProperty("entlist EntityList", this); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("entlist", "bool AddEntity(const Entity)", asMETHODPR(EntityList, AddEntity, (EntitySPTR const), bool), asCALL_THISCALL); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("entlist", "Entity FindEntity(const string &in)", asMETHODPR(EntityList, FindEntity, (const std::string &), EntitySPTR), asCALL_THISCALL); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("entlist", "bool RemoveEntity(const string &in)", asMETHODPR(EntityList, RemoveEntity, (const std::string &), bool), asCALL_THISCALL); assert(ret >= 0);
+	ret = as_engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
+	
+	ret = as_engine->RegisterObjectType("EntityMap", 0, asOBJ_REF | asOBJ_NOHANDLE); assert(ret >= 0);
+	ret = as_engine->RegisterGlobalProperty("EntityMap gEntMap", this); assert(ret >= 0); // *TODO: Remove this global property and make EntityMap a full-on type similar to the spec's GenericMap type, just specialized ONLY for the Entity type.  When done this method should become static so main() doesn't have to instanciate the class.
+	ret = as_engine->RegisterObjectMethod("EntityMap", "bool AddEntity(const Entity)", asMETHODPR(EntityMap, AddEntity, (EntitySPTR const), bool), asCALL_THISCALL); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("EntityMap", "Entity FindEntity(const string &in)", asMETHODPR(EntityMap, FindEntity, (const std::string &), EntitySPTR), asCALL_THISCALL); assert(ret >= 0);
+	ret = as_engine->RegisterObjectMethod("EntityMap", "bool RemoveEntity(const string &in)", asMETHODPR(EntityMap, RemoveEntity, (const std::string &), bool), asCALL_THISCALL); assert(ret >= 0);
+	
+	// Clean up after myself
+	ret = as_engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 }
 
 /**
@@ -44,7 +49,7 @@ void EntityList::Register( asIScriptEngine* const engine ) {
 * \return Returns true if the entity was added, or false if there was an issue with entity or an entity
 * with the same name already exists.
 */
-bool EntityList::AddEntity( EntitySPTR const entity ) {
+bool EntityMap::AddEntity( EntitySPTR const entity ) {
 	if (entity.get() != nullptr) {
 		if (entity->GetName() == "" || entity->GetName().length() <= 0) {
 			LOG(LOG_PRIORITY::CONFIG, "ERROR: Entity must have a name to be added!");
@@ -74,7 +79,7 @@ bool EntityList::AddEntity( EntitySPTR const entity ) {
 * \param[in] name The name of the entity to find.
 * \return A SPTR to the entity, or a nullptr if no entity exists with the given name.
 */
-EntitySPTR EntityList::FindEntity( const std::string& name ) {
+EntitySPTR EntityMap::FindEntity( const std::string& name ) {
 	NamedEntityMap::const_iterator entitymap_it = this->entities.find(&name);
 	if (entitymap_it != this->entities.end()) {
 		EntitySPTR found_entity(entitymap_it->second);
@@ -91,7 +96,7 @@ EntitySPTR EntityList::FindEntity( const std::string& name ) {
 * \param[in] name The name of the entity to remove.
 * \return True if the entity was removed. False if no entity with the given name exists.
 */
-bool EntityList::RemoveEntity( const std::string& name ) {
+bool EntityMap::RemoveEntity( const std::string& name ) {
 	NamedEntityMap::const_iterator entitymap_it = this->entities.find(&name);
 	if (entitymap_it != this->entities.end()) {
 		LOG(LOG_PRIORITY::FLOW, "Removing entity '" + name + "' and deleting it.");
@@ -105,6 +110,6 @@ bool EntityList::RemoveEntity( const std::string& name ) {
 		return true;
 	}
 
-	LOG(LOG_PRIORITY::CONFIG, "Entity '" + name +  "' not found. Unable to remove and delete.  Did you add it to the EntityList?");
+	LOG(LOG_PRIORITY::CONFIG, "Entity '" + name +  "' not found. Unable to remove and delete.  Did you add it to the EntityMap?");
 	return false;
 }
