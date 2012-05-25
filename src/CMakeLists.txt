@@ -108,6 +108,12 @@ add_subdirectory("sharedbase")
 include_directories("sharedbase")
 
 
+## Add the OS-specific interface
+if(WINDOWS)
+	add_subdirectory("windows")
+endif(WINDOWS)
+
+
 ## Add the primary program directory
 add_subdirectory("enginecore")
 
