@@ -58,6 +58,9 @@ Release/*
 MinSizeRel/*
 RelWithDebInfo/*
 
+# Angelscript debug info
+AS_DEBUG/*
+
 # Dynamically gathered libraries
 include/*/*
 libraries/*
