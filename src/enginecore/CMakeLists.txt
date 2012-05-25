@@ -43,6 +43,7 @@ message("Adding ${NLS_ENGINE_EXECUTABLE_NAME}...")
 
 # Create the executable (all files that should be shown in the editor have to be listed here)
 add_executable(${NLS_ENGINE_EXECUTABLE_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+set_property(TARGET ${NLS_ENGINE_EXECUTABLE_NAME} PROPERTY PROJECT_LABEL "0${NLS_ENGINE_EXECUTABLE_NAME}") # *HACK: Set the project label to be first in the list of VS projects so that it's the default for debugging.
 
 # Specify dependencies
 add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "angelscript")
