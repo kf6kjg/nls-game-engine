@@ -56,7 +56,7 @@ namespace LOG_PRIORITY {
 		"MISSINGRESS", // 5
 		"RESTART/SET", // 6
 		"SYSTEMERROR", // 7
-		"DEPRICATED " // 8
+		"DEPRECATED " // 8
 	};
 }
 
