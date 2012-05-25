@@ -24,7 +24,15 @@
 
 // Static class member initialization
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+// Helper function prototypes
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+std::string GetPreviousCallstackLine(const unsigned int& = 1);
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Class methods in the order they are defined within the class header
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
 * \brief A simple function to cast a string type to a Target type
@@ -84,6 +92,10 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 	ret = this->engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 
 	ret = this->engine->RegisterGlobalFunction("void Shutdown()", asFUNCTION(ScriptEngine::AbortExecution), asCALL_CDECL); assert(ret >= 0);
+
+	// Register callstack analysis commands for enabling unit test systems.
+	ret = this->engine->SetDefaultNamespace("Engine::Debug"); assert(ret >= 0);
+	ret = this->engine->RegisterGlobalFunction("string GetPreviousCallstackLine(const uint &in a = 1)", asFUNCTION(GetPreviousCallstackLine), asCALL_CDECL); assert(ret >= 0);
 
 	ret = this->engine->SetDefaultNamespace(""); assert(ret >= 0);
 }
@@ -251,3 +263,26 @@ void ScriptEngine::AbortExecution() {
 	}
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+// Helper functions
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+std::string GetPreviousCallstackLine(const unsigned int& callstack_line_number) {
+	asIScriptContext* ctx = asGetActiveContext();
+	
+	std::string result;
+	
+	if (ctx != nullptr && callstack_line_number < ctx->GetCallstackSize()) {
+		asIScriptFunction* func;
+		const char* script_section;
+		int line, column;
+		
+		func = ctx->GetFunction(callstack_line_number);
+		line = ctx->GetLineNumber(callstack_line_number, &column, &script_section);
+		
+		result = std::string(script_section) + "(" + boost::lexical_cast<std::string>(line) + "):" + std::string(func->GetDeclaration());
+	}
+	
+	return result;
+}

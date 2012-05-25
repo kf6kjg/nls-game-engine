@@ -39,6 +39,12 @@ namespace SCRIPT_STATUS {
 * GetasIScriptEngine and calling the correct registration methods from it.
 */
 class ScriptEngine {
+public: // Static Methods
+	/**
+	* \brief Registers math types and their helper functions.
+	*/
+	static void RegisterMathTypes(asIScriptEngine* const);
+	
 public: // Structors
 	/**
 	* \brief Creates an instance of Angelscript's engine and initializes it.
@@ -54,7 +60,7 @@ public: // API Methods
 	* \brief Creates a ScriptExecutor object that can be used to execute scripts functions.
 	*/
 	ScriptExecutor* ScriptExecutorFactory();
-	
+
 	/**
 	* \brief Returns a pointer to the asIScriptEngine.
 	*/
@@ -74,12 +80,12 @@ public: // API Methods
 	* \brief Begins the registration for a specific config group.
 	*/
 	bool BeginConfigGroup(const std::string &);
-	
+
 	/**
 	* \brief Ends the registration for a specific config group.
 	*/
 	bool EndConfigGroup();
-	
+
 	/**
 	* \brief Removes a specific config group.
 	*/
