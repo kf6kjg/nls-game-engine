@@ -30,6 +30,7 @@ namespace SYSTEM_DIRS {
 		MUSIC, ///< On Linux: . On Windows XP: SHGetFolderPath(CSIDL_MYMUSIC). On Windows Vista (or newer): SHGetKnownFolderPath(FOLDERID_Music). on Mac: 
 		VIDEO, ///< On Linux: . On Windows XP: SHGetFolderPath(CSIDL_MYVIDEO). On Windows Vista (or newer): SHGetKnownFolderPath(FOLDERID_Videos). on Mac: 
 		DESKTOP, ///< On Linux: . On Windows XP: SHGetFolderPath(CSIDL_DESKTOPDIRECTORY). On Windows Vista (or newer): SHGetKnownFolderPath(FOLDERID_Desktop). on Mac: 
+		EXECUTABLE, ///< Specifies the path to the directory containing the engine/game's executable.
 		d1234 ///< nothing, just a placeholder. DO NOT USE.
 	};
 }

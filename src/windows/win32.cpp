@@ -218,6 +218,10 @@ std::string win32::GetPath(SYSTEM_DIRS::TYPE dir_id) {
 		case SYSTEM_DIRS::DESKTOP:
 			csidl = CSIDL_DESKTOPDIRECTORY;
 		break;
+		case SYSTEM_DIRS::EXECUTABLE: {
+			std::string executable(_pgmptr);
+			return executable.substr(0, executable.rfind('\\'));
+		} break;
 		default:
 			return "";
 		break;

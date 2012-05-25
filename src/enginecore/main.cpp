@@ -11,9 +11,14 @@
 
 #include "EventLoggerRegister.h"
 #include "EntityMap.h"
-#include "../sharedbase/EventLogger.h"
 #include "ModuleManager.h"
 #include "ScriptEngine.h"
+#include "../sharedbase/EventLogger.h"
+#include "../sharedbase/OSInterface.h"
+
+#ifdef _WIN32
+#include "../windows/win32.h"
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Operational data
@@ -25,9 +30,18 @@ bool gIsRunning = true;
 // Main
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int main() {
+	// Get the OS-specific subsystem online.
+#ifdef _WIN32
+	win32::Make();
+#endif
+	OSInterfaceSPTR operating_system(OSInterface::GetOSPointer());
+
+	std::string bin_dir(operating_system->GetPath(SYSTEM_DIRS::EXECUTABLE));
+
+	// Load the event logger, logging to the config log location if running under debug or if the 
 	EventLogger* elog = EventLogger::GetEventLogger(); // *TODO: Must fix the mem leak on exit
 	EventLogger::module = "Main";
-	elog->SetLogFile(NLS_ENGINE_DEFAULT_LOG_FILE);
+	elog->SetLogFile(bin_dir + "/" + NLS_ENGINE_DEFAULT_LOG_FILE);
 	LOG(LOG_PRIORITY::FLOW, "Log file created!");
 
 	ScriptEngine engine;
@@ -42,7 +56,7 @@ int main() {
 	engine.BeginConfigGroup("config"); {
 		modmgr.ConfigRegister();
 		
-		engine.LoadScriptFile("config.as");
+		engine.LoadScriptFile(bin_dir + "/config.as");
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
 		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {

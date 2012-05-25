@@ -49,6 +49,11 @@ set_property(TARGET ${NLS_ENGINE_EXECUTABLE_NAME} PROPERTY PROJECT_LABEL "0${NLS
 add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "angelscript")
 add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "sharedbase")
 
+if(WIN32)
+	add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "win32")
+endif(WIN32)
+
+
 #* * * * * * * * * * * * * * * * * * * * *
 
 set(NLS_ENGINE_LIBS)
@@ -61,6 +66,7 @@ if(WIN32)
 		
 		"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
 		"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
+		"${LIBRARY_OUTPUT_PATH}/win32.lib"
 		
 		debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-gd-1_47.lib"
 		debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-gd-1_47.lib"
