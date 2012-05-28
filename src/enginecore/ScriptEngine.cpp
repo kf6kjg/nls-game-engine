@@ -17,7 +17,6 @@
 #include <angelscript/scriptarray.h>
 #include <angelscript/scriptdictionary.h>
 #include <angelscript/scriptstdstring.h>
-#include <angelscript/scriptmath.h>
 
 // Local Includes
 #include "../sharedbase/EventLogger.h"
@@ -76,12 +75,11 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 
 	// Script add-ons
 	RegisterScriptAny(this->engine);
-	RegisterScriptMath(this->engine);
 	RegisterScriptArray(this->engine, true);
 	RegisterStdString(this->engine); // Must be AFTER array registration
 	RegisterStdStringUtils(this->engine);
 	RegisterScriptDictionary(this->engine); // Must be AFTER string registration
-	RegisterD3DXMathTypes(this->engine);
+	ScriptEngine::RegisterMathTypes(this->engine);
 
 	// String Cast functions
 	ret = this->engine->RegisterGlobalFunction("int stoi(string)", asFUNCTION(stringCast<int>), asCALL_CDECL); assert(ret >= 0);

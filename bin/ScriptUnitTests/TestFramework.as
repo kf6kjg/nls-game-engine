@@ -2,19 +2,26 @@
  Tests and example configuration.
 */
 
+#include "TestMathVector3.as"
+
 namespace UnitTest {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void ExecuteTests() {
 		// Run Tests
 		VerifyAsserts();
+		
+		Vector3MathTests::ExecuteTests();
 		
 		if (gTestStatus) {
 			Engine::LOG(Engine::LOG_PRIORITY::INFO, "All tests passed.");
 		}
 		else {
 			Engine::LOG(Engine::LOG_PRIORITY::ERR, "Tests failed!");
+			Engine::Shutdown();
 		}
 	}
 	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void VerifyAsserts() {
 		ASSERT_TRUE(true);   EXPECT_TRUE(true);
 		ASSERT_FALSE(false); EXPECT_FALSE(false);

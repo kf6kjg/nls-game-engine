@@ -49,8 +49,8 @@ void Entity::Register(asIScriptEngine* const as_engine) {
 	ret = as_engine->RegisterObjectMethod("Entity", "Vector& get_positionOffset() const",  REF_GETTER(Entity, location), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	ret = as_engine->RegisterObjectMethod("Entity", "void set_positionOffset(const Vector& in)", REF_SETTER(Entity, location), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = as_engine->RegisterObjectMethod("Entity", "Rotation& get_rotationOffset() const",  REF_GETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = as_engine->RegisterObjectMethod("Entity", "void set_rotationOffset(const Rotation& in)", REF_SETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	//ret = as_engine->RegisterObjectMethod("Entity", "Rotation& get_rotationOffset() const",  REF_GETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	//ret = as_engine->RegisterObjectMethod("Entity", "void set_rotationOffset(const Rotation& in)", REF_SETTER(Entity, rotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
 	// Register methods
 	ret = as_engine->RegisterObjectMethod("Entity", "void SetParent(Entity)", CALLER(Entity, SetParent),     asCALL_CDECL_OBJFIRST); assert(ret >= 0);
@@ -64,9 +64,9 @@ void Entity::Register(asIScriptEngine* const as_engine) {
 	ret = as_engine->RegisterObjectMethod("Entity", "void SetPosition(float, float, float)", CALLER(Entity, SetPosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	ret = as_engine->RegisterObjectMethod("Entity", "void ChangePosition(Vector)", CALLER(Entity, ChangePosition), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
-	ret = as_engine->RegisterObjectMethod("Entity", "Rotation GetWorldRotation()", CALLER(Entity, GetWorldRotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = as_engine->RegisterObjectMethod("Entity", "void SetRotation(float, float, float)", CALLER_PR(Entity, SetRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
-	ret = as_engine->RegisterObjectMethod("Entity", "void ChangeRotation(float, float, float)", CALLER_PR(Entity, ChangeRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	//ret = as_engine->RegisterObjectMethod("Entity", "Rotation GetWorldRotation()", CALLER(Entity, GetWorldRotation), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	//ret = as_engine->RegisterObjectMethod("Entity", "void SetRotation(float, float, float)", CALLER_PR(Entity, SetRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
+	//ret = as_engine->RegisterObjectMethod("Entity", "void ChangeRotation(float, float, float)", CALLER_PR(Entity, ChangeRotation, (float, float, float), void), asCALL_CDECL_OBJFIRST); assert(ret >= 0);
 	
 	// Clean up after myself
 	ret = as_engine->SetDefaultNamespace(""); assert(ret >= 0);
