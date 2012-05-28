@@ -28,7 +28,7 @@ namespace UnitTest {
 		
 		int posi = 1, negi = -1, zeri = 0;
 		float posf = 1.125f, negf = -1.125f, zerf = 0.0f;
-		float posd = 1.125, negd = -1.125, zerd = 0.0;
+		double posd = 1.125, negd = -1.125, zerd = 0.0;
 		
 		ASSERT_EQ(posi, posi);       EXPECT_EQ(posi, posi);
 		ASSERT_EQ(zeri, zeri);       EXPECT_EQ(zeri, zeri);
@@ -42,6 +42,14 @@ namespace UnitTest {
 		ASSERT_EQ(true, true);       EXPECT_EQ(true, true);
 		ASSERT_EQ(false, false);     EXPECT_EQ(false, false);
 		ASSERT_EQ("green", "green"); EXPECT_EQ("green", "green");
+		
+		float  leftf = 1.125f / 7.0f, rightf = (((posf * 7.0f) / 49.0f) + 0.1f) - 0.1f;
+		double leftd = 1.125  / 7.0 , rightd = (((posf * 7.0 ) / 49.0 ) + 0.1 ) - 0.1 ;
+		
+		EXPECT_NE(leftf, rightf); // Make sure that these aren't binary equal, even though they are algebraically equal.
+		EXPECT_NE(leftd, rightd);
+		ASSERT_NEAR(leftf, rightf); EXPECT_NEAR(leftf, rightf);
+		ASSERT_NEAR(leftd, rightd); EXPECT_NEAR(leftd, rightd);
 		
 		ASSERT_NE(negi, posi);       EXPECT_NE(negi, posi);
 		ASSERT_NE(zeri, posi);       EXPECT_NE(zeri, posi);
@@ -102,6 +110,12 @@ namespace UnitTest {
 	void EXPECT_EQ(const  double&in a, const  double&in b, string message = "") { if (a != b) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_EQ(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
 	void EXPECT_EQ(const  bool  &in a, const  bool  &in b, string message = "") { if (a != b) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_EQ(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
 	void EXPECT_EQ(const  string&in a, const  string&in b, string message = "") { if (a != b) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_EQ(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
+	
+	// Near tests for floates
+	void ASSERT_NEAR(const  float &in a, const  float &in b, const float &in range = 0.00001f, string message = "") { if (a <= b - range || a >= b + range) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_NEAR(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
+	void ASSERT_NEAR(const  double&in a, const  double&in b, const double&in range = 0.00001,  string message = "") { if (a <= b - range || a >= b + range) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_NEAR(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
+	void EXPECT_NEAR(const  float &in a, const  float &in b, const float &in range = 0.00001f, string message = "") { if (a <= b - range || a >= b + range) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_NEAR(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
+	void EXPECT_NEAR(const  double&in a, const  double&in b, const double&in range = 0.00001,  string message = "") { if (a <= b - range || a >= b + range) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "EXPECT_NEAR(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); gTestStatus = false; } }
 	
 	// Not equal tests
 	void ASSERT_NE(const uint8  &in a, const uint8  &in b, string message = "") { if (a == b) { Engine::LOG(Engine::LOG_PRIORITY::ERR, "ASSERT_NE(" + a + ", " + b + ") failed in " + Engine::Debug::GetPreviousCallstackLine() + "! " + message); Engine::Shutdown(); } }
