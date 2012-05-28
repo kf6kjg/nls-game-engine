@@ -197,15 +197,13 @@ namespace Vector3MathTests {
 			Engine::Vector test_var(1.125f, 2.125f, 3.125f);
 			float value = test_var.MagnitudeSq();
 			float expected = 1.125f*1.125f + 2.125f*2.125f + 3.125f*3.125f;
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 		{
 			Engine::Vector3 test_var(1.125f, 2.125f, 3.125f);
 			float value = test_var.MagnitudeSq();
 			float expected = 1.125f*1.125f + 2.125f*2.125f + 3.125f*3.125f;
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 	}
 	
@@ -218,15 +216,13 @@ namespace Vector3MathTests {
 			Engine::Vector test_var(1.125f, 2.125f, 3.125f);
 			float value = test_var.Magnitude();
 			float expected = Math::sqrt(1.125f*1.125f + 2.125f*2.125f + 3.125f*3.125f);
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 		{
 			Engine::Vector3 test_var(1.125f, 2.125f, 3.125f);
 			float value = test_var.Magnitude();
 			float expected = Math::sqrt(1.125f*1.125f + 2.125f*2.125f + 3.125f*3.125f);
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 	}
 	
@@ -246,8 +242,7 @@ namespace Vector3MathTests {
 			float value = test_var_1.DistanceSq(test_var_2);
 			float expected = delta_x*delta_x + delta_y*delta_y + delta_z*delta_z;
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 		{
 			Engine::Vector3 test_var_1(6.125f, 2.125f, 4.125f);
@@ -260,8 +255,7 @@ namespace Vector3MathTests {
 			float value = test_var_1.DistanceSq(test_var_2);
 			float expected = delta_x*delta_x + delta_y*delta_y + delta_z*delta_z;
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 	}
 	
@@ -281,8 +275,7 @@ namespace Vector3MathTests {
 			float value = test_var_1.Distance(test_var_2);
 			float expected = Math::sqrt(delta_x*delta_x + delta_y*delta_y + delta_z*delta_z);
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 		{
 			Engine::Vector3 test_var_1(6.125f, 2.125f, 4.125f);
@@ -295,8 +288,7 @@ namespace Vector3MathTests {
 			float value = test_var_1.Distance(test_var_2);
 			float expected = Math::sqrt(delta_x*delta_x + delta_y*delta_y + delta_z*delta_z);
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 	}
 	
@@ -311,21 +303,16 @@ namespace Vector3MathTests {
 			test_var.Normalize();
 			
 			{ // Verify magnitude as having been normalized.
-				float mag = test_var.Magnitude();
-				UnitTest::EXPECT_GT(mag, 0.9999f);
-				UnitTest::EXPECT_LT(mag, 1.0001f);
+				UnitTest::EXPECT_NEAR(test_var.Magnitude(), 1.0f);
 			}
 			
 			{ // Deep test the vector.
 				float mag = Math::sqrt(1.125f*1.125f + 2.125f*2.125f + 3.125f*3.125f);
 				Engine::Vector expected(1.125f / mag, 2.125f / mag, 3.125f / mag);
 				
-				UnitTest::EXPECT_GT(test_var.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(test_var.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(test_var.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(test_var.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(test_var.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(test_var.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(test_var.x, expected.x);
+				UnitTest::EXPECT_NEAR(test_var.y, expected.y);
+				UnitTest::EXPECT_NEAR(test_var.z, expected.z);
 			}
 		}
 		{
@@ -335,20 +322,16 @@ namespace Vector3MathTests {
 			
 			{ // Verify magnitude as having been normalized.
 				float mag = test_var.Magnitude();
-				UnitTest::EXPECT_GT(mag, 0.9999f);
-				UnitTest::EXPECT_LT(mag, 1.0001f);
+				UnitTest::EXPECT_NEAR(mag, 1.0f);
 			}
 			
 			{ // Deep test the vector.
 				float mag = Math::sqrt(1.125f*1.125f + 2.125f*2.125f + 3.125f*3.125f);
 				Engine::Vector expected(1.125f / mag, 2.125f / mag, 3.125f / mag);
 				
-				UnitTest::EXPECT_GT(test_var.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(test_var.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(test_var.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(test_var.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(test_var.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(test_var.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(test_var.x, expected.x);
+				UnitTest::EXPECT_NEAR(test_var.y, expected.y);
+				UnitTest::EXPECT_NEAR(test_var.z, expected.z);
 			}
 		}
 	}
@@ -370,9 +353,7 @@ namespace Vector3MathTests {
 			}
 			
 			{ // Magnitude on the copy SHOULD be unit.
-				float mag = value.Magnitude();
-				UnitTest::EXPECT_GT(mag, 0.9999f);
-				UnitTest::EXPECT_LT(mag, 1.0001f);
+				UnitTest::EXPECT_NEAR(value.Magnitude(), 1.0f);
 			}
 			
 			{ // Deep test the copy.
@@ -383,12 +364,9 @@ namespace Vector3MathTests {
 					test_var.z / mag
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 		{
@@ -403,9 +381,7 @@ namespace Vector3MathTests {
 			}
 			
 			{ // Magnitude on the copy SHOULD be unit.
-				float mag = value.Magnitude();
-				UnitTest::EXPECT_GT(mag, 0.9999f);
-				UnitTest::EXPECT_LT(mag, 1.0001f);
+				UnitTest::EXPECT_NEAR(value.Magnitude(), 1.0f);
 			}
 			
 			{ // Deep test the copy.
@@ -416,12 +392,9 @@ namespace Vector3MathTests {
 					test_var.z / mag
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 	}
@@ -451,8 +424,7 @@ namespace Vector3MathTests {
 			
 			float expected = 1.125f * 6.125f + 2.125f * 5.125f + 3.125f * 4.125f;
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 		{
 			Engine::Vector3 test_var_1(1.125f, 2.125f, 3.125f);
@@ -474,8 +446,7 @@ namespace Vector3MathTests {
 			
 			float expected = 1.125f * 6.125f + 2.125f * 5.125f + 3.125f * 4.125f;
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 	}
 	
@@ -503,12 +474,9 @@ namespace Vector3MathTests {
 					-7.25  // = 1.125f * 5.125f - 2.125f * 6.125f
 				);
 				
-				UnitTest::EXPECT_GT(test_var_1.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(test_var_1.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(test_var_1.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(test_var_1.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(test_var_1.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(test_var_1.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(test_var_1.x, expected.x);
+				UnitTest::EXPECT_NEAR(test_var_1.y, expected.y);
+				UnitTest::EXPECT_NEAR(test_var_1.z, expected.z);
 			}
 		}
 		{
@@ -530,12 +498,9 @@ namespace Vector3MathTests {
 					-7.25  // = 1.125f * 5.125f - 2.125f * 6.125f
 				);
 				
-				UnitTest::EXPECT_GT(test_var_1.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(test_var_1.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(test_var_1.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(test_var_1.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(test_var_1.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(test_var_1.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(test_var_1.x, expected.x);
+				UnitTest::EXPECT_NEAR(test_var_1.y, expected.y);
+				UnitTest::EXPECT_NEAR(test_var_1.z, expected.z);
 			}
 		}
 	}
@@ -570,12 +535,9 @@ namespace Vector3MathTests {
 					-7.25  // = 1.125f * 5.125f - 2.125f * 6.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 		{
@@ -603,12 +565,9 @@ namespace Vector3MathTests {
 					-7.25  // = 1.125f * 5.125f - 2.125f * 6.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 	}
@@ -643,12 +602,9 @@ namespace Vector3MathTests {
 					3.125f + 4.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 		{
@@ -676,12 +632,9 @@ namespace Vector3MathTests {
 					3.125f + 4.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 	}
@@ -716,12 +669,9 @@ namespace Vector3MathTests {
 					3.125f - 4.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 		{
@@ -749,12 +699,9 @@ namespace Vector3MathTests {
 					3.125f - 4.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 	}
@@ -784,8 +731,7 @@ namespace Vector3MathTests {
 			
 			float expected = 1.125f * 6.125f + 2.125f * 5.125f + 3.125f * 4.125f;
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 		{
 			Engine::Vector3 test_var_1(1.125f, 2.125f, 3.125f);
@@ -807,8 +753,7 @@ namespace Vector3MathTests {
 			
 			float expected = 1.125f * 6.125f + 2.125f * 5.125f + 3.125f * 4.125f;
 			
-			UnitTest::EXPECT_GT(value, expected - 0.00001f);
-			UnitTest::EXPECT_LT(value, expected + 0.00001f);
+			UnitTest::EXPECT_NEAR(value, expected);
 		}
 	}
 	
@@ -842,12 +787,9 @@ namespace Vector3MathTests {
 					-7.25  // = 1.125f * 5.125f - 2.125f * 6.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 		{
@@ -875,12 +817,9 @@ namespace Vector3MathTests {
 					-7.25  // = 1.125f * 5.125f - 2.125f * 6.125f
 				);
 				
-				UnitTest::EXPECT_GT(value.x, expected.x - 0.00001f);
-				UnitTest::EXPECT_LT(value.x, expected.x + 0.00001f);
-				UnitTest::EXPECT_GT(value.y, expected.y - 0.00001f);
-				UnitTest::EXPECT_LT(value.y, expected.y + 0.00001f);
-				UnitTest::EXPECT_GT(value.z, expected.z - 0.00001f);
-				UnitTest::EXPECT_LT(value.z, expected.z + 0.00001f);
+				UnitTest::EXPECT_NEAR(value.x, expected.x);
+				UnitTest::EXPECT_NEAR(value.y, expected.y);
+				UnitTest::EXPECT_NEAR(value.z, expected.z);
 			}
 		}
 	}
