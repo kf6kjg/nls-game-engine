@@ -93,13 +93,6 @@ else(GLM_FOUND)
 endif(GLM_FOUND)
 
 
-## Include DirectX 9 as currently EVERYTHING requires it.
-if(WIN32)
-	message("Including DX9")
-	find_package(DirectX REQUIRED)
-	include_directories(${DIRECTX_INCLUDE_DIR})
-endif(WIN32)
-
 
 ## Add the shared base directory for compilation
 add_subdirectory("sharedbase")

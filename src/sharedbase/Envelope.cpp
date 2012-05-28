@@ -99,9 +99,9 @@ long           Envelope::GetDataLong  (const unsigned int& index) { return this-
 unsigned int   Envelope::GetDataUInt  (const unsigned int& index) { return this->GetDataValue<unsigned int>  (index); }
 float          Envelope::GetDataFloat (const unsigned int& index) { return this->GetDataValue<float>         (index); }
 std::string    Envelope::GetDataString(const unsigned int& index) { return this->GetDataValue<std::string>   (index); }
-D3DXVECTOR3    Envelope::GetDataVector(const unsigned int& index) { return this->GetDataValue<D3DXVECTOR3>   (index); }
-D3DXQUATERNION Envelope::GetDataQuat  (const unsigned int& index) { return this->GetDataValue<D3DXQUATERNION>(index); }
-D3DXCOLOR      Envelope::GetDataColor (const unsigned int& index) { return this->GetDataValue<D3DXCOLOR>     (index); }
+glm::vec3      Envelope::GetDataVector(const unsigned int& index) { return this->GetDataValue<glm::vec3>     (index); }
+glm::fquat     Envelope::GetDataQuat  (const unsigned int& index) { return this->GetDataValue<glm::fquat>    (index); }
+glm::vec4      Envelope::GetDataColor (const unsigned int& index) { return this->GetDataValue<glm::vec4>     (index); }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 EntitySPTR   Envelope::GetDataEntityP     (const unsigned int& index) { EntitySPTR   sptr(this->GetDataReference<EntitySPTR>(index));   return sptr; }
@@ -146,28 +146,28 @@ void Envelope::SaveToPropertyTree(boost::property_tree::ptree& property_tree, co
 		else if (datum.data.type() == typeid(std::string)) {
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".string", boost::any_cast<std::string>(datum.data));
 		}
-		else if (datum.data.type() == typeid(D3DXVECTOR3)) {
-			D3DXVECTOR3 vector = boost::any_cast<D3DXVECTOR3>(datum.data);
+		else if (datum.data.type() == typeid(glm::vec3)) {
+			glm::vec3 vector = boost::any_cast<glm::vec3>(datum.data);
 			
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".vector3.x", vector.x);
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".vector3.y", vector.y);
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".vector3.z", vector.z);
 		}
-		else if (datum.data.type() == typeid(D3DXQUATERNION)) {
-			D3DXQUATERNION quat = boost::any_cast<D3DXQUATERNION>(datum.data);
+		else if (datum.data.type() == typeid(glm::fquat)) {
+			glm::fquat quat = boost::any_cast<glm::fquat>(datum.data);
 			
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".quat.x", quat.x);
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".quat.y", quat.y);
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".quat.z", quat.z);
 			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".quat.w", quat.w);
 		}
-		else if (datum.data.type() == typeid(D3DXCOLOR)) {
-			D3DXCOLOR color = boost::any_cast<D3DXCOLOR>(datum.data);
+		else if (datum.data.type() == typeid(glm::vec4)) {
+			glm::vec4 color = boost::any_cast<glm::vec4>(datum.data);
 			
-			property_tree.put(parent_key + ".data.color.item" + boost::lexical_cast<std::string>(counter) + ".r", color.r);
-			property_tree.put(parent_key + ".data.color.item" + boost::lexical_cast<std::string>(counter) + ".g", color.g);
-			property_tree.put(parent_key + ".data.color.item" + boost::lexical_cast<std::string>(counter) + ".b", color.b);
-			property_tree.put(parent_key + ".data.color.item" + boost::lexical_cast<std::string>(counter) + ".a", color.a);
+			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".r", color.r);
+			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".g", color.g);
+			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".b", color.b);
+			property_tree.put(parent_key + ".data.item" + boost::lexical_cast<std::string>(counter) + ".a", color.a);
 		}
 		else if (datum.data.type() == typeid(Envelope*)) {
 			LOG(LOG_PRIORITY::INFO, "Serializing an Envelope pointer unsupported at this time - please use an EnvelopeSPTR.");
@@ -216,7 +216,7 @@ void Envelope::LoadFromPropertyTree(boost::property_tree::ptree& property_tree, 
 					this->AddData(it->second.data());
 				}
 				else if ((it = datum.to_iterator(datum.find("vector3"))) != datum.end()) {
-					D3DXVECTOR3 vector3;
+					glm::vec3 vector3;
 					vector3.x = it->second.get<float>("x");
 					vector3.y = it->second.get<float>("y");
 					vector3.z = it->second.get<float>("z");
@@ -224,7 +224,7 @@ void Envelope::LoadFromPropertyTree(boost::property_tree::ptree& property_tree, 
 					this->AddData(vector3);
 				}
 				else if ((it = datum.to_iterator(datum.find("quat"))) != datum.end()) {
-					D3DXQUATERNION quat;
+					glm::fquat quat;
 					quat.x = it->second.get<float>("x");
 					quat.y = it->second.get<float>("y");
 					quat.z = it->second.get<float>("z");
@@ -233,7 +233,7 @@ void Envelope::LoadFromPropertyTree(boost::property_tree::ptree& property_tree, 
 					this->AddData(quat);
 				}
 				else if ((it = datum.to_iterator(datum.find("color"))) != datum.end()) {
-					D3DXCOLOR color;
+					glm::vec4 color;
 					color.r = it->second.get<float>("r");
 					color.g = it->second.get<float>("g");
 					color.b = it->second.get<float>("b");

@@ -72,11 +72,6 @@ public: // API Methods
 	SCRIPT_STATUS::TYPE LoadScriptFile(const std::string &);
 
 	/**
-	* \brief Registers D3DX math types (D3DXVECTOR3, D3DXQUATERNION, and D3DXCOLOR) and their helper functions.
-	*/
-	static void RegisterD3DXMathTypes(asIScriptEngine* const);
-	
-	/**
 	* \brief Begins the registration for a specific config group.
 	*/
 	bool BeginConfigGroup(const std::string &);

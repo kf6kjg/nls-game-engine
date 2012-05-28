@@ -12,7 +12,7 @@
 // Standard Includes
 
 // Library Includes
-#include "d3dx9.h"
+#include <glm/glm.hpp>
 
 // Local Includes
 #include "../sharedbase/Envelope.h"
@@ -97,13 +97,13 @@ void win32::RouteMessages() {
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-D3DXVECTOR2 GetMousePos(HWND hwnd, LPARAM lParam) {
+glm::vec2 GetMousePos(HWND hwnd, LPARAM lParam) {
 	RECT client_rect; // client area rectangle 
 	POINT client_UL; // client upper left corner 
 	POINT client_LR; // client lower right corner
 	POINTS client_mouse; // mouse position in client area
 	
-	D3DXVECTOR2 mouse_pos;
+	glm::vec2 mouse_pos;
 	
 	// Capture mouse input.
 	//SetCapture(hwnd);
@@ -158,14 +158,14 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		case WM_RBUTTONDOWN:
 		case WM_XBUTTONDOWN:
 		{
-			D3DXVECTOR2 mouse_pos = GetMousePos(hwnd, l);
+			glm::vec2 mouse_pos = GetMousePos(hwnd, l);
 			
 			
 		}
 		break;
 		case WM_MOUSEMOVE:
 		{
-			D3DXVECTOR2 mouse_pos = GetMousePos(hwnd, l);
+			glm::vec2 mouse_pos = GetMousePos(hwnd, l);
 			
 			
 		}
@@ -173,7 +173,7 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		case WM_MOUSEWHEEL:
 		case WM_MOUSEHWHEEL:
 		{
-			D3DXVECTOR2 mouse_pos = GetMousePos(hwnd, l);
+			glm::vec2 mouse_pos = GetMousePos(hwnd, l);
 			
 			
 		}

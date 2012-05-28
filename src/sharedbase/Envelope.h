@@ -1,5 +1,3 @@
-#pragma once
-
 /**
 * \file
 * \author Adam Martin
@@ -7,6 +5,7 @@
 * \brief Container for message data passed between cores.
 *
 */
+#pragma once
 
 // Standard Includes
 #include <vector>
@@ -15,8 +14,9 @@
 #include <boost/any.hpp>
 #include <boost/utility/value_init.hpp>
 #include <boost/lexical_cast.hpp>
-#include <d3dx9math.h>
 #include <boost/property_tree/ptree_fwd.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 // Local Includes
 #include "EventLogger.h"
@@ -47,9 +47,9 @@ public:
 	unsigned int   GetDataUInt        (const unsigned int& = 0);
 	float          GetDataFloat       (const unsigned int& = 0);
 	std::string    GetDataString      (const unsigned int& = 0);
-	D3DXVECTOR3    GetDataVector      (const unsigned int& = 0);
-	D3DXQUATERNION GetDataQuat        (const unsigned int& = 0);
-	D3DXCOLOR      GetDataColor       (const unsigned int& = 0);
+	glm::vec3      GetDataVector      (const unsigned int& = 0);
+	glm::fquat     GetDataQuat        (const unsigned int& = 0);
+	glm::vec4      GetDataColor       (const unsigned int& = 0);
 	EntitySPTR     GetDataEntityP     (const unsigned int& = 0);
 	Envelope*      GetDataEnvelopeP   (const unsigned int& = 0);
 	EnvelopeSPTR   GetDataEnvelopeSPTR(const unsigned int& = 0);

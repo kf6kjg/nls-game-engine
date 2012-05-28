@@ -11,7 +11,6 @@ endif (NOT DEFINED NLS_ENGINE_EXECUTABLE_NAME)
 
 set(SOURCE_FILES
 	# Specify all the cxx files that need to be compiled (in alphabetic order)
-	"D3DXMathTypesRegister.cpp"
 	"EntityMap.cpp"
 	"EntityRegister.cpp"
 	"EventLoggerRegister.cpp"
@@ -19,6 +18,7 @@ set(SOURCE_FILES
 	"ModuleManager.cpp"
 	"ScriptEngine.cpp"
 	"ScriptExecutor.cpp"
+	"ScriptMath.cpp"
 
 	"${LIBS_INCLUDE_PATH}/EngineConfig.cpp"
 )

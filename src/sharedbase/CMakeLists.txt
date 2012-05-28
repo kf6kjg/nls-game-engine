@@ -12,7 +12,6 @@ set(SOURCE_FILES
 	"Envelope.cpp"
 	"EventLogger.cpp"
 	"OSInterface.cpp"
-	"QuatMath.cpp"
 )
 set(HEADER_FILES
 	# Specify all the header files that need to be displayed in the editor (in alphabetic order)
@@ -26,7 +25,6 @@ set(HEADER_FILES
 	"ModuleScriptInterface.h"
 	"OSInterface.h"
 	"OSInterface_fwd.h"
-	"QuatMath.h"
 	"ScriptObjectInterface.h"
 )
 

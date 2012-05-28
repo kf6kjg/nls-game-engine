@@ -16,12 +16,12 @@
 // Standard Includes
 
 // Library Includes
-#include <d3dx9math.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <boost/any.hpp>
 #include <boost/foreach.hpp>
 
 // Local Includes
-#include "QuatMath.h"
 #include "ComponentInterface.h"
 #include "ModuleInterface.h"
 #include "EventLogger.h"
@@ -60,8 +60,8 @@ void Entity::FactoryAtAddress(void* address, const std::string& name) {
 * \param[in] name The name of the entity.
 */
 Entity::Entity(const std::string& name) :
-	location(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	rotation(D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f)),
+	location(glm::vec3(0.0f, 0.0f, 0.0f)),
+	rotation(glm::fquat(0.0f, 0.0f, 0.0f, 1.0f)),
 	scale(1.0f),
 	name(name),
 	parent(nullptr)
@@ -121,10 +121,10 @@ EntitySPTR Entity::GetParent(void) const {
 /**
 * \return The absolute psoition of the entity.
 */
-D3DXVECTOR3 Entity::GetWorldPosition(void) const {
-	D3DXVECTOR3 result = this->location;
+glm::vec3 Entity::GetWorldPosition(void) const {
+	glm::vec3 result = this->location;
 	Entity* entity = this->GetParent().get();
-	D3DXVECTOR3 scaled, rotated;
+	glm::vec3 scaled, rotated;
 	
 	
 	/* N=3
@@ -150,7 +150,7 @@ D3DXVECTOR3 Entity::GetWorldPosition(void) const {
 		
 		scaled = (result * entity->scale);
 		
-		RotateVectorByQuaternion(&rotated, &scaled, &(entity->rotation));
+		rotated = glm::rotate(entity->rotation, scaled);
 		
 		result = rotated + entity->location;
 		
@@ -163,8 +163,8 @@ D3DXVECTOR3 Entity::GetWorldPosition(void) const {
 /**
 * \return The absolute rotation of the entity.
 */
-D3DXQUATERNION Entity::GetWorldRotation(void) const {
-	D3DXQUATERNION result = this->rotation;
+glm::fquat Entity::GetWorldRotation(void) const {
+	glm::fquat result = this->rotation;
 	Entity* entity = this->GetParent().get();
 	
 	// Linearized recursive accumulation of rotations.
@@ -198,16 +198,15 @@ float Entity::GetWorldScale(void) const {
 * \param[in] x, y, z The absolute position of the entity (separate components).
 */
 void Entity::SetPosition(float x, float y, float z) {
-	this->location = D3DXVECTOR3(x, y, z);
+	this->location = glm::vec3(x, y, z);
 }
 
 
 /**
 * \param[in] rot The absolute rotation of the entity (combined components).
 */
-void Entity::SetRotation(D3DXQUATERNION rot) {
-	D3DXQuaternionNormalize(&rot, &rot);
-	this->rotation = rot;
+void Entity::SetRotation(glm::fquat rot) {
+	this->rotation = glm::normalize(rot);
 	// *NOTE: If the normalize's sqrt call needs to be optimized away, there is a way (supposedly) to normalize quats without sqrt.
 }
 
@@ -215,8 +214,7 @@ void Entity::SetRotation(D3DXQUATERNION rot) {
 * \param[in] yaw, pitch, roll The absolute rotation of the entity (separate components).
 */
 void Entity::SetRotation(float yaw, float pitch, float roll) {
-	D3DXQUATERNION rot;
-	D3DXQuaternionRotationYawPitchRoll(&rot, yaw, pitch, roll);
+	glm::fquat rot(glm::vec3(yaw, pitch, roll));
 	this->SetRotation(rot);
 }
 
@@ -230,16 +228,15 @@ void Entity::SetScale(float scale) {
 /**
 * \param[in] delta The relative amount to change to position (combined components).
 */
-void Entity::ChangePosition(D3DXVECTOR3 delta) {
+void Entity::ChangePosition(glm::vec3 delta) {
 	this->location += delta;
 }
 
 /**
 * \param[in] delta The relative amount to change to rotation (combined components).
 */
-void Entity::ChangeRotation(D3DXQUATERNION delta) {
-	D3DXQuaternionNormalize(&delta, &delta);
-	this->rotation *= delta;
+void Entity::ChangeRotation(glm::fquat delta) {
+	this->rotation = this->rotation * glm::normalize(delta);
 	// *NOTE: If the normalize's sqrt call needs to be optimized away, there is a way (supposedly) to normalize quats without sqrt.
 }
 
@@ -247,8 +244,7 @@ void Entity::ChangeRotation(D3DXQUATERNION delta) {
 * \param[in] deltaYaw, deltaPitch, deltaRoll The absolute rotation of the entity (separate components).
 */
 void Entity::ChangeRotation(float deltaYaw, float deltaPitch, float deltaRoll) {
-	D3DXQUATERNION delta;
-	D3DXQuaternionRotationYawPitchRoll(&delta, deltaYaw, deltaPitch, deltaRoll);
+	glm::fquat delta(glm::vec3(deltaYaw, deltaPitch, deltaRoll));
 	this->ChangeRotation(delta);
 }
 

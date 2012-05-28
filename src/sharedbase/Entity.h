@@ -15,7 +15,8 @@
 #include <set>
 
 // Application Library Includes
-#include <d3dx9math.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 // Local Includes
 #include "Entity_fwd.h"
@@ -89,12 +90,12 @@ public:
 	/**
 	* \brief Get the absolute position of a given object, recursively accounting for all parent positions, rotations, and scales.
 	*/
-	D3DXVECTOR3 GetWorldPosition(void) const;
+	glm::vec3 GetWorldPosition(void) const;
 
 	/**
 	* \brief Get the absolute rotation of a given object, recursively accounting for all parent rotations.
 	*/
-	D3DXQUATERNION GetWorldRotation(void) const;
+	glm::fquat GetWorldRotation(void) const;
 	
 	/**
 	* Get the absolute scale of a given object, recursively accounting for all parent scales.
@@ -110,7 +111,7 @@ public:
 	/**
 	* \brief Rotate this entity, in its parent entity's coordinate space, by rot.
 	*/
-	void SetRotation(D3DXQUATERNION);
+	void SetRotation(glm::fquat);
 	
 	/**
 	* \brief Rotate this entity, in its parent entity's coordinate space, by yaw, pitch, and roll in radians.
@@ -130,12 +131,12 @@ public:
 	/**
 	* \brief Offset this entity, relative to its current location and in its parent entity's coordinate space, by delta.
 	*/
-	void ChangePosition(D3DXVECTOR3);
+	void ChangePosition(glm::vec3);
 	
 	/**
 	* \brief Rotate this entity, relative to its current rotation and in its parent entity's coordinate space, by delta.
 	*/
-	void ChangeRotation(D3DXQUATERNION);
+	void ChangeRotation(glm::fquat);
 	
 	/**
 	* \brief Rotate this entity, relative to its current rotation and in its parent entity's coordinate space, by delta yaw, pitch, and roll in radians.
@@ -179,8 +180,8 @@ protected: // Friend access
 	*/
 	bool NotifyEntityRemoval(EntitySPTR);
 public:
-	D3DXVECTOR3 location; /**< Offset relative to parent entity space. */
-	D3DXQUATERNION rotation; /**< Rotation relative to parent. */
+	glm::vec3 location; /**< Offset relative to parent entity space. */
+	glm::fquat rotation; /**< Rotation relative to parent. */
 	float scale; /**< Scale relative to parent. */
 private:
 	std::string name; /**< The name of this entity. */
