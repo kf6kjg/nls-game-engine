@@ -90,60 +90,55 @@ void ScriptEngine::RegisterMathTypes(asIScriptEngine* const as_engine) {
 		{ // Vector3
 			char* list[] = {"Vector", "Vector3"};
 			for (unsigned int index = 0; index < 2; ++index) {
-				char* type(list[index]);
+				std::string type(list[index]);
 				
 				// General purpose ctors
-				ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_CONSTRUCT, "void f()", asFUNCTIONPR(VectorFactory, (glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
-				ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_CONSTRUCT, "void f(const float &in, const float &in, const float &in)", asFUNCTIONPR(VectorFactory, (const float&, const float&, const float&, glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
+				ret = as_engine->RegisterObjectBehaviour(type.c_str(), asBEHAVE_CONSTRUCT, "void f()", asFUNCTIONPR(VectorFactory, (glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
+				ret = as_engine->RegisterObjectBehaviour(type.c_str(), asBEHAVE_CONSTRUCT, "void f(const float &in, const float &in, const float &in)", asFUNCTIONPR(VectorFactory, (const float&, const float&, const float&, glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
 				
-				// Copy ctors
-				if (std::string(type) == "Vector") {
-					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_CONSTRUCT, "void f(const Vector &in)",   asFUNCTIONPR(VectorFactory, (const glm::vec3&, glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
-				}
-				if (std::string(type) == "Vector3") {
-					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_CONSTRUCT, "void f(const Vector3 &in)",  asFUNCTIONPR(VectorFactory, (const glm::vec3&, glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
-				}
+				// Copy ctor
+				ret = as_engine->RegisterObjectBehaviour(type.c_str(), asBEHAVE_CONSTRUCT, ("void f(const " + type + " &in)").c_str(), asFUNCTIONPR(VectorFactory, (const glm::vec3&, glm::vec3*), void), asCALL_CDECL_OBJLAST); assert(ret >= 0);
 				
 				// Casting operators
 				if (std::string(type) != "Vector") {
-					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_IMPLICIT_VALUE_CAST, "Vector f() const",   asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
+					ret = as_engine->RegisterObjectBehaviour(type.c_str(), asBEHAVE_IMPLICIT_VALUE_CAST, "Vector f() const",   asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
 					// Having both implicit and explicit casts between the same types doesn't seem to be supported yet.  However, the implicit seems to also give explict. ~Ricky 20120528, AngelScript 2.23.1
 				}
 				if (std::string(type) != "Vector3") {
-					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_IMPLICIT_VALUE_CAST, "Vector3 f() const",  asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
+					ret = as_engine->RegisterObjectBehaviour(type.c_str(), asBEHAVE_IMPLICIT_VALUE_CAST, "Vector3 f() const",  asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
 					// Having both implicit and explicit casts between the same types doesn't seem to be supported yet.  However, the implicit seems to also give explict. ~Ricky 20120528, AngelScript 2.23.1
 				}
 				
 				// Properties
-				ret = as_engine->RegisterObjectProperty(type, "float x", offsetof(glm::vec3, x)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type, "float y", offsetof(glm::vec3, y)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type, "float z", offsetof(glm::vec3, z)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type, "float r", offsetof(glm::vec3, r)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type, "float g", offsetof(glm::vec3, g)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type, "float b", offsetof(glm::vec3, b)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float x", offsetof(glm::vec3, x)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float y", offsetof(glm::vec3, y)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float z", offsetof(glm::vec3, z)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float r", offsetof(glm::vec3, r)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float g", offsetof(glm::vec3, g)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float b", offsetof(glm::vec3, b)); assert(ret >= 0);
 				
 				// Methods
 				// Note that there is no function in GLM for the square of the magnitude (aka "length") of a vector, hence the custom functions.
-				ret = as_engine->RegisterObjectMethod(type, "float MagnitudeSq() const", asFUNCTIONPR(Vec3MagSq, (const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "float Magnitude() const", asFUNCTIONPR(glm::length, (const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "float DistanceSq(const Vector &in) const", asFUNCTIONPR(Vec3DistSq, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "float Distance(const Vector &in) const", asFUNCTIONPR(glm::distance, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "void Normalize()", asFUNCTIONPR(Vec3Normalize, (glm::vec3 &), void), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "Vector NormalizedCopy() const", asFUNCTIONPR(glm::normalize, (const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "float Dot(const Vector &in) const", asFUNCTIONPR(glm::dot, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "void Cross(const Vector &in)", asFUNCTIONPR(Vec3Cross, (glm::vec3 &, const glm::vec3 &), void), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "Vector CrossCopy(const Vector &in) const", asFUNCTIONPR(glm::cross, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), "float MagnitudeSq() const", asFUNCTIONPR(Vec3MagSq, (const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), "float Magnitude() const", asFUNCTIONPR(glm::length, (const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), ("float DistanceSq(const " + type + " &in) const").c_str(), asFUNCTIONPR(Vec3DistSq, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), ("float Distance(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::distance, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), "void Normalize()", asFUNCTIONPR(Vec3Normalize, (glm::vec3 &), void), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " NormalizedCopy() const").c_str(), asFUNCTIONPR(glm::normalize, (const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), ("float Dot(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::dot, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), ("void Cross(const " + type + " &in)").c_str(), asFUNCTIONPR(Vec3Cross, (glm::vec3 &, const glm::vec3 &), void), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " CrossCopy(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::cross, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
 				
 				// Unary operators
-				ret = as_engine->RegisterObjectMethod(type, "Vector opNeg(const Vector &in) const", asFUNCTIONPR(glm::detail::operator-, (const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " opNeg(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::detail::operator-, (const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
 				
 				// Binary operators
-				ret = as_engine->RegisterObjectMethod(type, "Vector opAdd(const Vector &in) const", asFUNCTIONPR(glm::detail::operator+, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "Vector opSub(const Vector &in) const", asFUNCTIONPR(glm::detail::operator-, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "float opMul(const Vector &in) const", asFUNCTIONPR(glm::dot, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				ret = as_engine->RegisterObjectMethod(type, "Vector opMod(const Vector &in) const", asFUNCTIONPR(glm::cross, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				//ret = as_engine->RegisterObjectMethod(type, "Vector opMul(const Rotation &in) const",   asFUNCTION(VectorApplyRotation), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
-				//ret = as_engine->RegisterObjectMethod(type, "Vector opMul_r(const Rotation &in) const", asFUNCTION(VectorApplyRotation), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " opAdd(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::detail::operator+, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " opSub(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::detail::operator-, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), ("float opMul(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::dot, (const glm::vec3 &, const glm::vec3 &), float), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " opMod(const " + type + " &in) const").c_str(), asFUNCTIONPR(glm::cross, (const glm::vec3 &, const glm::vec3 &), glm::vec3), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				//ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " opMul(const Rotation &in) const").c_str(),   asFUNCTION(VectorApplyRotation), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
+				//ret = as_engine->RegisterObjectMethod(type.c_str(), (type + " opMul_r(const Rotation &in) const").c_str(), asFUNCTION(VectorApplyRotation), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
 			}
 		}
 		
