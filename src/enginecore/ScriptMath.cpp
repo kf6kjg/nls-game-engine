@@ -107,11 +107,11 @@ void ScriptEngine::RegisterMathTypes(asIScriptEngine* const as_engine) {
 				// Casting operators
 				if (std::string(type) != "Vector") {
 					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_IMPLICIT_VALUE_CAST, "Vector f() const",   asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
-					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_VALUE_CAST,          "Vector f() const",   asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
+					// Having both implicit and explicit casts between the same types doesn't seem to be supported yet.  However, the implicit seems to also give explict. ~Ricky 20120528, AngelScript 2.23.1
 				}
 				if (std::string(type) != "Vector3") {
 					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_IMPLICIT_VALUE_CAST, "Vector3 f() const",  asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
-					ret = as_engine->RegisterObjectBehaviour(type, asBEHAVE_VALUE_CAST,          "Vector3 f() const",  asFUNCTIONPR(VectorCast, (const glm::vec3&), glm::vec3), asCALL_CDECL_OBJLAST); assert(ret >= 0);
+					// Having both implicit and explicit casts between the same types doesn't seem to be supported yet.  However, the implicit seems to also give explict. ~Ricky 20120528, AngelScript 2.23.1
 				}
 				
 				// Properties
@@ -204,9 +204,7 @@ void VectorFactory(const float& x, const float& y, const float& z, glm::vec3* ad
 * \return A copy of the passed vector.
 */
 glm::vec3 VectorCast(const glm::vec3& other) {
-	glm::vec3 result(other);
-	
-	return result;
+	return other; // As the return type isn't a reference or pointer, an implicit copy is done here.
 }
 
 

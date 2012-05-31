@@ -14,6 +14,9 @@ namespace Vector3MathTests {
 		TestLiteralCtorAndPropertyReads();
 		TestCopyCtor();
 		
+		TestImplictConversion();
+		TestExplictConversion();
+		
 		TestMethodMagnitudeSq();
 		TestMethodMagnitude();
 		TestMethodDistanceSq();
@@ -153,7 +156,7 @@ namespace Vector3MathTests {
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	/**
-	* Test the implict conversions, as currently it is documented that each of the 3
+	* Test the implict conversions, as currently it is documented that each of the vector3 float types are to be freely convertable.
 	*/
 	void TestImplictConversion() {
 		// Using the copy ctor
@@ -182,6 +185,43 @@ namespace Vector3MathTests {
 		{
 			Vector3 test_var_1(1.125f, 2.125f, 3.125f);
 			Vector test_var_2 = test_var_1;
+			UnitTest::EXPECT_EQ(test_var_1.x, test_var_2.x);
+			UnitTest::EXPECT_EQ(test_var_1.y, test_var_2.y);
+			UnitTest::EXPECT_EQ(test_var_1.z, test_var_2.z);
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
+	* Test the explict conversions, as currently it is documented that each of the vector3 float types are to be freely convertable.
+	*/
+	void TestExplictConversion() {
+		// Using the copy ctor
+		{
+			Vector test_var_1(1.125f, 2.125f, 3.125f);
+			Vector3 test_var_2(Vector3(test_var_1));
+			UnitTest::EXPECT_EQ(test_var_1.x, test_var_2.x);
+			UnitTest::EXPECT_EQ(test_var_1.y, test_var_2.y);
+			UnitTest::EXPECT_EQ(test_var_1.z, test_var_2.z);
+		}
+		{
+			Vector3 test_var_1(1.125f, 2.125f, 3.125f);
+			Vector test_var_2(Vector(test_var_1));
+			UnitTest::EXPECT_EQ(test_var_1.x, test_var_2.x);
+			UnitTest::EXPECT_EQ(test_var_1.y, test_var_2.y);
+			UnitTest::EXPECT_EQ(test_var_1.z, test_var_2.z);
+		}
+		// Using assignment
+		{
+			Vector test_var_1(1.125f, 2.125f, 3.125f);
+			Vector3 test_var_2 = Vector3(test_var_1);
+			UnitTest::EXPECT_EQ(test_var_1.x, test_var_2.x);
+			UnitTest::EXPECT_EQ(test_var_1.y, test_var_2.y);
+			UnitTest::EXPECT_EQ(test_var_1.z, test_var_2.z);
+		}
+		{
+			Vector3 test_var_1(1.125f, 2.125f, 3.125f);
+			Vector test_var_2 = Vector(test_var_1);
 			UnitTest::EXPECT_EQ(test_var_1.x, test_var_2.x);
 			UnitTest::EXPECT_EQ(test_var_1.y, test_var_2.y);
 			UnitTest::EXPECT_EQ(test_var_1.z, test_var_2.z);
