@@ -26,17 +26,17 @@ namespace Vector3MathTests {
 		TestMethodDot();
 		TestMethodCrossCopy();
 		TestMethodCross();
-		// *TODO: TestMethodApplyRotationCopy();
-		// *TODO: TestMethodApplyRotation();
-		// *TODO: TestMethodApplyRotationInvCopy();
-		// *TODO: TestMethodApplyRotationInv();
+		TestMethodApplyRotationCopy();
+		TestMethodApplyRotation();
+		TestMethodApplyRotationInvCopy();
+		TestMethodApplyRotationInv();
 		
 		TestOpAddition();
 		TestOpSubtraction();
 		TestOpMultiplyDotProduct();
 		TestOpModCrossProduct();
-		// *TODO: TestOpMultiplyApplyRotation();
-		// *TODO: TestOpDivisionApplyRotationInv();
+		TestOpMultiplyApplyRotation();
+		TestOpDivisionApplyRotationInv();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -614,6 +614,482 @@ namespace Vector3MathTests {
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	/**
+	* Tests to make sure that the rotation is properly applied to the vector.
+	*/
+	void TestMethodApplyRotation() {
+		{
+			Engine::Vector value(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotation(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 value(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotation(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector value(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotation(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 value(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotation(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
+	* Tests to make sure that the rotation is properly applied to a copy of the vector.
+	*/
+	void TestMethodApplyRotationCopy() {
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1.ApplyRotationCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1.ApplyRotationCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1.ApplyRotationCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1.ApplyRotationCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
+	* Tests to make sure that the conjugate of the rotation is properly applied to the vector.
+	*/
+	void TestMethodApplyRotationInv() {
+		{
+			Engine::Vector value(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotationInv(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 value(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotationInv(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector value(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotationInv(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 value(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			value.ApplyRotationInv(test_var_2);
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
+	* Tests to make sure that the conjugate of the rotation is properly applied to a copy of the vector.
+	*/
+	void TestMethodApplyRotationInvCopy() {
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1.ApplyRotationInvCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1.ApplyRotationInvCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1.ApplyRotationInvCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1.ApplyRotationInvCopy(test_var_2));
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
 	* Tests to make sure that the addition operator given two vectors returns the sum of the vectors.
 	*/
 	void TestOpAddition() {
@@ -863,4 +1339,267 @@ namespace Vector3MathTests {
 			}
 		}
 	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
+	* Tests to make sure that the multiply operator given a LHS vector and a RHS rotation returns the rotation properly applied to a copy of the vector.
+	*/
+	void TestOpMultiplyApplyRotation() {
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1 * test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1 * test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1 * test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1 * test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0xF722) / (1 << 8),
+					float( 0xB4C9) / (1 << 7),
+					float( 0x8B01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/**
+	* Tests to make sure that the multiply operator given a LHS vector and a RHS rotation returns the conjugate of the rotation properly applied to a copy of the vector.
+	*/
+	void TestOpDivisionApplyRotationInv() {
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1 / test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Rotation test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1 / test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector value(test_var_1 / test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+		{
+			Engine::Vector3 test_var_1(3.125f, 2.125f, 1.125f);
+			Engine::Quaternion test_var_2(7.125f, 6.125f, 5.125f, 4.125f); // Non unit rotation scales as well as rotates - this is expected behavior and proves the correctness of the system better than using a unit quaternion.
+			
+			Engine::Vector3 value(test_var_1 / test_var_2);
+			
+			{ // Verify that the vector remains unmodified
+				UnitTest::EXPECT_EQ(test_var_1.x, 3.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.y, 2.125f, "Original vector modified!");
+				UnitTest::EXPECT_EQ(test_var_1.z, 1.125f, "Original vector modified!");
+			}
+			
+			{ // Verify that the rotation remains unmodified
+				UnitTest::EXPECT_EQ(test_var_2.x, 7.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.y, 6.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.z, 5.125f, "Original rotation modified!");
+				UnitTest::EXPECT_EQ(test_var_2.s, 4.125f, "Original rotation modified!");
+			}
+			
+			{ // Verify that the resulting vector was rotated correctly
+				Engine::Vector3 expected(
+					float( 0x9C91) / (1 << 7),
+					float( 0xE592) / (1 << 8),
+					float( 0xAC01) / (1 << 7) 
+				);
+				
+				UnitTest::EXPECT_NEAR(value.x, expected.x, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.y, expected.y, 0.00001f, "Unexpected value!");
+				UnitTest::EXPECT_NEAR(value.z, expected.z, 0.00001f, "Unexpected value!");
+			}
+		}
+	}
+	
 }

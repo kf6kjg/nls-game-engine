@@ -3,6 +3,7 @@
 */
 
 #include "TestMathVector3.as"
+#include "TestMathRotation.as"
 
 namespace UnitTest {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -10,6 +11,7 @@ namespace UnitTest {
 		// Run Tests
 		VerifyAsserts();
 		
+		RotationMathTests::ExecuteTests();
 		Vector3MathTests::ExecuteTests();
 		
 		if (gTestStatus) {
