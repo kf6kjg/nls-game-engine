@@ -2,32 +2,48 @@
 * \file
 * \author Ricky Curtice
 * \date 2012-01-23
-* \brief ComponentInterface class used as a common base for all components.
-*
-* The use of a common interface allows all components to be acted on in the same manner, and provides
-* a guaranteed way of interacting with that component.
+* \brief ComponentInterface class definitions.
 */
 
 #include "ComponentInterface.h"
 
-// Standard Includes
+// System Library Includes
 
-// Library Includes
+// Application Library Includes
 
 // Local Includes
 #include "Entity.h"
-#include "EventLogger.h"
 
 // Typedefs
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/**
+\param[in] owner The entity that owns this component.
+\param[in] mod The module this component belongs to (the one that created it most likely).
+*/
 ComponentInterface::ComponentInterface(EntitySPTR owner, ModuleInterface* mod) : owner(owner), module(mod) {
 	this->owner->RegisterComponent(this);
-	//LOG(LOG_PRIORITY::FLOW, "Component for entity '" + this->owner->GetName() + "' created.");
 };
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 ComponentInterface::~ComponentInterface(void) {
 	this->owner->UnregisterComponent(this);
-	//LOG(LOG_PRIORITY::FLOW, "Component for entity '" + this->owner->GetName() + "' destroyed.");
+}
+
+/**
+\param[in] newOner The new entity that owns this component.
+*/
+void ComponentInterface::SetOwner( EntitySPTR newOwner ) {
+	this->owner = newOwner;
+}
+/**
+\return newOner The entity that owns this component.
+*/
+EntitySPTR ComponentInterface::GetOwner( void ) const  {
+	EntitySPTR sptr(this->owner); return sptr;
+}
+
+/**
+\return newOner The module that this component belongs to.
+*/
+ModuleInterface* ComponentInterface::GetModule( void ) const {
+	return this->module;
 }
