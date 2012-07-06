@@ -16,6 +16,7 @@ set(AVAILABLE_NLS_MODULES
 	RenderingSimple # Built-in module, no repository information needed.
 	SoundSimple # Built-in module, no repository information needed.
 	PhysicsSimple # Built-in module, no repository information needed.
+	IrrlichtRender
 	
 	
 	# Ignore the following line.  New modules should be listed above.
@@ -26,3 +27,4 @@ set(AVAILABLE_NLS_MODULES
 #set(NLS_MODULE_MyExample_REPOSITORY "https://bitbucket.org/username/MyExample")
 #set(NLS_MODULE_MyExample_BRANCH "Version 1")
 #set(NLS_MODULE_MyExample_CHANGESET "409fd58af531")
+set(NLS_MODULE_IrrlichtRender_REPOSITORY "http://code.google.com/p/nls-irrlichtrender/")
