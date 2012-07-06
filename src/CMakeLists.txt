@@ -118,7 +118,7 @@ include(AvailableModules)
 foreach(MODULE ${ENGINE_MODULES})
 	message("Adding the following module: ${MODULE}")
 	
-	set(MODULE_FOLDER "${NLS_ENGINE_ROOT}/src/${MODULE}")
+	set(MODULE_FOLDER "${NLS_ENGINE_ROOT}/src/modules/${MODULE}")
 	
 	if(IS_DIRECTORY "${MODULE_FOLDER}")
 		if(EXISTS "${MODULE_FOLDER}/CMakeLists.txt")
