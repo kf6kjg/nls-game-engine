@@ -16,6 +16,7 @@
 #include "../sharedbase/ModuleInterface.h"
 #include "../sharedbase/EventLogger.h"
 #include "../sharedbase/ModuleScriptInterface.h"
+#include "../sharedbase/OSInterface.h"
 #include "ScriptEngine.h"
 
 // Static class member initialization
@@ -32,9 +33,11 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 		return MODULE_STATUS::LOAD_ERROR;
 	}
 	char buf[256];
-	
+
+	OSInterfaceSPTR operating_system(OSInterface::GetOSPointer());
 	std::string location =
-		NLS_ENGINE_LIBRARY_PATH + "/" +
+		operating_system->GetPath(SYSTEM_DIRS::EXECUTABLE) + "/" +
+		/*
 #ifdef _MSC_VER
 	#ifdef _DEBUG
 		"Debug/" +
@@ -42,6 +45,7 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 		"Release/" +
 	#endif
 #endif
+	*/
 		name +
 #ifdef _WIN32
 		".dll";
@@ -93,20 +97,14 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 			LOG(LOG_PRIORITY::FLOW, "Module factory acquired successfully.");
 			
 			ModuleInterface* module = fact(EventLogger::GetEventLogger());
+			if (module != nullptr) {
+				module->Register(this->engine->GetasIScriptEngine());
+			}
+			else {
+				LOG(LOG_PRIORITY::FLOW, "Failed calling the module's factory.");
+				return MODULE_STATUS::START_ERROR;
+			}
 			this->modules[name] = module;
-			
-			// *TODO: Remove this section for script registration and place it in a game player registration method.
-			try // Try to cast to a ModuleScriptInterface. If it fails we just have a basic module.
-			{
-				ModuleScriptInterface* scriptable_module = dynamic_cast<ModuleScriptInterface*>(module);
-				if (scriptable_module != nullptr) {
-					scriptable_module->Register(this->engine->GetasIScriptEngine());
-				}
-			}
-			catch (std::bad_cast)
-			{
-				LOG(LOG_PRIORITY::FLOW, "Module not of type ModuleScriptInterface.");
-			}
 			
 		}
 		else {
@@ -121,7 +119,7 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 			LOG(LOG_PRIORITY::RESTART, "Module factory loading aborted due to error.");
 			
 			Unload(name);
-			
+
 			return MODULE_STATUS::START_ERROR;
 		}
 	}
