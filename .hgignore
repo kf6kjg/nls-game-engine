@@ -72,3 +72,7 @@ Doxyfile
 
 # Optional modules are tracked independently
 src/modules/*
+
+# Shortcut files
+*.url
+*.lnk
