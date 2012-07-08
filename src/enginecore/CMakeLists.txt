@@ -60,10 +60,7 @@ set(NLS_ENGINE_LIBS)
 
 # OS-specific libraries
 if(WIN32)
-	set(NLS_ENGINE_LIBS
-		"${DIRECTX_LIBRARY_DIR}/d3d9.lib"
-		"${DIRECTX_LIBRARY_DIR}/d3dx9.lib"
-		
+	set(NLS_ENGINE_LIBS		
 		"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
 		"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
 		"${LIBRARY_OUTPUT_PATH}/win32.lib"
