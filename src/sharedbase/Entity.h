@@ -13,6 +13,7 @@
 
 // System Library Includes
 #include <set>
+#include <string>
 
 // Application Library Includes
 #include <glm/glm.hpp>

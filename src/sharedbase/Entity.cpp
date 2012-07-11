@@ -63,9 +63,9 @@ Entity::Entity(const std::string& name) :
 	location(glm::vec3(0.0f, 0.0f, 0.0f)),
 	rotation(glm::fquat(0.0f, 0.0f, 0.0f, 1.0f)),
 	scale(1.0f),
-	name(name),
-	parent(nullptr)
+	name(name)
 	{
+	this->parent.reset();
 	LOG(LOG_PRIORITY::FLOW, "Entity '" + this->GetName() + "' created.");
 }
 
@@ -75,7 +75,7 @@ Entity::~Entity() {
 	this->ClearComponents();
 	
 	// Break from parent object.
-	this->SetParent(nullptr);
+	this->parent.reset();
 }
 
 /**
@@ -330,7 +330,7 @@ bool Entity::NotifyEntityRemoval(EntitySPTR entity) {
 		return false;
 	}
 	if (entity == this->GetParent()) {
-		this->SetParent(nullptr);
+		this->parent.reset();
 		
 		return true;
 	}

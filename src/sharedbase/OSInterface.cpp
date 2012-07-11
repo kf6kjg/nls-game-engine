@@ -17,7 +17,7 @@
 // Typedefs
 
 // Static data
-OSInterfaceSPTR OSInterface::operatingSystem(nullptr);
+OSInterfaceSPTR OSInterface::operatingSystem;
 
 // Static methods
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
