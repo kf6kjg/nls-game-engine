@@ -4,8 +4,8 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE OR DEFINED NLS_ENGINE_BUILD_MODE)
 	load_library_source_from_web(
 		"GLM"
 		"GLM" # no trailing slash
-		"http://downloads.sourceforge.net/project/ogl-math/glm-0.9.3.2/glm-0.9.3.2.zip"
-		"777793237f9612f825505f9e5ca04e30"
+		"http://sourceforge.net/projects/ogl-math/files/glm-0.9.3.4/glm-0.9.3.4.zip"
+		"a0cea0871bd39f2d628c12f1181faffb"
 	)
 endif(DEFINED NLS_ENGINE_LIBRARY_MODE OR DEFINED NLS_ENGINE_BUILD_MODE)
 	
@@ -15,7 +15,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 	
 	message("Copying GLM headers...")
 	execute_process( # Execute process is used over file(COPY) as the latter has no documented error reporting facilities.
-		COMMAND "${CMAKE_COMMAND}" -E copy_directory "${LIB_GLM_DIR}/glm-0.9.3.2/glm" "${LIBS_INCLUDE_PATH}/glm/glm"
+		COMMAND "${CMAKE_COMMAND}" -E copy_directory "${LIB_GLM_DIR}/glm-0.9.3.4/glm" "${LIBS_INCLUDE_PATH}/glm/glm"
 		RESULT_VARIABLE COPY_RESULT
 	)
 	if(NOT "${COPY_RESULT}" MATCHES "^0")
@@ -24,7 +24,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 	
 	file(
 		COPY
-			"${LIB_GLM_DIR}/glm-0.9.3.2/copying.txt"
+			"${LIB_GLM_DIR}/glm-0.9.3.4/copying.txt"
 		DESTINATION "${LIBS_INCLUDE_PATH}/glm/"
 	)
 	
@@ -34,7 +34,7 @@ endif(DEFINED NLS_ENGINE_LIBRARY_MODE)
 if(EXISTS "${LIBS_INCLUDE_PATH}/glm/glm/")
 	if(DEFINED NLS_ENGINE_BUILD_MODE)
 		message("Calling GLM CMake")
-		add_subdirectory("${LIB_GLM_DIR}/glm-0.9.3.2/glm" "${LIB_GLM_DIR}/glm-0.9.3.2/glm")
+		add_subdirectory("${LIB_GLM_DIR}/glm-0.9.3.4/glm" "${LIB_GLM_DIR}/glm-0.9.3.4/glm")
 		message("GLM CMake done.")
 	endif(DEFINED NLS_ENGINE_BUILD_MODE)
 	
