@@ -32,7 +32,6 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 		LOG(LOG_PRIORITY::CONFIG, "Can't load a library with no name.");
 		return MODULE_STATUS::LOAD_ERROR;
 	}
-	char buf[256];
 
 	OSInterfaceSPTR operating_system(OSInterface::GetOSPointer());
 	std::string location =
@@ -54,6 +53,7 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 #endif
 	;
 	
+	std::string message;
 	if (this->libraries.find(name) == this->libraries.end()) {
 		LOG(LOG_PRIORITY::FLOW, "Attempting to load library '" + name + "' from '" + location + "'.");
 		
@@ -70,12 +70,14 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 		}
 		else {
 #ifdef _WIN32
+			char buf[256];
 			DWORD errcode = GetLastError();
 			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, errcode, 0, buf, 256, NULL); // *TODO: Remove the trailing newline as it goofs our output.
+			message = buf;
 #else
-			buf = "Error loading library: " + name;
+			message = "Error loading library: " + name;
 #endif
-			LOG(LOG_PRIORITY::RESTART, buf);
+			LOG(LOG_PRIORITY::RESTART, message);
 			
 			LOG(LOG_PRIORITY::RESTART, "Library loading failed due to error.");
 			return MODULE_STATUS::LOAD_ERROR;
@@ -109,12 +111,14 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 		}
 		else {
 #ifdef _WIN32
+			char buf[256];
 			DWORD errcode = GetLastError();
 			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, errcode, 0, buf, 256, NULL);
+			message = buf;
 #else
-			buf = "Error loading module factory";
+			message = "Error loading module factory";
 #endif
-			LOG(LOG_PRIORITY::RESTART, buf);
+			LOG(LOG_PRIORITY::RESTART, message);
 			
 			LOG(LOG_PRIORITY::RESTART, "Module factory loading aborted due to error.");
 			
@@ -211,7 +215,7 @@ void ModuleManager::Shutdown() {
 #ifdef _WIN32
 		if (FreeLibrary(this->libraries[itr->first]) != 0) {
 #else
-		if (dlclose(this->libraries[name])) {
+		if (dlclose(this->libraries[itr->first])) {
 #endif
 		}
 	}
