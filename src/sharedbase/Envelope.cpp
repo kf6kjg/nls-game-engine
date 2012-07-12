@@ -10,7 +10,6 @@
 // Standard Includes
 
 // Library Includes
-#include <boost/any.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -19,6 +18,7 @@
 
 // Local Includes
 #include "Entity.h"
+#include "EventLogger.h"
 
 // Local Consts
 const std::string SERIALIZATION_ROOT("NLS_SD_1_0_0");

@@ -13,13 +13,12 @@
 // Library Includes
 #include <boost/any.hpp>
 #include <boost/utility/value_init.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree_fwd.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 
 // Local Includes
-#include "EventLogger.h"
+#include "threading.h"
 #include "Envelope_fwd.h"
 #include "Entity_fwd.h"
 

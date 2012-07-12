@@ -15,7 +15,6 @@
 #include <cassert>
 
 // Application Library Includes
-#include <angelscript.h>
 
 // Local Includes
 #include "../sharedbase/EventLogger.h"

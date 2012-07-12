@@ -13,7 +13,6 @@
 // Local Includes
 #include "sptrtypes.h"
 #include "../sharedbase/Entity.h"
-#include "../sharedbase/Entity_fwd.h"
 
 // Static class member initialization
 

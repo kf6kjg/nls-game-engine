@@ -16,9 +16,6 @@
 // Standard Includes
 
 // Library Includes
-#include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <boost/any.hpp>
 #include <boost/foreach.hpp>
 
 // Local Includes

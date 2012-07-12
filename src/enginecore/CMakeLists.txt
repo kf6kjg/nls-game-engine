@@ -11,6 +11,7 @@ endif (NOT DEFINED NLS_ENGINE_EXECUTABLE_NAME)
 
 set(SOURCE_FILES
 	# Specify all the cxx files that need to be compiled (in alphabetic order)
+	"EngineCore.cpp"
 	"EntityMap.cpp"
 	"EntityRegister.cpp"
 	"EventLoggerRegister.cpp"
@@ -24,6 +25,7 @@ set(SOURCE_FILES
 )
 set(HEADER_FILES
 	# Specify all the header files that need to be displayed in the editor (in alphabetic order)
+	"EngineCore.h"
 	"EntityMap.h"
 	"EventLoggerRegister.h"
 	"ModuleManager.h"

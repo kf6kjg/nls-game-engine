@@ -1,30 +1,12 @@
-/**
- * \file
- * \author Adam Martin
- * \brief *TODO:
- */
-
-#include <cassert>
-#include <boost/chrono.hpp>
-
-#include <EngineConfig.h>
-
-#include "EventLoggerRegister.h"
-#include "EntityMap.h"
-#include "ModuleManager.h"
-#include "ScriptEngine.h"
 #include "../sharedbase/EventLogger.h"
-#include "../sharedbase/OSInterface.h"
+#include "../sharedbase/OSInterface_fwd.h"
 
 #ifdef _WIN32
 #include "../windows/win32.h"
+#else
+#include "OSInterface.h" // Included by win32 already, but we need it for other OSes.
 #endif
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// Operational data
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-bool gIsRunning = true;
-
+#include "EngineCore.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Main
@@ -44,49 +26,15 @@ int main() {
 	elog->SetLogFile(bin_dir + "/" + NLS_ENGINE_DEFAULT_LOG_FILE);
 	LOG(LOG_PRIORITY::FLOW, "Log file created!");
 
-	ScriptEngine engine;
-	EntityMap EntList;
-	ModuleManager modmgr(&engine);
-
-	int as_status = 0;
-
-	EventLoggerRegister(engine.GetasIScriptEngine());
-
-	// Register the APIs available to config scripts.
-	engine.BeginConfigGroup("config"); {
-		modmgr.ConfigRegister();
-		
-		engine.LoadScriptFile(bin_dir + "/config.as");
-		ScriptExecutor* exec = engine.ScriptExecutorFactory();
-		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
-		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
-			gIsRunning = false;
-		}
-		delete exec;
-	} engine.EndConfigGroup();
-
-	if (gIsRunning) {
-		// Register the APIs available to game play scripts.
-		engine.BeginConfigGroup("gameplay"); {
-			EntList.Register(engine.GetasIScriptEngine());
-		} engine.EndConfigGroup();
-
-		// Timing variables used in the update function for the main loop.
-		boost::chrono::steady_clock::time_point now, oldnow;
-		boost::chrono::duration<double, boost::ratio<1,1>> duraction;
-		now = boost::chrono::steady_clock::now();
-
-		while (gIsRunning) {
-			oldnow = now;
-			now = boost::chrono::steady_clock::now();
-			duraction = now - oldnow;
-
-			// Calls update for each core.
-			modmgr.Update(duraction.count());
-		}
+	EngineCore engine(elog, bin_dir);
+	if (!engine.StartUp()) {
+		LOG(LOG_PRIORITY::FLOW, "Engine startup failed.");
 	}
 
-	modmgr.Shutdown();
+	while(engine.IsRunning()) {
+		engine.Update();
+	}
 
+	engine.Shutdown();
 	return 0;
 }
