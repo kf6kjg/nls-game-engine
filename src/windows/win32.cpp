@@ -15,7 +15,6 @@
 #include <glm/glm.hpp>
 
 // Local Includes
-#include "../sharedbase/Envelope.h"
 #include "../sharedbase/EventLogger.h"
 
 // Static class member initialization

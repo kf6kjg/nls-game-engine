@@ -6,8 +6,6 @@
 #pragma once
 
 // Standard Includes
-#include <string>
-#include <memory>
 
 // Library Includes
 #include <boost/any.hpp>

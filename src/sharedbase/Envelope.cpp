@@ -18,7 +18,6 @@
 #include <EngineConfig.h>
 
 // Local Includes
-#include "EventLogger.h"
 #include "Entity.h"
 
 // Local Consts

@@ -7,8 +7,6 @@
 
 #include "EngineConfig.h"
 
-#include <string>
-
 namespace NLS_I18N {
 	const std::string TITLE_INFO("Information");
 	const std::string TITLE_WARNING("Warning");
