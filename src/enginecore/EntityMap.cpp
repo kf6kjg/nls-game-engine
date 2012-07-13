@@ -87,7 +87,9 @@ EntitySPTR EntityMap::FindEntity( const std::string& name ) {
 	}
 	else {
 		LOG(LOG_PRIORITY::CONFIG, "Entity '" + name +  "' not found.  Did you forget to name it?  Or have you already removed it?");
-		return nullptr;
+		
+		EntitySPTR entity;
+		return entity;
 	}
 }
 
@@ -96,7 +98,7 @@ EntitySPTR EntityMap::FindEntity( const std::string& name ) {
 * \return True if the entity was removed. False if no entity with the given name exists.
 */
 bool EntityMap::RemoveEntity( const std::string& name ) {
-	NamedEntityMap::const_iterator entitymap_it = this->entities.find(&name);
+	NamedEntityMap::iterator entitymap_it = this->entities.find(&name);
 	if (entitymap_it != this->entities.end()) {
 		LOG(LOG_PRIORITY::FLOW, "Removing entity '" + name + "' and deleting it.");
 
