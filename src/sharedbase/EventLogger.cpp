@@ -77,7 +77,25 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 	}
 	
 	Threading::WriteLock w_lock(this->mutex);
-	
+	std::string cleanedText;
+	// Clean the message
+	{
+		for (std::string::const_iterator itr = text.begin(); itr != text.end(); ++itr) {
+			if ((*itr == '"')  ||
+				(*itr == '\\') ||
+				(*itr == '/')  ||
+				(*itr == '\b') ||
+				(*itr == '\f') ||
+				(*itr == '\n') ||
+				(*itr == '\r') ||
+				(*itr == '\t')) {
+				cleanedText += "\\";
+			}
+			cleanedText += *itr;
+		}
+		cleanedText = cleanedText.erase(text.find_last_not_of(std::string("\n\r")) + 1, std::string::npos);
+	}
+
 	// Push the formatted message onto the queue
 	{
 		boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
@@ -88,7 +106,7 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 			<< "\"time\":\""	<< boost::posix_time::to_iso_extended_string(boost::posix_time::microsec_clock::universal_time())	<< "UTC\"," // Timestamp
 			<< "\"level\":\""	<< LOG_PRIORITY::PRINTABLE_NOTICES[static_cast<unsigned int>(priority_level)]						<< "\","  // Error level
 			<< "\"function\":\""<< EventLogger::module << "|" << fname << "(" << line << "): " << func								<< "\","// Module, file, line, and function in a pattern similar to VS2010's error log.
-			<< "\"message\":\""	<< std::string(text).erase(text.find_last_not_of(std::string("\n\r")), std::string::npos)			<< "\""// Message
+			<< "\"message\":\""	<< cleanedText																						<< "\""// Message
 			<< "}";
 		
 		// Push into queue
@@ -104,7 +122,6 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 		out_stream.open(this->logFile.c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::ate | std::ios_base::binary);
 		
 		if (!out_stream.bad()) {
-			//out_stream.seekp(std::ios_base::end);
 			out_stream.seekp(-3, std::ios_base::end); // Move back 3 to cover over the old JSON ending brackets with \n for format.
 			while (this->logQueue.size() > 0) {
 				message = this->logQueue.front();
