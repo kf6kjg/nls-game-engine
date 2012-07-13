@@ -83,14 +83,98 @@ if(DEFINED NLS_ENGINE_BUILD_MODE)
 	
 	message("Setting up AngelScript for compilation as a static library.")
 	
-	# Get all the cxx files that need to be compiled.  Yes, globbing isn't the best technique for CMake.  That said, this code is unlikely to gain any per-user specific changes, and so this technique should be pretty safe.
-	file(GLOB_RECURSE AngelScript_SOURCE
-		"${LIB_AngelScript_DIR}/sdk/angelscript/source/as_*.cpp"
-	)
-	file(GLOB_RECURSE AngelScript_SOURCE_HEADERS
-		"${LIB_AngelScript_DIR}/sdk/angelscript/source/as_*.h"
-		"${LIB_AngelScript_DIR}/sdk/angelscript/include/angelscript.h"
-	)
+	set(AngelScript_SOURCE 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_atomic.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_builder.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_bytecode.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_x86.cpp
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_x64_gcc.cpp
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_compiler.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_configgroup.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_context.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_datatype.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_gc.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_generic.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_globalproperty.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_memory.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_module.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_objecttype.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_outputbuffer.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_parser.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_restore.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptcode.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptengine.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptfunction.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptnode.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptobject.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_string.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_string_util.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_thread.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_tokenizer.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_typeinfo.cpp 
+        ${LIB_AngelScript_DIR}/sdk/angelscript/source/as_variablescope.cpp 
+	) 
+	
+	# MSVC specific file it appears
+	if(MSVC)
+		set(AngelScript_SOURCE 
+			${AngelScript_SOURCE} 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_x64_msvc.cpp 
+		)
+	endif(MSVC)
+	
+	# Android needs some extra asm methods for native calling.
+	if(ANDROID)
+		set(AngelScript_SOURCE 
+			${AngelScript_SOURCE} 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_arm_gcc.S 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_arm.cpp 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_mips.cpp 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_ppc.cpp 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_ppc_64.cpp 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_sh4.cpp 
+		)
+		set_source_files_properties(${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc_arm_gcc.S PROPERTIES LANGUAGE C)
+	endif(ANDROID)
+	
+	set(AngelScript_SOURCE_HEADERS 
+			${LIB_AngelScript_DIR}/sdk/angelscript/include/angelscript.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_array.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_builder.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_bytecode.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_callfunc.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_compiler.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_config.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_configgroup.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_context.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_criticalsection.h
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_datatype.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_debug.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_generic.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_map.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_memory.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_module.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_objecttype.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_outputbuffer.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_parser.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_property.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_restore.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptcode.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptengine.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptfunction.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptnode.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_scriptobject.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_string.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_string_util.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_texts.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_thread.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_tokendef.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_tokenizer.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_typeinfo.h 
+			${LIB_AngelScript_DIR}/sdk/angelscript/source/as_variablescope.h 
+	) 
+	
 	foreach(loop_addon ${AS_ADDONS})
 		file(GLOB ADDON_SOURCE_GLOB
 			"${LIB_AngelScript_DIR}/sdk/add_on/${loop_addon}/as*.cpp"
