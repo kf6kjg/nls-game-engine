@@ -23,7 +23,7 @@
 // Typedefs
 
 // Macro to make messages more meaningful
-/// Logging macro designed to make logged meesages much more meaningful by providing file, line number, etc.
+/// Logging macro designed to make logged messages much more meaningful by providing file, line number, etc.
 #define LOG(x, y) ::EventLogger::GetEventLogger()->LogToDisk((x), (y), __FILE__, __LINE__, __FUNCTION__);
 
 /// Namespaced enumerated type to specify the priority status of a logging message.

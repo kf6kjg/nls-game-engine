@@ -94,3 +94,23 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 		endif(CMAKE_SIZEOF_VOID_P MATCHES 4)
 	endif (WORD_SIZE EQUAL 32)
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+# Get compiler and version
+if (LINUX OR DARWIN)
+	find_file(COMPILER_CHECK_SCRIPT "get_compiler_version.sh" ./ ../ ../..)
+	if (NOT COMPILER_CHECK_SCRIPT)
+		message(FATAL_ERROR "Unable to find get_compiler_version.sh")
+	endif (NOT COMPILER_CHECK_SCRIPT)
+	
+	execute_process(
+		COMMAND ${COMPILER_CHECK_SCRIPT} -c -s ${CMAKE_CXX_COMPILER}
+		OUTPUT_VARIABLE COMPILER_DETECTED
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+	
+	execute_process(
+		COMMAND ${COMPILER_CHECK_SCRIPT} -v -s ${CMAKE_CXX_COMPILER}
+		OUTPUT_VARIABLE COMPILER_VERSION
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+endif (LINUX OR DARWIN)

@@ -59,6 +59,21 @@ configure_file (
 
 ## Setup compilation
 
+if(LINUX OR DARWIN)
+	if(CMAKE_COMPILER_IS_GNUCXX)
+		add_definitions(-DAS_MAX_PORTABILITY)
+		
+		if(NOT ${COMPILER_VERSION} VERSION_LESS 4.7) # version 4.7.0 or newer
+			add_definitions(-std=gnu++11)
+		elseif(NOT ${COMPILER_VERSION} VERSION_LESS 4.4) # version 4.4.0 or newer, if not handled above already
+			add_definitions(-std=gnu++0x -include "\"${NLS_ENGINE_ROOT}/include/nullptr.h\"")
+		elseif(NOT ${COMPILER_VERSION} VERSION_LESS 4.2) # version 4.2.0 or newer, if not handled above already
+			add_definitions(-include "\"${NLS_ENGINE_ROOT}/include/nullptr.h\"")
+		endif(NOT ${COMPILER_VERSION} VERSION_LESS 4.7)
+	endif(CMAKE_COMPILER_IS_GNUCXX)
+endif(LINUX OR DARWIN)
+
+
 # Add the "include" directory to the includes
 include_directories("../include")
 
