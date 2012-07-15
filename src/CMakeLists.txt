@@ -59,6 +59,7 @@ configure_file (
 
 ## Setup compilation
 
+add_definitions(-DBOOST_ALL_NO_LIB) # Disable the use of the Boost auto-linker commands, as we are providing our own direct linkages.
 if(LINUX OR DARWIN)
 	if(CMAKE_COMPILER_IS_GNUCXX)
 		add_definitions(-DAS_MAX_PORTABILITY)
