@@ -169,7 +169,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 		if("${BOOST_BUILD_DEBUG}")
 			message("Building boost debug version")
 			execute_process(
-				COMMAND "${BOOST_COMPILE_COMMAND}" "--layout=versioned" "runtime-debugging=on" "variant=debug" "install"
+				COMMAND "${BOOST_COMPILE_COMMAND}" "--layout=tagged" "runtime-debugging=on" "variant=debug" "install"
 				WORKING_DIRECTORY "${LIB_Boost_DIR}/boost_1_47_0"
 				OUTPUT_VARIABLE BOOST_COMPILE_ERROR
 				ERROR_VARIABLE  BOOST_COMPILE_ERROR
@@ -191,7 +191,7 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 		if("${BOOST_BUILD_RELEASE}")
 			message("Building boost release version")
 			execute_process(
-				COMMAND "${BOOST_COMPILE_COMMAND}" "--layout=versioned" "variant=release" "install"
+				COMMAND "${BOOST_COMPILE_COMMAND}" "--layout=tagged" "variant=release" "install"
 				WORKING_DIRECTORY "${LIB_Boost_DIR}/boost_1_47_0"
 				OUTPUT_VARIABLE BOOST_COMPILE_ERROR
 				ERROR_VARIABLE  BOOST_COMPILE_ERROR
@@ -219,17 +219,17 @@ if(EXISTS "${BOOST_INCLUDE_DIR}/boost-1_47")
 	set(Boost_LIBRARIES "")
 	if(WINDOWS)
 		file(GLOB Boost_LIBRARIES_DEBUG
-			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt-gd-1.47.lib"
+			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt-gd.lib"
 		)
 		file(GLOB Boost_LIBRARIES_RELEASE
-			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt-1.47.lib"
+			"${LIBS_BINARY_PATH}/libboost_*-vc100-mt.lib"
 		)
 	else(WINDOWS) # Unixes (Linux, etc.)
 		file(GLOB Boost_LIBRARIES_DEBUG
-			"${LIBS_BINARY_PATH}/libboost_*-mt-d-1.47.a"
+			"${LIBS_BINARY_PATH}/libboost_*-mt-d.a"
 		)
 		file(GLOB Boost_LIBRARIES_RELEASE
-			"${LIBS_BINARY_PATH}/libboost_*-mt-1.47.a"
+			"${LIBS_BINARY_PATH}/libboost_*-mt.a"
 		)
 	endif(WINDOWS)
 
