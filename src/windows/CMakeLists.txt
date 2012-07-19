@@ -3,11 +3,12 @@
 message("Entering ${CMAKE_CURRENT_SOURCE_DIR}/")
 
 ## Configure the project
-set(NLS_ENGINE_LIBRARY "win32")
+set(NLS_ENGINE_NATIVEAPP "win32")
 
 set(SOURCE_FILES
 	# Specify all the cxx files that need to be compiled (in alphabetic order)
 	"win32.cpp"
+	"main.cpp"
 )
 set(HEADER_FILES
 	# Specify all the header files that need to be displayed in the editor (in alphabetic order)
@@ -19,10 +20,35 @@ source_group("Source" FILES ${SOURCE_FILES})
 source_group("Headers" FILES ${HEADER_FILES})
 
 ## Set up the project for compilation
-message("Adding ${NLS_ENGINE_LIBRARY}...")
+message("Adding ${NLS_ENGINE_NATIVEAPP}...")
 
 # Create the library (all files that should be shown in the editor have to be listed here)
-add_library(${NLS_ENGINE_LIBRARY} STATIC ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(${NLS_ENGINE_NATIVEAPP} WIN32 ${SOURCE_FILES} ${HEADER_FILES})
+
+add_dependencies(${NLS_ENGINE_NATIVEAPP} "enginecore")
+
+set(NLS_ENGINE_LIBS	
+	"${LIBRARY_OUTPUT_PATH}/enginecore.lib"
+	"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
+	"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
+	
+	debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-gd-1_47.lib"
+	debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-gd-1_47.lib"
+	debug "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-vc100-mt-gd-1_47.lib"
+	debug "${LIBRARY_OUTPUT_PATH}/libboost_system-vc100-mt-gd-1_47.lib"
+	debug "${LIBRARY_OUTPUT_PATH}/libboost_thread-vc100-mt-gd-1_47.lib"
+	
+	optimized "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-1_47.lib"
+	optimized "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-1_47.lib"
+	optimized "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-vc100-mt-1_47.lib"
+	optimized "${LIBRARY_OUTPUT_PATH}/libboost_system-vc100-mt-1_47.lib"
+	optimized "${LIBRARY_OUTPUT_PATH}/libboost_thread-vc100-mt-1_47.lib"
+)
+	
+if(NLS_ENGINE_LIBS)
+	message("Adding to ${NLS_ENGINE_NATIVEAPP} the libraries: ${NLS_ENGINE_LIBS}")
+	target_link_libraries(${NLS_ENGINE_NATIVEAPP} ${NLS_ENGINE_LIBS})
+endif(NLS_ENGINE_LIBS)
 
 #* * * * * * * * * * * * * * * * * * * * *
 

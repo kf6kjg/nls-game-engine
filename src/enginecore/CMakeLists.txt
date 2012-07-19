@@ -9,6 +9,8 @@ if (NOT DEFINED NLS_ENGINE_EXECUTABLE_NAME)
 	)
 endif (NOT DEFINED NLS_ENGINE_EXECUTABLE_NAME)
 
+set(NLS_ENGINE_LIBRARY "enginecore")
+
 set(SOURCE_FILES
 	# Specify all the cxx files that need to be compiled (in alphabetic order)
 	"EngineCore.cpp"
@@ -41,20 +43,14 @@ source_group("Source" FILES ${SOURCE_FILES})
 source_group("Headers" FILES ${HEADER_FILES})
 
 ## Set up the project for compilation
-message("Adding ${NLS_ENGINE_EXECUTABLE_NAME}...")
+message("Adding ${NLS_ENGINE_LIBRARY}...")
 
 # Create the executable (all files that should be shown in the editor have to be listed here)
-add_executable(${NLS_ENGINE_EXECUTABLE_NAME} ${SOURCE_FILES} ${HEADER_FILES})
-set_property(TARGET ${NLS_ENGINE_EXECUTABLE_NAME} PROPERTY PROJECT_LABEL "0${NLS_ENGINE_EXECUTABLE_NAME}") # *HACK: Set the project label to be first in the list of VS projects so that it's the default for debugging.
+add_library(${NLS_ENGINE_LIBRARY} STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
 # Specify dependencies
-add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "angelscript")
-add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "sharedbase")
-
-if(WIN32)
-	add_dependencies(${NLS_ENGINE_EXECUTABLE_NAME} "win32")
-endif(WIN32)
-
+add_dependencies(${NLS_ENGINE_LIBRARY} "angelscript")
+add_dependencies(${NLS_ENGINE_LIBRARY} "sharedbase")
 
 #* * * * * * * * * * * * * * * * * * * * *
 
@@ -62,45 +58,21 @@ set(NLS_ENGINE_LIBS)
 
 # OS-specific libraries
 if(WIN32)
+	# *NOTE: We no longer need to link boost in here as we are building a static library. THe final build will need to link in boost however.
 	set(NLS_ENGINE_LIBS		
-		"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
-		"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
-		"${LIBRARY_OUTPUT_PATH}/win32.lib"
-		
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-gd-1_47.lib"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-gd-1_47.lib"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-vc100-mt-gd-1_47.lib"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_system-vc100-mt-gd-1_47.lib"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_thread-vc100-mt-gd-1_47.lib"
-		
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_chrono-vc100-mt-1_47.lib"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_date_time-vc100-mt-1_47.lib"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-vc100-mt-1_47.lib"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_system-vc100-mt-1_47.lib"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_thread-vc100-mt-1_47.lib"
+		#"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
+		#"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
 	)
 else(WIN32)
 	set(NLS_ENGINE_LIBS
-		"${LIBRARY_OUTPUT_PATH}/libsharedbase.a"
-		"${LIBRARY_OUTPUT_PATH}/libAngelScript.a"
-		
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-*-mt-d-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-*-mt-d-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-*-mt-d-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_system-*-mt-d-1_47.a"
-		debug "${LIBRARY_OUTPUT_PATH}/libboost_thread-*-mt-d-1_47.a"
-		
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_chrono-*-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_date_time-*-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-*-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_system-*-mt-1_47.a"
-		optimized "${LIBRARY_OUTPUT_PATH}/libboost_thread-*-mt-1_47.a"
+		#"${LIBRARY_OUTPUT_PATH}/libsharedbase.a"
+		#"${LIBRARY_OUTPUT_PATH}/libAngelScript.a"
 	)
 endif(WIN32)
 
 if(NLS_ENGINE_LIBS)
-	message("Adding to ${NLS_ENGINE_EXECUTABLE_NAME} the libraries: ${NLS_ENGINE_LIBS}")
-	target_link_libraries(${NLS_ENGINE_EXECUTABLE_NAME} ${NLS_ENGINE_LIBS})
+	message("Adding to ${NLS_ENGINE_LIBRARY} the libraries: ${NLS_ENGINE_LIBS}")
+	target_link_libraries(${NLS_ENGINE_LIBRARY} ${NLS_ENGINE_LIBS})
 endif(NLS_ENGINE_LIBS)
 
 
