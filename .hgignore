@@ -42,6 +42,7 @@ Makefile
 CMakeCache.txt
 EngineConfig.h
 cmake_install.cmake
+CMakeScripts/*
 
 # VS files, as they are built by CMake
 *.sln
@@ -50,6 +51,10 @@ cmake_install.cmake
 # Eclipse project files
 .cproject
 .project
+.settings/*
+
+# Xcode files
+*.xcodeproj/*
 
 # Build result folders
 bin/*
