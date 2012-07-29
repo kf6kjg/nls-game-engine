@@ -25,6 +25,9 @@ function("load_library_source_from_web" LIB_NAME LIB_DIR LIB_URL LIB_MD5)
 		file(DOWNLOAD ${LIB_URL} ${LIB_ARCHIVE} STATUS LIB_RESULT SHOW_PROGRESS)
 		
 		message("Download of library '${LIB_NAME}' archive complete.")
+		
+		# If we had to re-download, likelyhood is that we need to decompress.
+		set(LIB_${LIB_NAME}_ALREADY_EXTRACTED 0 FORCE)
 	endif(EXISTS "${LIB_ARCHIVE}")
 	
 	# Verify MD5 of D/L'd archive in case it got corrupted

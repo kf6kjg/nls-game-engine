@@ -59,7 +59,7 @@ set(NLS_ENGINE_LIBS)
 # OS-specific libraries
 if(WIN32)
 	# *NOTE: We no longer need to link boost in here as we are building a static library. THe final build will need to link in boost however.
-	set(NLS_ENGINE_LIBS		
+	set(NLS_ENGINE_LIBS
 		#"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
 		#"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
 	)
