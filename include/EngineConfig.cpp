@@ -3,8 +3,6 @@
  * \author Ricky Curtice
  * \brief Provides language-specific strings for usage in the engine.
  */
-#pragma once
-
 #include "EngineConfig.h"
 
 namespace NLS_I18N {
