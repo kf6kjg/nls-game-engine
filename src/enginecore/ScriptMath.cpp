@@ -109,7 +109,7 @@ void ScriptEngine::RegisterMathTypes(asIScriptEngine* const as_engine) {
 		}
 		
 		{ // Vector3
-			char* list[] = {"Vector", "Vector3"};
+			const char* list[] = {"Vector", "Vector3"};
 			for (unsigned int index = 0; index < 2; ++index) {
 				std::string type(list[index]);
 				
@@ -181,7 +181,7 @@ void ScriptEngine::RegisterMathTypes(asIScriptEngine* const as_engine) {
 		}
 		
 		{ // Quaternion
-			char* list[] = {"Rotation", "Quaternion"};
+			const char* list[] = {"Rotation", "Quaternion"};
 			for (unsigned int index = 0; index < 2; ++index) {
 				std::string type(list[index]);
 				
