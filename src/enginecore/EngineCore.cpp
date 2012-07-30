@@ -27,7 +27,7 @@
 * \param[in] elog A pointer to the Eventlogger created in main.
 * \param[in] dir The current working directory to load scripts from.
 */
-EngineCore::EngineCore( EventLogger* elog, std::string dir ) : elog(elog), modmgr(&engine), now(boost::chrono::steady_clock::now()), workingdir(dir) {
+EngineCore::EngineCore( EventLogger* elog, std::string dir ) : now(boost::chrono::steady_clock::now()), workingdir(dir), elog(elog), modmgr(&engine) {
 
 }
 
