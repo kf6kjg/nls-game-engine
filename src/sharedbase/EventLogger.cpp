@@ -98,8 +98,6 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 
 	// Push the formatted message onto the queue
 	{
-		boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
-		
 		// Format the log entry: timestamp	priority	module	file(line): function	message
 		std::stringstream ss;
 		ss	<< "," << "\n" << "{"
