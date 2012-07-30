@@ -131,12 +131,12 @@ void ScriptEngine::RegisterMathTypes(asIScriptEngine* const as_engine) {
 				}
 				
 				// Properties
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float x", offsetof(glm::vec3, x)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float y", offsetof(glm::vec3, y)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float z", offsetof(glm::vec3, z)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float r", offsetof(glm::vec3, r)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float g", offsetof(glm::vec3, g)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float b", offsetof(glm::vec3, b)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float x", asOFFSET(glm::vec3, x)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float y", asOFFSET(glm::vec3, y)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float z", asOFFSET(glm::vec3, z)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float r", asOFFSET(glm::vec3, r)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float g", asOFFSET(glm::vec3, g)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float b", asOFFSET(glm::vec3, b)); assert(ret >= 0);
 				
 				// Methods
 				// Note that there is no function in GLM for the square of the magnitude (aka "length") of a vector, hence the custom functions.
@@ -210,10 +210,10 @@ void ScriptEngine::RegisterMathTypes(asIScriptEngine* const as_engine) {
 				}
 				
 				// Properties
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float x", offsetof(glm::quat, x)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float y", offsetof(glm::quat, y)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float z", offsetof(glm::quat, z)); assert(ret >= 0);
-				ret = as_engine->RegisterObjectProperty(type.c_str(), "float s", offsetof(glm::quat, w)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float x", asOFFSET(glm::quat, x)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float y", asOFFSET(glm::quat, y)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float z", asOFFSET(glm::quat, z)); assert(ret >= 0);
+				ret = as_engine->RegisterObjectProperty(type.c_str(), "float s", asOFFSET(glm::quat, w)); assert(ret >= 0);
 				
 				// Methods
 				ret = as_engine->RegisterObjectMethod(type.c_str(), "Vector ToEuler() const", asFUNCTION(ToEuler), asCALL_CDECL_OBJFIRST); assert( ret >= 0 );
