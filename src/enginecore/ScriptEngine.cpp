@@ -94,6 +94,9 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 	// Register callstack analysis commands for enabling unit test systems.
 	ret = this->engine->SetDefaultNamespace("Engine::Debug"); assert(ret >= 0);
 	ret = this->engine->RegisterGlobalFunction("string GetPreviousCallstackLine(const uint &in a = 1)", asFUNCTION(GetPreviousCallstackLine), asCALL_CDECL); assert(ret >= 0);
+	// *NOTE: This function is designed to, normally, return the previous line of execution from the call stack.  Hence the parameter is defaulted to 1, and the name is as it is: GetPreviousCallstackLine.
+	//  This distinction is helpful when the function is used as it is supposed to be used: as a part of a simple message to the log from a script-based error handling system like the unit test framework.
+	//  However, other uses will need to set the value differently.  Just to document the result: a passed value of 0 will return the current line of execution - whatever use that might be.
 
 	ret = this->engine->SetDefaultNamespace(""); assert(ret >= 0);
 }
