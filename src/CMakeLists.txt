@@ -125,7 +125,7 @@ include_directories("sharedbase")
 
 ## Add the OS-specific interface
 if(WINDOWS)
-	add_subdirectory("windows")
+	add_subdirectory("os_win32")
 endif(WINDOWS)
 
 

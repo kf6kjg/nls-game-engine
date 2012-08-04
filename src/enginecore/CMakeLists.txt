@@ -17,7 +17,6 @@ set(SOURCE_FILES
 	"EntityMap.cpp"
 	"EntityRegister.cpp"
 	"EventLoggerRegister.cpp"
-	"main.cpp"
 	"ModuleManager.cpp"
 	"ScriptEngine.cpp"
 	"ScriptExecutor.cpp"

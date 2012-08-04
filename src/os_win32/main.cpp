@@ -1,21 +1,10 @@
+#include <windows.h>
+#include "win32.h"
+#include "../enginecore/EngineCore.h"
 #include "../sharedbase/EventLogger.h"
-#include "../sharedbase/OSInterface_fwd.h"
 
-#ifdef _WIN32
-#include "../windows/win32.h"
-#else
-#include "OSInterface.h" // Included by win32 already, but we need it for other OSes.
-#endif
-#include "EngineCore.h"
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-// Main
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int main() {
-	// Get the OS-specific subsystem online.
-#ifdef _WIN32
+int WINAPI WinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd ) {
 	win32::Make();
-#endif
 	OSInterfaceSPTR operating_system(OSInterface::GetOSPointer());
 
 	std::string bin_dir(operating_system->GetPath(SYSTEM_DIRS::EXECUTABLE));
@@ -32,6 +21,7 @@ int main() {
 	}
 
 	while(engine.IsRunning()) {
+		operating_system->RouteMessages();
 		engine.Update();
 	}
 
