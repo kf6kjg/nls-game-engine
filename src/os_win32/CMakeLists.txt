@@ -34,17 +34,13 @@ set(NLS_ENGINE_LIBS
 	"${LIBRARY_OUTPUT_PATH}/sharedbase.lib"
 	"${LIBRARY_OUTPUT_PATH}/angelscript.lib"
 	
-	debug "${LIBRARY_OUTPUT_PATH}/libboost_chrono-mt-gd.lib"
 	debug "${LIBRARY_OUTPUT_PATH}/libboost_date_time-mt-gd.lib"
 	debug "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-mt-gd.lib"
 	debug "${LIBRARY_OUTPUT_PATH}/libboost_system-mt-gd.lib"
-	debug "${LIBRARY_OUTPUT_PATH}/libboost_thread-mt-gd.lib"
 	
-	optimized "${LIBRARY_OUTPUT_PATH}/libboost_chrono-mt.lib"
 	optimized "${LIBRARY_OUTPUT_PATH}/libboost_date_time-mt.lib"
 	optimized "${LIBRARY_OUTPUT_PATH}/libboost_filesystem-mt.lib"
 	optimized "${LIBRARY_OUTPUT_PATH}/libboost_system-mt.lib"
-	optimized "${LIBRARY_OUTPUT_PATH}/libboost_thread-mt.lib"
 )
 
 if(NLS_ENGINE_LIBS)

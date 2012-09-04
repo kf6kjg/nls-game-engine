@@ -10,6 +10,9 @@
 // System Library Includes
 
 // Application Library Includes
+// *NOTE: We don't need hybrid error checking, and it's nice to not have to compile and link the chrono library, so specify it to be header-only.
+#define BOOST_CHRONO_HEADER_ONLY
+#define BOOST_CHRONO_DONT_PROVIDE_HYBRID_ERROR_HANDLING 
 #include <boost/chrono.hpp>
 
 // Local Includes
