@@ -61,7 +61,7 @@ set(NLS_ENGINE_LIBRARY "Boost")
 #    - test
 #    - thread
 #    - wave
-set(BOOST_LIBS "date_time,filesystem,system,thread,chrono" CACHE STRING
+set(BOOST_LIBS "date_time,filesystem,system" CACHE STRING
 	"Comma-seperated list of boost library names"
 	FORCE
 )
@@ -164,15 +164,15 @@ if(DEFINED NLS_ENGINE_LIBRARY_MODE)
 				"# Stop on first error\n"
 				"option.set keep-going : false ;\n"
 			)
-			set(BOOST_COMPILE_OPTIONS "")
+			set(BOOST_COMPILE_OPTIONS link=static)
 		else(WIN32)
 			# Linux and OSX
 			set(BOOST_COMPILE_COMMAND "${LIB_Boost_DIR}/boost_1_50_0/b2")
 			
 			if(CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
-				set(BOOST_COMPILE_OPTIONS cxxflags="-I -std=c++11 -stdlib=libc++" linkflags="-stdlib=libc++") # If you change this, make sure to change /src/CMakeLists.txt
+				set(BOOST_COMPILE_OPTIONS link=static cxxflags="-I -std=c++11 -stdlib=libc++" linkflags="-stdlib=libc++") # If you change -std or -stdlib, make sure to change /src/CMakeLists.txt
 			else(CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
-				set(BOOST_COMPILE_OPTIONS "")
+				set(BOOST_COMPILE_OPTIONS link=static)
 			endif(CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
 		endif(WIN32)
 		

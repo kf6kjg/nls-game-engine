@@ -59,7 +59,7 @@ if(LINUX OR DARWIN)
 			add_definitions(-include "\"${NLS_ENGINE_ROOT}/include/nullptr.h\"")
 		endif(NOT COMPILER_VERSION VERSION_LESS 4.7)
 	elseif(CMAKE_CXX_COMPILER_ID MATCHES "[Cc]lang")
-		add_definitions(-std=c++11 -stdlib=libc++) # If you change this, make sure to change /cmake/GetBoost.cmake
+		add_definitions(-std=c++11 -stdlib=libc++) # If you change -std or -stdlib, make sure to change /cmake/GetBoost.cmake
 		add_definitions(-DGLM_FORCE_CXX11)
 	else(CMAKE_COMPILER_IS_GNUCXX)
 		message(FATAL_ERROR "Unknown Compiler '${CMAKE_CXX_COMPILER_ID}' at version ${COMPILER_VERSION}")
