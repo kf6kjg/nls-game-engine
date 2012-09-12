@@ -18,6 +18,7 @@
 // Local Includes
 #include "../sharedbase/EventLogger.h"
 #include "EventLoggerRegister.h"
+#include "../sharedbase/OSInterface.h"
 
 // Forward Declarations
 
@@ -30,19 +31,22 @@
 EngineCore::EngineCore( EventLogger* elog, std::string dir ) : now(boost::chrono::steady_clock::now()), workingdir(dir), elog(elog), modmgr(&engine) {
 
 }
+EngineCore::EngineCore( OSInterfaceSPTR os ) : now(boost::chrono::steady_clock::now()), workingdir(os->GetPath(SYSTEM_DIRS::EXECUTABLE)), elog(os->GetLogger()), modmgr(&engine), os(os) {
+
+}
 
 /**
 * \return True on a successful config.
 */
 bool EngineCore::StartUp() {
 	EventLoggerRegister(engine.GetasIScriptEngine());
+	this->os->Register(engine.GetasIScriptEngine());
 
 	int as_status = 0;
 
 	// Register the APIs available to config scripts.
 	this->engine.BeginConfigGroup("config"); {
 		this->modmgr.ConfigRegister();
-
 		this->engine.LoadScriptFile(this->workingdir + "/config.as");
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));

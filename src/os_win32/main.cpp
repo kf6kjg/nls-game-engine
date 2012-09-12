@@ -15,7 +15,8 @@ int WINAPI WinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, 
 	elog->SetLogFile(bin_dir + "/" + NLS_ENGINE_DEFAULT_LOG_FILE);
 	LOG(LOG_PRIORITY::FLOW, "Log file created!");
 
-	EngineCore engine(elog, bin_dir);
+	//EngineCore engine(elog, bin_dir);
+	EngineCore engine(operating_system);
 	if (!engine.StartUp()) {
 		LOG(LOG_PRIORITY::FLOW, "Engine startup failed.");
 	}

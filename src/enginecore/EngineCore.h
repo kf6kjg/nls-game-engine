@@ -19,6 +19,7 @@
 #include "ModuleManager.h"
 #include "ScriptEngine.h"
 #include "EntityMap.h"
+#include "OSInterface_fwd.h"
 
 // Forward Declarations
 class EventLogger;
@@ -32,6 +33,7 @@ class EventLogger;
 class EngineCore {
 public:
 	EngineCore(EventLogger* elog, std::string dir);
+	EngineCore(OSInterfaceSPTR os);
 
 	/**
 	* \brief Starts the engine by calling config.as. After the config phase is done it loads the main gameplay script.
@@ -62,4 +64,5 @@ private:
 	ScriptEngine engine;
 	EntityMap EntList;
 	ModuleManager modmgr;
+	OSInterfaceSPTR os;
 };
