@@ -13,8 +13,10 @@
 
 // Local Includes
 #include "OSInterface_fwd.h"
+#include "ModuleScriptInterface.h"
 
 // Forward Declarations
+class EventLogger;
 
 // Typedefs
 
@@ -22,7 +24,7 @@
 /**
  * \brief Base interface for any OS specific code
  */
-class OSInterface {
+class OSInterface : public ModuleScriptInterface {
 public: // Public static members
 	static void SetOS(OSInterfaceSPTR);
 	static OSInterfaceSPTR GetOSPointer();
@@ -48,12 +50,20 @@ public:
 	
 	/// Returns the path to a known system- or user-specific location.
 	virtual std::string GetPath(SYSTEM_DIRS::TYPE) = 0;
-	
-	virtual void SetupTimer() = 0;
-	virtual double GetElapsedTime() = 0;
+
+	/**
+	* \brief Used to get an event logger. Most cases the default EventLogger will be used, but certain OSes (Android) have special types.
+	*/
+	virtual EventLogger* GetLogger() = 0;
+
+	/**
+	* \brief Implementation defined on a per-OS level as to whether the system is still running or not.
+	*/
+	virtual bool IsRunning() = 0;
 	
 protected:
 	OSInterface() {}
+	bool running; /**< If the OS is still running */
 	
 private:
 	static OSInterfaceSPTR operatingSystem;

@@ -10,7 +10,7 @@ int WINAPI WinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, 
 	std::string bin_dir(operating_system->GetPath(SYSTEM_DIRS::EXECUTABLE));
 
 	// Load the event logger, logging to the config log location if running under debug or if the 
-	EventLogger* elog = EventLogger::GetEventLogger(); // *TODO: Must fix the mem leak on exit
+	EventLogger* elog = operating_system->GetLogger(); // *TODO: Must fix the mem leak on exit
 	EventLogger::module = "Main";
 	elog->SetLogFile(bin_dir + "/" + NLS_ENGINE_DEFAULT_LOG_FILE);
 	LOG(LOG_PRIORITY::FLOW, "Log file created!");
@@ -20,7 +20,7 @@ int WINAPI WinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, 
 		LOG(LOG_PRIORITY::FLOW, "Engine startup failed.");
 	}
 
-	while(engine.IsRunning()) {
+	while(engine.IsRunning() && operating_system->IsRunning()) {
 		operating_system->RouteMessages();
 		engine.Update();
 	}

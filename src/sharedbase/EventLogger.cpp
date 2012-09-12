@@ -93,7 +93,8 @@ bool EventLogger::LogToDisk(const LOG_PRIORITY::TYPE& priority_level, const std:
 			}
 			cleanedText += *itr;
 		}
-		cleanedText = cleanedText.erase(text.find_last_not_of(std::string("\n\r")) + 1, std::string::npos);
+		// Not sure what I was trying to accomplish with the following line, but it seems obsolete now with the above loop.
+		//cleanedText = cleanedText.erase(text.find_last_not_of(std::string("\n\r")) + 1, std::string::npos);
 	}
 
 	// Push the formatted message onto the queue

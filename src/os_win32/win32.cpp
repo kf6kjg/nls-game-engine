@@ -87,6 +87,7 @@ void win32::RouteMessages() {
 	MSG msg;
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0) {
 		if (msg.message == WM_QUIT) {
+			this->running = false;
 			break;
 		}
 		TranslateMessage(&msg);
@@ -182,16 +183,25 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		case WM_DESTROY:
 		case WM_CLOSE:
 		{
-			def = false;
-			
+			def = true;
+			PostQuitMessage(0);
 			
 		}
 		break;
 		default:
+			def = true;
 		break;
 	}
 	
 	return (def ? DefWindowProc(hwnd, msg, w, l) : 0);
+}
+
+EventLogger* win32::GetLogger() {
+	return EventLogger::GetEventLogger();
+}
+
+void win32::Register( asIScriptEngine* const engine ) {
+
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -233,25 +243,4 @@ std::string win32::GetPath(SYSTEM_DIRS::TYPE dir_id) {
 	else {
 		return "";
 	}
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void win32::SetupTimer() {
-	LARGE_INTEGER tps;
-	QueryPerformanceFrequency(&tps);
-	this->freq = 1.0f / (double)tps.QuadPart; // Determine the amount of counts per second
-	QueryPerformanceCounter(&this->count); // Get the starting count
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-double win32::GetElapsedTime() {
-	LARGE_INTEGER old = this->count;
-	QueryPerformanceCounter(&this->count); // Get the current count.
-	this->elapsed = (this->count.QuadPart - old.QuadPart) * this->freq; // Find the difference of the ticks and multiply it by the counts per second. Elapsed is measured in seconds.
-	return this->elapsed;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void win32::Quit(EnvelopeSPTR e) {
-	DestroyWindow(this->handle);
 }

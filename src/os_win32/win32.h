@@ -14,7 +14,7 @@
 
 // Local Includes
 #include "../sharedbase/OSInterface.h"
-#include "../sharedbase/Envelope_fwd.h"
+#include "../sharedbase/ModuleScriptInterface.h"
 
 // Forward Declarations
 
@@ -26,14 +26,21 @@ public:
 	~win32() {
 		PostQuitMessage(0);
 	}
-	void Quit(EnvelopeSPTR e);
 	
 	void SetClientRect(int width, int height);
 	
+	bool IsRunning() {
+		return this->running;
+	}
+	
 	static LRESULT CALLBACK Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l);
+
+	EventLogger* GetLogger();
+
+	void Register(asIScriptEngine* const engine);
 	
 private:
-	win32() : freq(0.0f), elapsed(0.0f), handle(nullptr) { }
+	win32() : handle(nullptr) { this->running = true; }
 	
 private: // Overrides
 	virtual boost::any CreateGUIWindow(int, int, std::string, WINDOW_FLAGS = WINDOW_OUTER_SIZE);
@@ -42,11 +49,8 @@ private: // Overrides
 	virtual void ShowError(std::string, std::string = NLS_I18N::TITLE_CRITICAL);
 	virtual void RouteMessages();
 	virtual std::string GetPath(SYSTEM_DIRS::TYPE);
-	virtual void SetupTimer();
-	virtual double GetElapsedTime();
 	
 private:
 	LARGE_INTEGER count;
-	double freq, elapsed;
 	HWND handle;
 };
