@@ -40,7 +40,7 @@ public:
 	void Register(asIScriptEngine* const engine);
 	
 private:
-	win32() : handle(nullptr) { this->running = true; }
+	win32() { this->running = true; }
 	
 private: // Overrides
 	virtual boost::any CreateGUIWindow(int, int, std::string, WINDOW_FLAGS = WINDOW_OUTER_SIZE);
@@ -49,8 +49,5 @@ private: // Overrides
 	virtual void ShowError(std::string, std::string = NLS_I18N::TITLE_CRITICAL);
 	virtual void RouteMessages();
 	virtual std::string GetPath(SYSTEM_DIRS::TYPE);
-	
-private:
-	LARGE_INTEGER count;
-	HWND handle;
+
 };

@@ -62,7 +62,7 @@ boost::any win32::CreateGUIWindow( int width, int height, std::string title, WIN
 	
 	ShowWindow(hwnd, SW_NORMAL);
 
-	this->handle = hwnd;
+	this->GUIHandle = hwnd;
 
 	return hwnd;
 }
@@ -237,7 +237,7 @@ std::string win32::GetPath(SYSTEM_DIRS::TYPE dir_id) {
 	}
 	
 	char path[MAX_PATH];
-	if (SUCCEEDED(SHGetFolderPath(this->handle, csidl, nullptr, 0, path))) {
+	if (SUCCEEDED(SHGetFolderPath(nullptr, csidl, nullptr, 0, path))) {
 		return path;
 	}
 	else {

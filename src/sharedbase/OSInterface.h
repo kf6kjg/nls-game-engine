@@ -60,10 +60,17 @@ public:
 	* \brief Implementation defined on a per-OS level as to whether the system is still running or not.
 	*/
 	virtual bool IsRunning() = 0;
+
+	/**
+	* \brief Returns a GUI window handle.
+	* \return The GUI handle as a boost::any. No error checking is performed to ensure a window has been created.
+	*/
+	boost::any GetGUIHandle() { return this->GUIHandle; }
 	
 protected:
 	OSInterface() {}
 	bool running; /**< If the OS is still running */
+	boost::any GUIHandle; /**< Handle to a created GUI window. */
 	
 private:
 	static OSInterfaceSPTR operatingSystem;
