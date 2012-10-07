@@ -99,7 +99,12 @@ public: // API Methods
 	/**
 	* \brief Set the name of the main game script.
 	*/
-	void SetGameScript(const std::string &) { }
+	void SetGameScript(const std::string &);
+
+	/**
+	* \brief Gets the main game script including working directory.
+	*/
+	const std::string GetGameScript();
 
 	/**
 	* \brief Returns if the engine is still running.
@@ -107,9 +112,9 @@ public: // API Methods
 	bool IsRunning();
 
 	/**
-	* \brief Stops the engine.
+	* \brief Shuts down the engine.
 	*/
-	void Stop();
+	void Shutdown();
 
 private: // Internal methods
 	/**

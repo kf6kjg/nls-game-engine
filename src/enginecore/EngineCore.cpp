@@ -55,7 +55,7 @@ bool EngineCore::StartUp() {
 	// Register the APIs available to game play scripts.
 	this->engine.BeginConfigGroup("gameplay"); {
 		this->EntList.Register(engine.GetasIScriptEngine());
-		this->engine.LoadScriptFile(this->workingdir + "/main.as");
+		this->engine.LoadScriptFile(engine.GetGameScript());
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
 		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {

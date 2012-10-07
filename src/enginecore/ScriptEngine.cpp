@@ -90,7 +90,9 @@ ScriptEngine::ScriptEngine() : engine(nullptr), isRunning(true) {
 	// This is in the global namespace like all global singleton instances.
 	ret = engine->RegisterObjectType("ScriptEngine", 0, asOBJ_REF | asOBJ_NOHANDLE ); assert(ret >= 0);
 	ret = engine->RegisterGlobalProperty("ScriptEngine Engine", this); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("ScriptEngine", "void Stop()", asMETHOD(ScriptEngine, Stop), asCALL_THISCALL); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("ScriptEngine", "void Shutdown()", asMETHOD(ScriptEngine, Shutdown), asCALL_THISCALL); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("ScriptEngine", "void SetUserDataFolder(const string &in)", asMETHOD(ScriptEngine, SetUserDataFolder), asCALL_THISCALL); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("ScriptEngine", "void SetGameScript(const string &in)", asMETHOD(ScriptEngine, SetGameScript), asCALL_THISCALL); assert(ret >= 0);
 
 	ret = this->engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 
@@ -260,6 +262,31 @@ void ScriptEngine::SetLogFile( const std::string &filename ) {
 }
 
 /**
+* \return True if the engine is running.
+*/
+bool ScriptEngine::IsRunning() {
+	return this->isRunning;
+}
+
+void ScriptEngine::Shutdown() {
+	this->isRunning = false;
+}
+
+/**
+* \param[in] name The name of the script to load.
+*/
+void ScriptEngine::SetGameScript( const std::string &name ) {
+	this->gameplayScript = name;
+}
+
+/**
+* \return The gameplay script including the working directory specified in the script.
+*/
+const std::string ScriptEngine::GetGameScript() {
+	return this->userDataFolder + "/" + this->gameplayScript;
+}
+
+/**
 */
 void ScriptEngine::AbortExecution() {
 	asIScriptContext* ctx = asGetActiveContext();
@@ -267,17 +294,6 @@ void ScriptEngine::AbortExecution() {
 	if (ctx != nullptr) {
 		ctx->Abort();
 	}
-}
-
-/**
-* \return True if the engine is running.
-*/
-bool ScriptEngine::IsRunning() {
-	return this->isRunning;
-}
-
-void ScriptEngine::Stop() {
-	this->isRunning = false;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
