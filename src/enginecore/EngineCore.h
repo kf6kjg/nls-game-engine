@@ -32,30 +32,28 @@ class EventLogger;
 */
 class EngineCore {
 public:
-	EngineCore(EventLogger* elog, std::string dir);
 	EngineCore(OSInterfaceSPTR os);
 
 	/**
-	* \brief Starts the engine by calling config.as. After the config phase is done it loads the main gameplay script.
+	* \brief Starts the script engine by calling config.as. After the config phase is done it loads the main gameplay script.
 	*/
 	bool StartUp();
 
 	/**
-	* \brief Returns if the engine is still running
+	* \brief Returns if the script engine is still running.
 	*/
 	bool IsRunning();
 
 	/**
-	* \brief Calls update on all loaded modules
+	* \brief Calls update on all loaded modules.
 	*/
 	void Update();
 
 	/**
-	* \brief Shuts down all modules
+	* \brief Shuts down all modules.
 	*/
 	void Shutdown();
 private:
-	bool isRunning;
 	boost::chrono::steady_clock::time_point now, oldnow;
 	boost::chrono::duration<double, boost::ratio<1,1>> duraction;
 	std::string workingdir;

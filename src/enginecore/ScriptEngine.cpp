@@ -50,7 +50,7 @@ Target stringCast(const std::string& src) {
 	}
 }
 
-ScriptEngine::ScriptEngine() : engine(nullptr) {
+ScriptEngine::ScriptEngine() : engine(nullptr), isRunning(true) {
 	int ret = 0;
 
 	// Create the script engine
@@ -87,9 +87,14 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 	ret = this->engine->RegisterGlobalFunction("float stof(string)", asFUNCTION(stringCast<float>), asCALL_CDECL); assert(ret >= 0);
 	ret = this->engine->RegisterGlobalFunction("double stod(string)", asFUNCTION(stringCast<double>), asCALL_CDECL); assert(ret >= 0);
 
+	// This is in the global namespace like all global singleton instances.
+	ret = engine->RegisterObjectType("ScriptEngine", 0, asOBJ_REF | asOBJ_NOHANDLE ); assert(ret >= 0);
+	ret = engine->RegisterGlobalProperty("ScriptEngine Engine", this); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("ScriptEngine", "void Stop()", asMETHOD(ScriptEngine, Stop), asCALL_THISCALL); assert(ret >= 0);
+
 	ret = this->engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 
-	ret = this->engine->RegisterGlobalFunction("void Shutdown()", asFUNCTION(ScriptEngine::AbortExecution), asCALL_CDECL); assert(ret >= 0); // TODO: Use this method to change EngineCore's running flag
+	ret = this->engine->RegisterGlobalFunction("void AbortExecution()", asFUNCTION(ScriptEngine::AbortExecution), asCALL_CDECL); assert(ret >= 0);
 
 	// Register callstack analysis commands for enabling unit test systems.
 	ret = this->engine->SetDefaultNamespace("Engine::Debug"); assert(ret >= 0);
@@ -262,6 +267,17 @@ void ScriptEngine::AbortExecution() {
 	if (ctx != nullptr) {
 		ctx->Abort();
 	}
+}
+
+/**
+* \return True if the engine is running.
+*/
+bool ScriptEngine::IsRunning() {
+	return this->isRunning;
+}
+
+void ScriptEngine::Stop() {
+	this->isRunning = false;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

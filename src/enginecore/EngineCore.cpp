@@ -25,12 +25,8 @@
 // Typedefs
 
 /**
-* \param[in] elog A pointer to the Eventlogger created in main.
-* \param[in] dir The current working directory to load scripts from.
+* \param[in] os A SPTR to an instance of OSInterface. This is stored, and also used to get the working directory and EventLogger.
 */
-EngineCore::EngineCore( EventLogger* elog, std::string dir ) : now(boost::chrono::steady_clock::now()), workingdir(dir), elog(elog), modmgr(&engine) {
-
-}
 EngineCore::EngineCore( OSInterfaceSPTR os ) : now(boost::chrono::steady_clock::now()), workingdir(os->GetPath(SYSTEM_DIRS::EXECUTABLE)), elog(os->GetLogger()), modmgr(&engine), os(os) {
 
 }
@@ -51,7 +47,7 @@ bool EngineCore::StartUp() {
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
 		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
-			return this->isRunning = false;
+			return false;
 		}
 		delete exec;
 	} this->engine.EndConfigGroup();
@@ -63,19 +59,19 @@ bool EngineCore::StartUp() {
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
 		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
-			return this->isRunning = false;
+			return false;
 		}
 		delete exec;
 	} this->engine.EndConfigGroup();
 
-	return this->isRunning = true;
+	return this->engine.IsRunning();
 }
 
 /**
-* \return True if the engine is running.
+* \return True if the script engine is running.
 */
 bool EngineCore::IsRunning() {
-	return this->isRunning;
+	return this->engine.IsRunning();
 }
 
 void EngineCore::Update() {

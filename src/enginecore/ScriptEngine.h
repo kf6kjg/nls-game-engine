@@ -101,6 +101,16 @@ public: // API Methods
 	*/
 	void SetGameScript(const std::string &) { }
 
+	/**
+	* \brief Returns if the engine is still running.
+	*/
+	bool IsRunning();
+
+	/**
+	* \brief Stops the engine.
+	*/
+	void Stop();
+
 private: // Internal methods
 	/**
 	* \brief A message callback used by Angelscript to give feedback about warning and errors.
@@ -120,6 +130,7 @@ private: // Internal methods
 	static void AbortExecution();
 
 private: // Data
+	bool isRunning; ///< Running flag.
 	asIScriptEngine *engine; ///< The script engine.
 	ScriptExecutor scriptexec; ///< The script executor.
 	CScriptBuilder builder; ///< Used for building scripts from files.
