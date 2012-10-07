@@ -201,7 +201,27 @@ EventLogger* win32::GetLogger() {
 }
 
 void win32::Register( asIScriptEngine* const engine ) {
+	int ret = 0;
 
+	// TODO: Move this block to OSInterface proper
+	ret = engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
+	ret = engine->RegisterEnum("SYSTEM_DIRS"); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "USER", ::SYSTEM_DIRS::USER); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "DOCUMENTS", ::SYSTEM_DIRS::DOCUMENTS); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "PICTURES", ::SYSTEM_DIRS::PICTURES); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "MUSIC", ::SYSTEM_DIRS::MUSIC); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "VIDEO", ::SYSTEM_DIRS::VIDEO); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "DESKTOP", ::SYSTEM_DIRS::DESKTOP); assert(ret >= 0);
+	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "EXECUTABLE", ::SYSTEM_DIRS::EXECUTABLE); assert(ret >= 0);
+	ret = engine->SetDefaultNamespace(""); assert(ret >= 0);
+
+
+	ret = engine->RegisterObjectType("OSInterface", 0, asOBJ_REF | asOBJ_NOHANDLE ); assert(ret >= 0);
+	ret = engine->RegisterGlobalProperty("OSInterface OS", this); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("OSInterface", "string GetPath(SYSTEM_DIRS)", asMETHOD(win32, GetPath), asCALL_THISCALL); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("OSInterface", "void ShowInfo(string, string)", asMETHOD(win32, ShowInfo), asCALL_THISCALL); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("OSInterface", "void ShowWarning(string, string)", asMETHOD(win32, ShowWarning), asCALL_THISCALL); assert(ret >= 0);
+	ret = engine->RegisterObjectMethod("OSInterface", "void ShowError(string, string)", asMETHOD(win32, ShowError), asCALL_THISCALL); assert(ret >= 0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
