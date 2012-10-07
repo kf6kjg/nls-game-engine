@@ -252,6 +252,9 @@ bool ScriptEngine::RemoveConfigGroup( const std::string &name ) {
 */
 void ScriptEngine::SetUserDataFolder( const std::string &folder ) {
 	this->userDataFolder = folder;
+	if ((this->userDataFolder.compare(this->userDataFolder.size() - 1, 1, "\\") != 0) && (this->userDataFolder.compare(this->userDataFolder.size() - 1, 1, "/") != 0)) {
+		this->userDataFolder += "/";
+	}
 }
 
 /**
@@ -283,7 +286,7 @@ void ScriptEngine::SetGameScript( const std::string &name ) {
 * \return The gameplay script including the working directory specified in the script.
 */
 const std::string ScriptEngine::GetGameScript() {
-	return this->userDataFolder + "/" + this->gameplayScript;
+	return this->userDataFolder + this->gameplayScript;
 }
 
 /**
