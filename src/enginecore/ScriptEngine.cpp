@@ -89,7 +89,7 @@ ScriptEngine::ScriptEngine() : engine(nullptr) {
 
 	ret = this->engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
 
-	ret = this->engine->RegisterGlobalFunction("void Shutdown()", asFUNCTION(ScriptEngine::AbortExecution), asCALL_CDECL); assert(ret >= 0);
+	ret = this->engine->RegisterGlobalFunction("void Shutdown()", asFUNCTION(ScriptEngine::AbortExecution), asCALL_CDECL); assert(ret >= 0); // TODO: Use this method to change EngineCore's running flag
 
 	// Register callstack analysis commands for enabling unit test systems.
 	ret = this->engine->SetDefaultNamespace("Engine::Debug"); assert(ret >= 0);

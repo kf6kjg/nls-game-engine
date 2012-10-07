@@ -13,6 +13,7 @@
 // Application Library Includes
 
 // Local Includes
+#include "OSInterface_fwd.h"
 
 // Forward Declarations
 class EventLogger;
@@ -20,7 +21,7 @@ class ScriptEngine;
 class ModuleInterface;
 
 // Typedefs
-typedef ModuleInterface* (*ModuleInstanceFactory)(EventLogger*); /**< Used to find the address of the create system function. */
+typedef ModuleInterface* (*ModuleInstanceFactory)(OSInterfaceSPTR); /**< Used to find the address of the create system function. */
 
 /**
 * \brief Preprocessor selection based on OS. Used to use the correct include, and typedef for the handle.

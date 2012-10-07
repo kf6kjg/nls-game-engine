@@ -97,7 +97,7 @@ MODULE_STATUS::TYPE ModuleManager::Load(const std::string &name) {
 		if (fact != nullptr) {
 			LOG(LOG_PRIORITY::FLOW, "Module factory acquired successfully.");
 			
-			ModuleInterface* module = fact(EventLogger::GetEventLogger());
+			ModuleInterface* module = fact(operating_system);
 			if (module != nullptr) {
 				module->Register(this->engine->GetasIScriptEngine());
 			}
