@@ -13,12 +13,11 @@
 // Application Library Includes
 
 // Local Includes
-#include "../sharedbase/ModuleScriptInterface.h"
 #include "../sharedbase/Entity_fwd.h"
 
 // Forward Declarations
 struct strptrcmp;
-class asIScriptEngine;
+class ScriptEngine;
 
 // Typedefs
 
@@ -49,7 +48,7 @@ typedef std::map<const std::string*, EntitySPTR, strptrcmp> NamedEntityMap;
 * Entities are stored in a map with their name as the key. Entities can be
 * added, found, or removed from the list via the wrapper methods.
 */
-class EntityMap : public ModuleScriptInterface {
+class EntityMap {
 public:
 	EntityMap(void) { }
 	~EntityMap(void) {	}
@@ -58,7 +57,7 @@ public:
 	* \brief Angelscript registration for EntityMap. Additionally calls the registration for
 	* Entity as EntityMap requires Angelscript to know about Entity beforehand.
 	*/
-	void Register(asIScriptEngine* const);
+	void RegisterScriptEngine(ScriptEngine* const);
 	
 	/**
 	* \brief Adds an entity to the list if an entity with the same name doesn't exist.

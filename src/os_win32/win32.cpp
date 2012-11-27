@@ -16,8 +16,11 @@
 
 // Local Includes
 #include "../sharedbase/EventLogger.h"
+#include "../enginecore/ScriptExecutor.h"
+#include "../enginecore/ScriptEngine.h"
 
 // Static class member initialization
+ScriptEngine* g_engine; // *HACK, used for testing input in script.
 
 void win32::Make() {
 	if (!OSInterface::HasOS()) {
@@ -89,6 +92,15 @@ void win32::RouteMessages() {
 		if (msg.message == WM_QUIT) {
 			this->running = false;
 			break;
+		} else if (msg.message == WM_KEYUP) {
+			int as_status = 0;
+			ScriptExecutor* exec = this->scriptEngine->ScriptExecutorFactory();
+			as_status = exec->PrepareFunction(std::string("void keyUp(uint)"), std::string("enginecore"));
+			as_status = exec->SetFunctionParam(0, msg.wParam);
+			if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
+				// If it fails, it might mean there isn't a function to handle keyUp(). This might not be a showstopper though.
+			}
+			delete exec;
 		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -146,9 +158,8 @@ LRESULT CALLBACK win32::Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l) {
 		case WM_KEYUP:
 		case WM_KEYLAST:
 		{
-			
+			break;
 		}
-		break;
 		case WM_LBUTTONUP:
 		case WM_MBUTTONUP:
 		case WM_RBUTTONUP:
@@ -200,30 +211,6 @@ EventLogger* win32::GetLogger() {
 	return EventLogger::GetEventLogger();
 }
 
-void win32::Register( asIScriptEngine* const engine ) {
-	int ret = 0;
-
-	// TODO: Move this block to OSInterface proper
-	ret = engine->SetDefaultNamespace("Engine"); assert(ret >= 0);
-	ret = engine->RegisterEnum("SYSTEM_DIRS"); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "USER", ::SYSTEM_DIRS::USER); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "DOCUMENTS", ::SYSTEM_DIRS::DOCUMENTS); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "PICTURES", ::SYSTEM_DIRS::PICTURES); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "MUSIC", ::SYSTEM_DIRS::MUSIC); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "VIDEO", ::SYSTEM_DIRS::VIDEO); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "DESKTOP", ::SYSTEM_DIRS::DESKTOP); assert(ret >= 0);
-	ret = engine->RegisterEnumValue("SYSTEM_DIRS", "EXECUTABLE", ::SYSTEM_DIRS::EXECUTABLE); assert(ret >= 0);
-	ret = engine->SetDefaultNamespace(""); assert(ret >= 0);
-
-
-	ret = engine->RegisterObjectType("OSInterface", 0, asOBJ_REF | asOBJ_NOHANDLE ); assert(ret >= 0);
-	ret = engine->RegisterGlobalProperty("OSInterface OS", this); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("OSInterface", "string GetPath(SYSTEM_DIRS)", asMETHOD(win32, GetPath), asCALL_THISCALL); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("OSInterface", "void ShowInfo(string, string)", asMETHOD(win32, ShowInfo), asCALL_THISCALL); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("OSInterface", "void ShowWarning(string, string)", asMETHOD(win32, ShowWarning), asCALL_THISCALL); assert(ret >= 0);
-	ret = engine->RegisterObjectMethod("OSInterface", "void ShowError(string, string)", asMETHOD(win32, ShowError), asCALL_THISCALL); assert(ret >= 0);
-}
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 std::string win32::GetPath(SYSTEM_DIRS::TYPE dir_id) {
 	int csidl;
@@ -263,4 +250,30 @@ std::string win32::GetPath(SYSTEM_DIRS::TYPE dir_id) {
 	else {
 		return "";
 	}
+}
+
+void win32::RegisterScriptEngine( ScriptEngine* const engine ) {
+	this->scriptEngine = engine;
+	asIScriptEngine* const asEngine = this->scriptEngine->GetasIScriptEngine();
+	int ret = 0;
+
+	// TODO: Move this block to OSInterface proper
+	ret = asEngine->SetDefaultNamespace("Engine"); assert(ret >= 0);
+	ret = asEngine->RegisterEnum("SYSTEM_DIRS"); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "USER", ::SYSTEM_DIRS::USER); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "DOCUMENTS", ::SYSTEM_DIRS::DOCUMENTS); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "PICTURES", ::SYSTEM_DIRS::PICTURES); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "MUSIC", ::SYSTEM_DIRS::MUSIC); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "VIDEO", ::SYSTEM_DIRS::VIDEO); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "DESKTOP", ::SYSTEM_DIRS::DESKTOP); assert(ret >= 0);
+	ret = asEngine->RegisterEnumValue("SYSTEM_DIRS", "EXECUTABLE", ::SYSTEM_DIRS::EXECUTABLE); assert(ret >= 0);
+	ret = asEngine->SetDefaultNamespace(""); assert(ret >= 0);
+
+
+	ret = asEngine->RegisterObjectType("OSInterface", 0, asOBJ_REF | asOBJ_NOHANDLE ); assert(ret >= 0);
+	ret = asEngine->RegisterGlobalProperty("OSInterface OS", this); assert(ret >= 0);
+	ret = asEngine->RegisterObjectMethod("OSInterface", "string GetPath(SYSTEM_DIRS)", asMETHOD(win32, GetPath), asCALL_THISCALL); assert(ret >= 0);
+	ret = asEngine->RegisterObjectMethod("OSInterface", "void ShowInfo(string, string)", asMETHOD(win32, ShowInfo), asCALL_THISCALL); assert(ret >= 0);
+	ret = asEngine->RegisterObjectMethod("OSInterface", "void ShowWarning(string, string)", asMETHOD(win32, ShowWarning), asCALL_THISCALL); assert(ret >= 0);
+	ret = asEngine->RegisterObjectMethod("OSInterface", "void ShowError(string, string)", asMETHOD(win32, ShowError), asCALL_THISCALL); assert(ret >= 0);
 }

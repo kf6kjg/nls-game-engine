@@ -13,10 +13,10 @@
 
 // Local Includes
 #include "OSInterface_fwd.h"
-#include "ModuleScriptInterface.h"
 
 // Forward Declarations
 class EventLogger;
+class ScriptEngine;
 
 // Typedefs
 
@@ -24,7 +24,7 @@ class EventLogger;
 /**
  * \brief Base interface for any OS specific code
  */
-class OSInterface : public ModuleScriptInterface {
+class OSInterface {
 public: // Public static members
 	static void SetOS(OSInterfaceSPTR);
 	static OSInterfaceSPTR GetOSPointer();
@@ -67,10 +67,17 @@ public:
 	*/
 	boost::any GetGUIHandle() { return this->GUIHandle; }
 	
+	/**
+	* \brief Sets the ScriptEngine instance and is meant to be where the OS is registered with the ScriptEngine.
+	* \param engine A instance of the ScriptEngine.
+	*/
+	virtual void RegisterScriptEngine(ScriptEngine* const engine) { this->scriptEngine = engine; }
+	
 protected:
 	OSInterface() {}
 	bool running; /**< If the OS is still running */
 	boost::any GUIHandle; /**< Handle to a created GUI window. */
+	ScriptEngine* scriptEngine; /**< A pointer to a ScriptEngine instance. Used to register with the scripting engine, and to get ScriptExecutor instance to call script functions. */
 	
 private:
 	static OSInterfaceSPTR operatingSystem;

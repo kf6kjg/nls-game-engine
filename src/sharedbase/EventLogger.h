@@ -19,6 +19,7 @@
 // Local Includes
 
 // Forward Declarations
+class ScriptEngine;
 
 // Typedefs
 
@@ -64,6 +65,8 @@ class EventLogger {
 public: // Public static members
 	static void SetEventLogger(EventLogger*);
 	static EventLogger* GetEventLogger();
+
+	static void RegisterScriptEngine(ScriptEngine* const);
 	
 public: // Public static parameters
 	static std::string module;
@@ -76,7 +79,6 @@ public: // Public members
 	
 	/// Specify a log file for all logging writes to be sent to.
 	bool SetLogFile(const std::string&);
-	
 private: // Private members
 	EventLogger(void);
 	

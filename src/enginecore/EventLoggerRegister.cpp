@@ -6,14 +6,13 @@
 *
 */
 
-#include "EventLoggerRegister.h"
-
 // System Library Includes
 
 // Application Library Includes
 
 // Local Includes
 #include "../sharedbase/EventLogger.h"
+#include "ScriptEngine.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 // Helper function prototypes
@@ -27,7 +26,8 @@ void ScriptLog(const LOG_PRIORITY::TYPE&, const std::string&);
 /**
 * \param[in] engine A pointer to the Angelscript engine instance.
 */
-void EventLoggerRegister(asIScriptEngine* const as_engine) {
+void EventLogger::RegisterScriptEngine(ScriptEngine* const engine) {
+	asIScriptEngine* const as_engine = engine->GetasIScriptEngine();
 	assert(as_engine != nullptr);
 	
 	int ret = 0;

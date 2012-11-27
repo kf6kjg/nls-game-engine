@@ -17,7 +17,6 @@
 
 // Local Includes
 #include "../sharedbase/EventLogger.h"
-#include "EventLoggerRegister.h"
 #include "../sharedbase/OSInterface.h"
 
 // Forward Declarations
@@ -27,7 +26,7 @@
 /**
 * \param[in] os A SPTR to an instance of OSInterface. This is stored, and also used to get the working directory and EventLogger.
 */
-EngineCore::EngineCore( OSInterfaceSPTR os ) : now(boost::chrono::steady_clock::now()), workingdir(os->GetPath(SYSTEM_DIRS::EXECUTABLE)), elog(os->GetLogger()), modmgr(&engine), os(os) {
+EngineCore::EngineCore( OSInterfaceSPTR os ) : now(boost::chrono::steady_clock::now()), workingdir(os->GetPath(SYSTEM_DIRS::EXECUTABLE)), elog(os->GetLogger()), os(os) {
 
 }
 
@@ -35,18 +34,20 @@ EngineCore::EngineCore( OSInterfaceSPTR os ) : now(boost::chrono::steady_clock::
 * \return True on a successful config.
 */
 bool EngineCore::StartUp() {
-	EventLoggerRegister(engine.GetasIScriptEngine());
-	this->os->Register(engine.GetasIScriptEngine());
+	EventLogger::RegisterScriptEngine(&engine);
+	this->os->RegisterScriptEngine(&engine);
 
 	int as_status = 0;
 
 	// Register the APIs available to config scripts.
 	this->engine.BeginConfigGroup("config"); {
-		this->modmgr.ConfigRegister();
+		this->modmgr.RegisterScriptEngine(&engine);
 		this->engine.LoadScriptFile(this->workingdir + "/config.as");
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
 		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
+			delete exec;
+			this->engine.Shutdown();
 			return false;
 		}
 		delete exec;
@@ -54,11 +55,13 @@ bool EngineCore::StartUp() {
 
 	// Register the APIs available to game play scripts.
 	this->engine.BeginConfigGroup("gameplay"); {
-		this->EntList.Register(engine.GetasIScriptEngine());
+		this->EntList.RegisterScriptEngine(&engine);
 		this->engine.LoadScriptFile(engine.GetGameScript());
 		ScriptExecutor* exec = engine.ScriptExecutorFactory();
 		as_status = exec->PrepareFunction(std::string("void main()"), std::string("enginecore"));
 		if (as_status < 0 || exec->ExecuteFunction() != asEXECUTION_FINISHED) {
+			delete exec;
+			this->engine.Shutdown();
 			return false;
 		}
 		delete exec;

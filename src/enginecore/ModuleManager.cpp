@@ -14,7 +14,6 @@
 // Local Includes
 #include "../sharedbase/ModuleInterface.h"
 #include "../sharedbase/EventLogger.h"
-#include "../sharedbase/ModuleScriptInterface.h"
 #include "../sharedbase/OSInterface.h"
 #include "ScriptEngine.h"
 
@@ -220,7 +219,8 @@ void ModuleManager::Shutdown() {
 	}
 }
 
-void ModuleManager::ConfigRegister() {
+void ModuleManager::RegisterScriptEngine(ScriptEngine* const engine) {
+	this->engine = engine;
 	asIScriptEngine* as_engine = this->engine->GetasIScriptEngine();
 	int ret = 0;
 	

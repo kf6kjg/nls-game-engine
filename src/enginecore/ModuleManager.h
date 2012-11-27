@@ -56,7 +56,7 @@ public:
 	/**
 	* \param engine A pointer to an instance of our script engine.
 	*/
-	ModuleManager(ScriptEngine* const engine) : engine(engine) { }
+	ModuleManager() { }
 
 	/**
 	* \brief Loads a module.
@@ -86,7 +86,7 @@ public:
 	/**
 	* \brief Angelscript register for ModuleManager. Only registered for the config phase.
 	*/
-	void ConfigRegister();
+	void RegisterScriptEngine(ScriptEngine* const engine);
 private:
 	std::map<std::string, ModuleInterface*> modules; /**< A mapping of each module to its filename. */
 	std::map<std::string, DLLHANDLE> libraries; /**< A mapping of each loaded library to a its filename */

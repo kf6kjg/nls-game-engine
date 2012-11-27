@@ -19,6 +19,7 @@
 // Local Includes
 #include "../sharedbase/EventLogger.h"
 #include "../sharedbase/Entity.h"
+#include "../enginecore/ScriptEngine.h"
 
 // Static class member initialization
 
@@ -27,7 +28,8 @@
 /**
 * \param[in] as_engine A pointer to the Angelscript engine instance
 */
-void EntityMap::Register( asIScriptEngine* const as_engine ) {
+void EntityMap::RegisterScriptEngine(ScriptEngine* const engine ) {
+	asIScriptEngine* const as_engine = engine->GetasIScriptEngine();
 	assert(as_engine != nullptr);
 	Entity::Register(as_engine); // Call to register Entity for Angelscript
 	int ret = 0;

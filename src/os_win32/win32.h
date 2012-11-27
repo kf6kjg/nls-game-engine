@@ -14,7 +14,6 @@
 
 // Local Includes
 #include "../sharedbase/OSInterface.h"
-#include "../sharedbase/ModuleScriptInterface.h"
 
 // Forward Declarations
 
@@ -36,8 +35,8 @@ public:
 	static LRESULT CALLBACK Proc(HWND hwnd, UINT msg, WPARAM w, LPARAM l);
 
 	EventLogger* GetLogger();
-
-	void Register(asIScriptEngine* const engine);
+	
+	void RegisterScriptEngine(ScriptEngine* const engine);
 	
 private:
 	win32() { this->running = true; }
@@ -49,5 +48,4 @@ private: // Overrides
 	virtual void ShowError(std::string, std::string = NLS_I18N::TITLE_CRITICAL);
 	virtual void RouteMessages();
 	virtual std::string GetPath(SYSTEM_DIRS::TYPE);
-
 };
