@@ -90,6 +90,15 @@ int ScriptExecutor::SetFunctionParam(int argIndex, double param) {
 }
 
 /**
+* \param[in] argIndex The index of the argument.
+* \param[in] param The argument.
+* \return Negative number on failure.
+*/
+int ScriptExecutor::SetFunctionParam(int argIndex, unsigned int param) {
+	return this->ctx->SetArgDWord(argIndex, param);
+}
+
+/**
 * \return Negative number on failure.
 */
 int ScriptExecutor::ExecuteFunction() {

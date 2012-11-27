@@ -52,7 +52,12 @@ public:
 	* \brief Assign an argument for the function.
 	*/
 	int SetFunctionParam(int argIndex, double param);
-		
+
+	/**
+	* \brief Assign an argument for the function.
+	*/
+	int SetFunctionParam(int argIndex, unsigned int param);
+
 	/**
 	* \brief Executes the function.
 	*/
