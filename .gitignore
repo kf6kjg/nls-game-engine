@@ -1,6 +1,17 @@
-# use glob syntax.
-syntax: glob
+# Prerequisites
+*.d
 
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
 *.app
 *.exe
 *.log*
